@@ -27,7 +27,12 @@ const News = ({selectedTab, setSelectedTab}) => {
   }, []);
 
   return (
-    <ChangeScreen>
+    <ChangeScreen
+      drag="x"
+      dragConstraints={{ left: -375, right: 0 }}
+      onDragEnd={(e, info) => (setSelectedTab['saved'])}
+      dragElastic={0.03}
+    >
       <NewsWrapper>
           <StyledScrollbar
             ref={scrollbarRef}
