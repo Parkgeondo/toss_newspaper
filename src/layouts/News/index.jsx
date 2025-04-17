@@ -2,7 +2,7 @@ import { NewsWrapper, StyledScrollbar, ChangeScreen } from './styles';
 import NewsBox from '../../Component/NewsBox';
 import { newsData } from '../../data/newsData';
 import { useRef, useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useMotionValue, animate } from "framer-motion";
 
 const News = ({selectedTab, setSelectedTab}) => {
   const scrollbarRef = useRef(null);
@@ -11,28 +11,53 @@ const News = ({selectedTab, setSelectedTab}) => {
 
   const handleScroll = () => {
     setScrolling(true);
-
-    // 만약 기존의 타이머가 존재한다면 지우기
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
-
     timeoutRef.current = setTimeout(() => {
       setScrolling(false);
-    }, 1000); // 스크롤 멈춘 후 1초 뒤 사라짐
+    }, 1000);
+      setSelectedTab("saved")
   };
 
   useEffect(() => {
     return () => clearTimeout(timeoutRef.current); // 언마운트 시 타이머 정리
   }, []);
 
+  const x = useMotionValue(0);
+
+  const handleDragEnd = (e, info) => {
+
+    //넘어갈때
+    if (info.offset.x < -150 && selectedTab === 'news') {
+      animate(x, -375, { type: "spring", stiffness: 300, damping: 30 });
+      setSelectedTab('saved')
+    console.log('넘어감')
+    }else if(info.offset.x >= -150 && selectedTab === 'news'){
+      animate(x, 0, { type: "spring", stiffness: 300, damping: 30 });
+      setSelectedTab('news')
+    console.log('넘어가지 않음')
+    }else if(info.offset.x > 150 && selectedTab === 'saved'){
+      animate(x, 0, { type: "spring", stiffness: 300, damping: 30 });
+      setSelectedTab('news')
+    console.log('넘어가지 않음')
+    }else if(info.offset.x <= 150 && selectedTab === 'saved'){
+      animate(x, -375, { type: "spring", stiffness: 300, damping: 30 });
+      setSelectedTab('saved')
+    console.log('넘어가지 않음')
+    }
+  }
+
   return (
     <ChangeScreen
+      style={{ x }}
       drag="x"
+      onDragEnd={handleDragEnd}
       dragConstraints={{ left: -375, right: 0 }}
-      onDragEnd={(e, info) => (setSelectedTab['saved'])}
-      dragElastic={0.03}
-    >
+      onDrag={(event, info) => {
+        console.log("현재위치:", info.offset.x)
+      }}
+      >
       <NewsWrapper>
           <StyledScrollbar
             ref={scrollbarRef}

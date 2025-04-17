@@ -16,8 +16,6 @@ const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, 
       y: e.clientY - rect.top - size / 2 - 16,
     };
     setRipples((prev) => [...prev, newRipple]); 
-
-    console.log(e.currentTarget.parentElement);
   };
 
   const removeRipple = (e) => {
@@ -32,6 +30,7 @@ const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, 
         <Ripplearea
           onMouseDown={createRipple}
           onMouseUp={removeRipple}
+          onMouseLeave={removeRipple}
           whileTap={{ scale: 0.97 }}
           transition={{ type: 'spring', stiffness: 300, damping: 20 }}>
         <NewsBoxWapper>
@@ -47,7 +46,7 @@ const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, 
                 />
             ))}
           </AnimatePresence>
-          <img src={smallImage} className="smallImage" alt="" />
+          <img src={smallImage} className="smallImage" alt="" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"/>
           <div className="text">
             <div className="publisher">
               <img src="" alt="" />
