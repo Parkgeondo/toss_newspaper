@@ -9,6 +9,7 @@ const News = ({selectedTab, setSelectedTab}) => {
   const [scrolling, setScrolling] = useState(false);
   const timeoutRef = useRef(null);
 
+  //스크롤한후, 1초뒤 스크롤 없앰
   const handleScroll = () => {
     setScrolling(true);
     if (timeoutRef.current) {
@@ -17,34 +18,41 @@ const News = ({selectedTab, setSelectedTab}) => {
     timeoutRef.current = setTimeout(() => {
       setScrolling(false);
     }, 1000);
-      setSelectedTab("saved")
   };
 
+  //그 페이지 이동 함수
+  const pageMove = (moveLocation) => {
+    animate(x, moveLocation, { type: "spring", stiffness: 300, damping: 30 });
+  }
+
   useEffect(() => {
-    return () => clearTimeout(timeoutRef.current); // 언마운트 시 타이머 정리
+    return () => clearTimeout(timeoutRef.current);
   }, []);
+
+  //탭의 변화를 감지하고 페이지 넘기기
+  useEffect(() => {
+    if (selectedTab === 'saved') {
+      pageMove(-375);
+    } else if (selectedTab === 'news') {
+      pageMove(0);
+    }
+  }, [selectedTab]);
 
   const x = useMotionValue(0);
 
   const handleDragEnd = (e, info) => {
-
-    //넘어갈때
     if (info.offset.x < -150 && selectedTab === 'news') {
-      animate(x, -375, { type: "spring", stiffness: 300, damping: 30 });
+      pageMove(-375);
       setSelectedTab('saved')
-    console.log('넘어감')
     }else if(info.offset.x >= -150 && selectedTab === 'news'){
-      animate(x, 0, { type: "spring", stiffness: 300, damping: 30 });
+      pageMove(0);
       setSelectedTab('news')
-    console.log('넘어가지 않음')
     }else if(info.offset.x > 150 && selectedTab === 'saved'){
-      animate(x, 0, { type: "spring", stiffness: 300, damping: 30 });
+      pageMove(0);
       setSelectedTab('news')
-    console.log('넘어가지 않음')
     }else if(info.offset.x <= 150 && selectedTab === 'saved'){
-      animate(x, -375, { type: "spring", stiffness: 300, damping: 30 });
+      pageMove(-375);
       setSelectedTab('saved')
-    console.log('넘어가지 않음')
     }
   }
 
