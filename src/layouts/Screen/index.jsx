@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 function Layout() {
 
-  //현재 탭 상태 확인
+  //현재 탭 상태 확인(뉴스면 news 저장한 뉴스면 saved)(굳이 텍스트를 쓸 필요가 있나?)
   const tabs = ['news','saved']
   const [selectedTab, setSelectedTab] = useState(tabs[0])
 
@@ -15,8 +15,8 @@ function Layout() {
   return (
     <>
       <Header></Header>
-      <Tab selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews}></Tab>
-      <News selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews}></News>
+      <Tab tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews}></Tab>
+      <News tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews}></News>
     </>
   );
 }

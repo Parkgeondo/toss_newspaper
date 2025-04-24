@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import StatusBar from './Component/StatusBar';
 import Screen from './layouts/Screen';
 
+
+//현재 기기가 모바일인지 PC인지 판단
 const useDeviceType = () => {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -12,7 +14,6 @@ const useDeviceType = () => {
       setIsMobile(/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent));
     };
     checkDevice();
-    console.log(isMobile);
   }, []);
   return isMobile;
 };

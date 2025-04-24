@@ -4,7 +4,12 @@ import { newsData } from '../../data/newsData';
 import { useRef, useState, useEffect } from 'react';
 import { useMotionValue, animate } from "framer-motion";
 
+//selectedTab 현재 선택되어 있는 탭
+//savedNews는 현재 저장되어 있는 뉴스들
+
 const News = ({selectedTab, setSelectedTab, savedNews, setSavedNews}) => {
+
+  
   const scrollbarRef = useRef(null);
   const [scrolling, setScrolling] = useState(false);
   const timeoutRef = useRef(null);

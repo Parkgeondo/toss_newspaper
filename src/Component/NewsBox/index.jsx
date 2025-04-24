@@ -47,12 +47,16 @@ const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, 
   }; 
 
   const newAdd = (e) => {
-    let timer = setTimeout(() => console.log('123'), 500);
-    setTimers((prev) => [...prev, timer])
+    timerRef.current = setTimeout(() => {
+      console.log('it works')
+    }, 550);
   }
  
   const newAddtimeout = (e) => {
-    clearTimeout(timers);
+    if(timerRef.current){
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
   }
 
   return (
