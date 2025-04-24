@@ -2,11 +2,24 @@ import { NewsBoxWapper } from "./styles";
 import { NewsBoxline } from "./styles";
 import { Ripple } from "./styles";
 import { Ripplearea } from "./styles";
-import { AnimatePresence } from 'framer-motion';
-import { useState } from "react";
+import { useMotionValue, animate, AnimatePresence } from 'framer-motion';
+import { useState,useRef } from "react";
 
 const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, content1, content2, content3, date, smallImage }) => {
+  
+  //원형 state
   const [ripples, setRipples] = useState([]);
+  
+  //박스 추가 타이머
+  const [timers, setTimers] = useState([]);
+
+  //크기 조절 함수
+  const scale = useMotionValue(1);
+
+  //타이머 관리 Ref
+  const timerRef = useRef(null);
+
+  //원형 만들기 함수
   const createRipple = (e) => {
     const rect = e.currentTarget.parentElement.getBoundingClientRect();
     const size = 600;
@@ -15,14 +28,32 @@ const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, 
       x: e.clientX - rect.left - size / 2 - 14,
       y: e.clientY - rect.top - size / 2 - 16,
     };
-    setRipples((prev) => [...prev, newRipple]); 
+    setRipples((prev) => [...prev, newRipple]);
+
+    animate(scale, 0.95, { type: 'spring', stiffness: 300, damping: 30 });
+
+    newAdd();
   };
 
+  // 원형 사라짐
   const removeRipple = (e) => {
     setTimeout(() => {
       setRipples((prev) => prev.slice(1));
     }, 100);
-  };
+
+    animate(scale, 1, { type: 'spring', stiffness: 300, damping: 30 });
+
+    newAddtimeout();
+  }; 
+
+  const newAdd = (e) => {
+    let timer = setTimeout(() => console.log('123'), 500);
+    setTimers((prev) => [...prev, timer])
+  }
+ 
+  const newAddtimeout = (e) => {
+    clearTimeout(timers);
+  }
 
   return (
     <>
@@ -31,7 +62,7 @@ const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, 
           onMouseDown={createRipple}
           onMouseUp={removeRipple}
           onMouseLeave={removeRipple}
-          whileTap={{ scale: 0.97 }}
+          style={{ scale }}
           transition={{ type: 'spring', stiffness: 300, damping: 20 }}>
         <NewsBoxWapper>
           <AnimatePresence>

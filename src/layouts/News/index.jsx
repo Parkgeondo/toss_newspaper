@@ -4,7 +4,7 @@ import { newsData } from '../../data/newsData';
 import { useRef, useState, useEffect } from 'react';
 import { useMotionValue, animate } from "framer-motion";
 
-const News = ({selectedTab, setSelectedTab}) => {
+const News = ({selectedTab, setSelectedTab, savedNews, setSavedNews}) => {
   const scrollbarRef = useRef(null);
   const [scrolling, setScrolling] = useState(false);
   const timeoutRef = useRef(null);
@@ -38,8 +38,10 @@ const News = ({selectedTab, setSelectedTab}) => {
     }
   }, [selectedTab]);
 
+  //다른 곳에서도 사용할수있도록 만듬
   const x = useMotionValue(0);
 
+  //드래그를 놓으면 함수가 실행
   const handleDragEnd = (e, info) => {
     if (info.offset.x < -150 && selectedTab === 'news') {
       pageMove(-375);
@@ -62,9 +64,7 @@ const News = ({selectedTab, setSelectedTab}) => {
       drag="x"
       onDragEnd={handleDragEnd}
       dragConstraints={{ left: -375, right: 0 }}
-      onDrag={(event, info) => {
-        console.log("현재위치:", info.offset.x)
-      }}
+ 
       >
       <NewsWrapper>
           <StyledScrollbar
@@ -113,9 +113,7 @@ const News = ({selectedTab, setSelectedTab}) => {
               },
             }}
           >
-          {newsData.map((data) => (
-            <NewsBox key={data.id} {...data} />
-          ))}
+          
         </StyledScrollbar>
       </NewsWrapper>
     </ChangeScreen>
