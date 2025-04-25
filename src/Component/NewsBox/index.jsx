@@ -5,18 +5,15 @@ import { Ripplearea } from "./styles";
 import { useMotionValue, animate, AnimatePresence } from 'framer-motion';
 import { useState,useRef } from "react";
 
-const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, content1, content2, content3, date, smallImage }) => {
+const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, content1, content2, content3, date, smallImage ,id}) => {
   
-  //원형 state
+  //원형 그룹
   const [ripples, setRipples] = useState([]);
   
-  //박스 추가 타이머
-  const [timers, setTimers] = useState([]);
-
-  //크기 조절 함수
+  //원형 크기 조절 함수
   const scale = useMotionValue(1);
 
-  //타이머 관리 Ref
+  //원형 타이머 관리 Ref
   const timerRef = useRef(null);
 
   //원형 만들기 함수
@@ -46,9 +43,10 @@ const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, 
     newAddtimeout();
   }; 
 
+  //이 부분 타이머로 분리하기
   const newAdd = (e) => {
     timerRef.current = setTimeout(() => {
-      console.log('it works')
+      console.log(id)
     }, 550);
   }
  
@@ -58,6 +56,8 @@ const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, 
       timerRef.current = null;
     }
   }
+
+  //타이머가 얹어지면 신문 저장하기
 
   return (
     <>

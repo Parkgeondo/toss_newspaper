@@ -7,38 +7,46 @@ import { useMotionValue, animate } from "framer-motion";
 //selectedTab 현재 선택되어 있는 탭
 //savedNews는 현재 저장되어 있는 뉴스들
 
-const News = ({selectedTab, setSelectedTab, savedNews, setSavedNews}) => {
+const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews}) => {
 
-  
+  //스크롤 ref 저장
   const scrollbarRef = useRef(null);
+
+  //지금 스크롤하고 있는지
   const [scrolling, setScrolling] = useState(false);
+
+  //스크롤 타이머
   const timeoutRef = useRef(null);
 
   //스크롤한후, 1초뒤 스크롤 없앰
   const handleScroll = () => {
     setScrolling(true);
+
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
+    
     timeoutRef.current = setTimeout(() => {
       setScrolling(false);
     }, 1000);
+  
   };
 
-  //그 페이지 이동 함수
+  //페이지 이동 함수
   const pageMove = (moveLocation) => {
     animate(x, moveLocation, { type: "spring", stiffness: 300, damping: 30 });
   }
 
+  //페이지 나가면 삭제
   useEffect(() => {
     return () => clearTimeout(timeoutRef.current);
   }, []);
 
   //탭의 변화를 감지하고 페이지 넘기기
   useEffect(() => {
-    if (selectedTab === 'saved') {
+    if (selectedTab === tabs[1]) {
       pageMove(-375);
-    } else if (selectedTab === 'news') {
+    } else if (selectedTab === tabs[0]) {
       pageMove(0);
     }
   }, [selectedTab]);
@@ -48,18 +56,18 @@ const News = ({selectedTab, setSelectedTab, savedNews, setSavedNews}) => {
 
   //드래그를 놓으면 함수가 실행
   const handleDragEnd = (e, info) => {
-    if (info.offset.x < -150 && selectedTab === 'news') {
+    if (info.offset.x < -150 && selectedTab === tabs[0]) {
       pageMove(-375);
-      setSelectedTab('saved')
-    }else if(info.offset.x >= -150 && selectedTab === 'news'){
+      setSelectedTab(tabs[1])
+    }else if(info.offset.x >= -150 && selectedTab === tabs[0]){
       pageMove(0);
-      setSelectedTab('news')
-    }else if(info.offset.x > 150 && selectedTab === 'saved'){
+      setSelectedTab(tabs[0])
+    }else if(info.offset.x > 150 && selectedTab === tabs[1]){
       pageMove(0);
-      setSelectedTab('news')
-    }else if(info.offset.x <= 150 && selectedTab === 'saved'){
+      setSelectedTab(tabs[0])
+    }else if(info.offset.x <= 150 && selectedTab === tabs[1]){
       pageMove(-375);
-      setSelectedTab('saved')
+      setSelectedTab(tabs[1])
     }
   }
 
@@ -69,15 +77,12 @@ const News = ({selectedTab, setSelectedTab, savedNews, setSavedNews}) => {
       drag="x"
       onDragEnd={handleDragEnd}
       dragConstraints={{ left: -375, right: 0 }}
- 
       >
       <NewsWrapper>
           <StyledScrollbar
             ref={scrollbarRef}
             onScroll={handleScroll}
             className={scrolling ? 'scrolling' : ''}
-            removeTracksWhenNotUsed
-            disableTracksWidthCompensation
             trackYProps={{
               style: {
                 borderRadius: '4px',
