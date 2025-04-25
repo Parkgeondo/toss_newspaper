@@ -9,7 +9,7 @@ import { useMotionValue, animate } from "framer-motion";
 
 const News = ({selectedTab, setSelectedTab, savedNews, setSavedNews}) => {
 
-  
+
   const scrollbarRef = useRef(null);
   const [scrolling, setScrolling] = useState(false);
   const timeoutRef = useRef(null);
@@ -93,7 +93,7 @@ const News = ({selectedTab, setSelectedTab, savedNews, setSavedNews}) => {
             }}
           >
               {newsData.map((data) => (
-                <NewsBox key={data.id} {...data} />
+                <NewsBox key={data.id} {...data} savedNews={savedNews} setSavedNews={setSavedNews} />
               ))}
           </StyledScrollbar>
       </NewsWrapper>

@@ -3,9 +3,9 @@ import { NewsBoxline } from "./styles";
 import { Ripple } from "./styles";
 import { Ripplearea } from "./styles";
 import { useMotionValue, animate, AnimatePresence } from 'framer-motion';
-import { useState,useRef } from "react";
+import { useState,useRef,useEffect } from "react";
 
-const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, content1, content2, content3, date, smallImage }) => {
+const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, content1, content2, content3, date, smallImage,id,savedNews, setSavedNews }) => {
   
   //원형 state
   const [ripples, setRipples] = useState([]);
@@ -48,9 +48,13 @@ const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, 
 
   const newAdd = (e) => {
     timerRef.current = setTimeout(() => {
-      console.log('it works')
+      setSavedNews(id);
     }, 550);
   }
+
+  useEffect(() => {
+    console.log(savedNews);
+  }, [savedNews]);
  
   const newAddtimeout = (e) => {
     if(timerRef.current){
