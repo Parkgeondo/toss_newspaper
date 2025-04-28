@@ -18,6 +18,7 @@ const useDeviceType = () => {
   return isMobile;
 };
 
+
 function App() {
   const isMobile = useDeviceType();
   return (

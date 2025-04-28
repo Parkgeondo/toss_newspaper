@@ -50,10 +50,6 @@ const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, 
     }, 550);
   }
 
-  useEffect(() => {
-    console.log(savedNews);
-  }, [savedNews]);
- 
   const newAddtimeout = (e) => {
     if(timerRef.current){
       clearTimeout(timerRef.current);

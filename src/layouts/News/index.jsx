@@ -9,44 +9,36 @@ import { useMotionValue, animate } from "framer-motion";
 
 const News = ({selectedTab, setSelectedTab, savedNews, setSavedNews}) => {
 
-  
+
   const scrollbarRef = useRef(null);
-
-  //지금 스크롤하고 있는지
   const [scrolling, setScrolling] = useState(false);
-
-  //스크롤 타이머
   const timeoutRef = useRef(null);
 
   //스크롤한후, 1초뒤 스크롤 없앰
   const handleScroll = () => {
     setScrolling(true);
-
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
-    
     timeoutRef.current = setTimeout(() => {
       setScrolling(false);
     }, 1000);
-  
   };
 
-  //페이지 이동 함수
+  //그 페이지 이동 함수
   const pageMove = (moveLocation) => {
     animate(x, moveLocation, { type: "spring", stiffness: 300, damping: 30 });
   }
 
-  //페이지 나가면 삭제
   useEffect(() => {
     return () => clearTimeout(timeoutRef.current);
   }, []);
 
   //탭의 변화를 감지하고 페이지 넘기기
   useEffect(() => {
-    if (selectedTab === tabs[1]) {
+    if (selectedTab === 'saved') {
       pageMove(-375);
-    } else if (selectedTab === tabs[0]) {
+    } else if (selectedTab === 'news') {
       pageMove(0);
     }
   }, [selectedTab]);
@@ -56,18 +48,18 @@ const News = ({selectedTab, setSelectedTab, savedNews, setSavedNews}) => {
 
   //드래그를 놓으면 함수가 실행
   const handleDragEnd = (e, info) => {
-    if (info.offset.x < -150 && selectedTab === tabs[0]) {
+    if (info.offset.x < -150 && selectedTab === 'news') {
       pageMove(-375);
-      setSelectedTab(tabs[1])
-    }else if(info.offset.x >= -150 && selectedTab === tabs[0]){
+      setSelectedTab('saved')
+    }else if(info.offset.x >= -150 && selectedTab === 'news'){
       pageMove(0);
-      setSelectedTab(tabs[0])
-    }else if(info.offset.x > 150 && selectedTab === tabs[1]){
+      setSelectedTab('news')
+    }else if(info.offset.x > 150 && selectedTab === 'saved'){
       pageMove(0);
-      setSelectedTab(tabs[0])
-    }else if(info.offset.x <= 150 && selectedTab === tabs[1]){
+      setSelectedTab('news')
+    }else if(info.offset.x <= 150 && selectedTab === 'saved'){
       pageMove(-375);
-      setSelectedTab(tabs[1])
+      setSelectedTab('saved')
     }
   }
 
@@ -77,12 +69,15 @@ const News = ({selectedTab, setSelectedTab, savedNews, setSavedNews}) => {
       drag="x"
       onDragEnd={handleDragEnd}
       dragConstraints={{ left: -375, right: 0 }}
+ 
       >
       <NewsWrapper>
           <StyledScrollbar
             ref={scrollbarRef}
             onScroll={handleScroll}
             className={scrolling ? 'scrolling' : ''}
+            removeTracksWhenNotUsed
+            disableTracksWidthCompensation
             trackYProps={{
               style: {
                 borderRadius: '4px',
