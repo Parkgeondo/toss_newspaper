@@ -1,18 +1,22 @@
 import TabButton from "../../Component/TabButton";
 import { TabWrapper } from "./styles";
 import {Tab_underLine} from "./styles";
+import CircleNewsRow from "../../Component/CircleNews";
 
-const Tab = ({selectedTab, setSelectedTab}) => {
+
+const Tab = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews, temSavedNews, setTemSavedNews }) => {
+
   return (
     <>
       <TabWrapper>
-        <TabButton onClick={() => setSelectedTab('news')} isActive={selectedTab === 'news'}>
+        <TabButton onClick={() => setSelectedTab(tabs[0])} isActive={selectedTab === tabs[0]}>
           뉴스
-          {'news' === selectedTab ?(<Tab_underLine layoutId="underline"></Tab_underLine>) : null}
+          {tabs[0] === selectedTab ?(<Tab_underLine layoutId="underline"></Tab_underLine>) : null}
           </TabButton>
-        <TabButton onClick={() => setSelectedTab('saved')} isActive={selectedTab === 'saved'}>
+      <TabButton onClick={() => setSelectedTab(tabs[1])} isActive={selectedTab === tabs[1]} savedNews>
           저장한 뉴스
-          {'saved' === selectedTab ?(<Tab_underLine layoutId="underline"></Tab_underLine>) : null}
+          <CircleNewsRow savedNews={savedNews} temSavedNews={temSavedNews}/>
+          {tabs[1] === selectedTab ?(<Tab_underLine layoutId="underline"></Tab_underLine>) : null}
         </TabButton>
       </TabWrapper>
     </>
