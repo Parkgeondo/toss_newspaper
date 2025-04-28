@@ -3,9 +3,10 @@ import { NewsBoxline } from "./styles";
 import { Ripple } from "./styles";
 import { Ripplearea } from "./styles";
 import { useMotionValue, animate, AnimatePresence } from 'framer-motion';
-import { useState,useRef,useEffect } from "react";
+import { useState,useRef,useEffect,useCallback } from "react";
+import useLongPressTimer from "../../utile";
 
-const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, content1, content2, content3, date, smallImage }) => {
+const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, content1, content2, content3, date, smallImage, savedNews, setSavedNews, id, temSavedNews, setTemSavedNews}) => {
   
   //원형 그룹
   const [ripples, setRipples] = useState([]);
@@ -26,10 +27,7 @@ const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, 
       y: e.clientY - rect.top - size / 2 - 16,
     };
     setRipples((prev) => [...prev, newRipple]);
-
     animate(scale, 0.95, { type: 'spring', stiffness: 300, damping: 30 });
-
-    newAdd();
   };
 
   // 원형 사라짐
@@ -37,19 +35,19 @@ const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, 
     setTimeout(() => {
       setRipples((prev) => prev.slice(1));
     }, 100);
-
     animate(scale, 1, { type: 'spring', stiffness: 300, damping: 30 });
-
-    newAddtimeout();
   }; 
 
-  //이 부분 타이머로 분리하기
-  const newAdd = (e) => {
-    timerRef.current = setTimeout(() => {
-      console.log('it works')
-    }, 550);
-  }
+  // 커스텀 훅 타이머 실제로 뉴스 적용하는 부분
+  const handleSaveNews = useCallback(() => {
+    setSavedNews(prev =>
+      prev.includes(id) ? [...prev] : [...prev, id]
+    );
+    setTemSavedNews([])
+  }, [setSavedNews, id]);
+  const { start, end } = useLongPressTimer(handleSaveNews, 550);
 
+<<<<<<< HEAD
   const newAddtimeout = (e) => {
     if(timerRef.current){
       clearTimeout(timerRef.current);
@@ -58,13 +56,21 @@ const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, 
   }
 
   //타이머가 얹어지면 신문 저장하기
+=======
+  // 임시 그래프 뉴스를 보여주는 부분
+  const handleTemSavedtNews = useCallback(() => {
+    setTemSavedNews(prev =>
+      prev.includes(id) ? [...prev] : [...prev, id])
+  },[setTemSavedNews, id]);
+  const { start: start_tem, end: end_tem } = useLongPressTimer(handleTemSavedtNews, 300);
+>>>>>>> fa755663d127b372f557b924bb8b8453b752baeb
 
   return (
     <>
       <NewsBoxline>
         <Ripplearea
-          onMouseDown={createRipple}
-          onMouseUp={removeRipple}
+          onMouseDown={(e)=>{createRipple(e);start(e);start_tem(e);}}
+          onMouseUp={(e)=>{removeRipple(e); end(e); end_tem(e); setTemSavedNews([]);}}
           onMouseLeave={removeRipple}
           style={{ scale }}
           transition={{ type: 'spring', stiffness: 300, damping: 20 }}>
@@ -81,10 +87,10 @@ const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, 
                 />
             ))}
           </AnimatePresence>
-          <img src={smallImage} className="smallImage" alt="" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"/>
+          <img src={smallImage} className="smallImage" alt=""/>
           <div className="text">
             <div className="publisher">
-              <img src="" alt="" />
+              {/* <img src="" alt="" /> */}
               {publisher}
             </div>
             <div className="title">

@@ -1,9 +1,12 @@
 import { TabButtonWrapper } from "./styles";
 
-const TabButton = ({ children, onClick, isActive }) => {
+
+const TabButton = ({ children, onClick, isActive,style }) => {
   return (
-    <TabButtonWrapper onClick={onClick} isActive={isActive}>
-      {children}
+    <TabButtonWrapper  onClick={onClick} isActive={isActive}>
+      <span>
+       {children}
+      </span>
     </TabButtonWrapper>
   );
 };

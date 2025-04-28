@@ -12,11 +12,14 @@ function Layout() {
   //뉴스 저장 확인
   const [savedNews, setSavedNews] = useState([])
 
+  //뉴스 임시저장
+  const [temSavedNews, setTemSavedNews] = useState([])
+
   return (
     <>
       <Header></Header>
-      <Tab tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews}></Tab>
-      <News tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews}></News>
+      <Tab tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews}></Tab>
+      <News tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews}></News>
     </>
   );
 }
