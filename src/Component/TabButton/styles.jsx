@@ -11,7 +11,7 @@ export const TabButtonWrapper = styled.div`
   gap:4px;
   color: ${({ isActive }) => (isActive ? "#343D4C" : "#8C919A")};
   transition: color 0.3s ease;
- & > span {
- background-color:red;
- }
+  & > span {
+  display:flex; 
+  }
 `

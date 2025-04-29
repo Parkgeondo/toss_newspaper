@@ -47,7 +47,6 @@ const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, 
   }, [setSavedNews, id]);
   const { start, end } = useLongPressTimer(handleSaveNews, 550);
 
-<<<<<<< HEAD
   const newAddtimeout = (e) => {
     if(timerRef.current){
       clearTimeout(timerRef.current);
@@ -56,14 +55,12 @@ const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, 
   }
 
   //타이머가 얹어지면 신문 저장하기
-=======
   // 임시 그래프 뉴스를 보여주는 부분
   const handleTemSavedtNews = useCallback(() => {
     setTemSavedNews(prev =>
       prev.includes(id) ? [...prev] : [...prev, id])
   },[setTemSavedNews, id]);
   const { start: start_tem, end: end_tem } = useLongPressTimer(handleTemSavedtNews, 300);
->>>>>>> fa755663d127b372f557b924bb8b8453b752baeb
 
   return (
     <>

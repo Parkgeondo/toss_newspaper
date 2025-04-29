@@ -9,14 +9,15 @@ const Tab = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews, temSav
   return (
     <>
       <TabWrapper>
-        <TabButton onClick={() => setSelectedTab(tabs[0])} isActive={selectedTab === tabs[0]}>
+          <TabButton onClick={() => setSelectedTab(tabs[0])} isActive={selectedTab === tabs[0]}>
           뉴스
           {tabs[0] === selectedTab ?(<Tab_underLine layoutId="underline"></Tab_underLine>) : null}
           </TabButton>
-      <TabButton onClick={() => setSelectedTab(tabs[1])} isActive={selectedTab === tabs[1]} savedNews>
+          
+          <TabButton style={{transform:'translateX(16px)'}}onClick={() => setSelectedTab(tabs[1])} isActive={selectedTab === tabs[1]} savedNews>
           저장한 뉴스
-          <CircleNewsRow savedNews={savedNews} temSavedNews={temSavedNews}/>
           {tabs[1] === selectedTab ?(<Tab_underLine layoutId="underline"></Tab_underLine>) : null}
+          <CircleNewsRow savedNews={savedNews} temSavedNews={temSavedNews}/>
         </TabButton>
       </TabWrapper>
     </>

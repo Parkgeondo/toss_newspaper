@@ -55,9 +55,7 @@ const TemCircleNews = ({}) => {
 const CircleNewsRow = ({ savedNews, temSavedNews}) => {
   const [width,setWidth] = useState(0)
   useEffect(()=>{
-    //temSave가 추가 됬을 때부터 넓이 조절하기
    setWidth(savedNews.length > 0 ||  temSavedNews > 0 ? 16*2+((savedNews.length + temSavedNews.length)-1)*8:16)
-  //  setWidth(savedNews.length > 0  ? 16 + ((savedNews.length)*8):0)
   },[temSavedNews,savedNews])
   
   return(
