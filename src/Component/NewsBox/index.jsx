@@ -6,7 +6,7 @@ import { useMotionValue, animate, AnimatePresence } from 'framer-motion';
 import { useState,useRef,useEffect,useCallback } from "react";
 import useLongPressTimer from "../../utile";
 
-const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, content1, content2, content3, date, smallImage, savedNews, setSavedNews, id, temSavedNews, setTemSavedNews}) => {
+const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, content1, content2, content3, date, smallImage, savedNews, setSavedNews, id, temSavedNews, setTemSavedNews , setProgress}) => {
   
   //원형 그룹
   const [ripples, setRipples] = useState([]);
@@ -45,20 +45,15 @@ const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, 
     );
     setTemSavedNews([])
   }, [setSavedNews, id]);
-  const { start, end } = useLongPressTimer(handleSaveNews, 550);
-
-  const newAddtimeout = (e) => {
-    if(timerRef.current){
-      clearTimeout(timerRef.current);
-      timerRef.current = null;
-    }
-  }
+  const { start, end } = useLongPressTimer(handleSaveNews, 850);
+  //
 
   //타이머가 얹어지면 신문 저장하기
   // 임시 그래프 뉴스를 보여주는 부분
   const handleTemSavedtNews = useCallback(() => {
     setTemSavedNews(prev =>
-      prev.includes(id) ? [...prev] : [...prev, id])
+      [id])
+      setProgress(1);
   },[setTemSavedNews, id]);
   const { start: start_tem, end: end_tem } = useLongPressTimer(handleTemSavedtNews, 300);
 
@@ -66,8 +61,8 @@ const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, 
     <>
       <NewsBoxline>
         <Ripplearea
-          onMouseDown={(e)=>{createRipple(e);start(e);start_tem(e);}}
-          onMouseUp={(e)=>{removeRipple(e); end(e); end_tem(e); setTemSavedNews([]);}}
+          onMouseDown={(e)=>{createRipple(e); start(e); start_tem(e);}}
+          onMouseUp={(e)=>{removeRipple(e); end(e); end_tem(e); setTemSavedNews([]); setProgress(0);}}
           onMouseLeave={removeRipple}
           style={{ scale }}
           transition={{ type: 'spring', stiffness: 300, damping: 20 }}>

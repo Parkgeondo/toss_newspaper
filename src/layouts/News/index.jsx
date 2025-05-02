@@ -7,8 +7,7 @@ import { useMotionValue, animate } from "framer-motion";
 //selectedTab 현재 선택되어 있는 탭
 //savedNews는 현재 저장되어 있는 뉴스들
 
-const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSavedNews,setTemSavedNews}) => {
-
+const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSavedNews,setTemSavedNews, setProgress}) => {
 
   const scrollbarRef = useRef(null);
   const [scrolling, setScrolling] = useState(false);
@@ -93,7 +92,7 @@ const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSav
             }}
           >
               {newsData.map((data) => (
-                <NewsBox key={data.id} {...data} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews}/>
+                <NewsBox key={data.id} {...data} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews} setProgress={setProgress}/>
               ))}
           </StyledScrollbar>
       </NewsWrapper>

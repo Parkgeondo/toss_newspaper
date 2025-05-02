@@ -1,7 +1,7 @@
 import Header from '../../Component/Header';
 import Tab from '../Tab';
 import News from '../News';
-import { useState } from 'react';
+import { useState, useEffect, use } from 'react';
 
 function Layout() {
 
@@ -15,11 +15,18 @@ function Layout() {
   //뉴스 임시저장
   const [temSavedNews, setTemSavedNews] = useState([])
 
+  //뉴스 저장시 진행 그래프
+  const [progress, setProgress] = useState(0);
+
+  useEffect(()=>{
+    console.log(`savedNews:${savedNews}, temSavedNews:${temSavedNews}`)
+  },[savedNews,temSavedNews])
+
   return (
     <>
       <Header></Header>
-      <Tab tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews}></Tab>
-      <News tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews}></News>
+      <Tab tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews} progress={progress}></Tab>
+      <News tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews} setProgress={setProgress}></News>
     </>
   );
 }

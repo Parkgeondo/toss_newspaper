@@ -15,11 +15,3 @@ export const TabWrapper = styled.div`
   position: relative;
 `
 
-export const Tab_underLine = styled(motion.div)`
-    position: absolute;
-    left:0;
-    bottom:-2px;
-    height: 2px;
-    width: 173px;
-    background-color: #343D4C;
-`
