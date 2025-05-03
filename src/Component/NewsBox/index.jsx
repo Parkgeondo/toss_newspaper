@@ -6,16 +6,13 @@ import { useMotionValue, animate, AnimatePresence } from 'framer-motion';
 import { useState,useRef,useEffect,useCallback } from "react";
 import useLongPressTimer from "../../utile";
 
-const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, content1, content2, content3, date, smallImage, savedNews, setSavedNews, id, temSavedNews, setTemSavedNews , setProgress}) => {
+const NewsBox = ({ publisher, title, category, content1, date, smallImage, setSavedNews, id, setTemSavedNews , setProgress}) => {
   
   //원형 그룹
   const [ripples, setRipples] = useState([]);
   
   //원형 크기 조절 함수
   const scale = useMotionValue(1);
-
-  //원형 타이머 관리 Ref
-  const timerRef = useRef(null);
 
   //원형 만들기 함수
   const createRipple = (e) => {
@@ -38,15 +35,16 @@ const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, 
     animate(scale, 1, { type: 'spring', stiffness: 300, damping: 30 });
   }; 
 
+  
   // 커스텀 훅 타이머 실제로 뉴스 적용하는 부분
   const handleSaveNews = useCallback(() => {
     setSavedNews(prev =>
       prev.includes(id) ? [...prev] : [...prev, id]
     );
-    setTemSavedNews([])
-  }, [setSavedNews, id]);
+    setTemSavedNews([]);
+  }, [setSavedNews,setTemSavedNews,id]);
   const { start, end } = useLongPressTimer(handleSaveNews, 850);
-  //
+
 
   //타이머가 얹어지면 신문 저장하기
   // 임시 그래프 뉴스를 보여주는 부분
@@ -54,7 +52,7 @@ const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, 
     setTemSavedNews(prev =>
       [id])
       setProgress(1);
-  },[setTemSavedNews, id]);
+  },[setTemSavedNews, setProgress, id]);
   const { start: start_tem, end: end_tem } = useLongPressTimer(handleTemSavedtNews, 300);
 
   return (

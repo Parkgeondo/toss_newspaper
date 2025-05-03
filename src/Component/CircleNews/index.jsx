@@ -97,8 +97,11 @@ const TemCircleNews = ({progress, id}) => {
         </defs>
         {savedData?.smallImage && (
           <motion.g 
-            opacity="0"
-            animate={imageControls}>
+            initial={{ opacity: 0 }}
+            animate={imageControls}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            >
             <image
               href={savedData.smallImage}
               x={0}
@@ -121,7 +124,7 @@ const TemCircleNews = ({progress, id}) => {
             opacity="1"
             animate={circleControls}
             transform="rotate(-90 8 8)"
-            exit={{ opacity: 0, scale: 0.8 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }} 
           />
         </svg>
@@ -142,7 +145,8 @@ const CircleNewsRow = ({ savedNews, temSavedNews, progress}) => {
       )
     })}
     <AnimatePresence>
-      {temSavedNews.length === 0 ? '': <TemCircleNews progress={progress} id={temSavedNews[0]}></TemCircleNews>}
+      <TemCircleNews progress={progress} id={temSavedNews[0]}></TemCircleNews>
+      {/* {temSavedNews.length === 0 ? '': <TemCircleNews progress={progress} id={temSavedNews[0]}></TemCircleNews>} */}
     </AnimatePresence>
    </CircleNewsRowWrap>
   )
