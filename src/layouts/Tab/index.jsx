@@ -3,7 +3,7 @@ import { TabWrapper } from "./styles";
 import CircleNewsRow from "../../Component/CircleNews";
 
 
-const Tab = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews, temSavedNews, setTemSavedNews, progress,scroll }) => {
+const Tab = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews, temSavedNews, setTemSavedNews, progress }) => {
 
   return (
     <>

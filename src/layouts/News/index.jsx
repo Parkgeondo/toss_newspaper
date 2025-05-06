@@ -10,7 +10,7 @@ import ScrollTracker from'../../utile/useScrollTraker';
 //selectedTab 현재 선택되어 있는 탭
 //savedNews는 현재 저장되어 있는 뉴스들
 
-const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSavedNews,setTemSavedNews, setProgress, setScroll}) => {
+const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSavedNews,setTemSavedNews, setProgress}) => {
 
   const newsScrollbarRef = useRef(null);
   const savedScrollbarRef = useRef(null);

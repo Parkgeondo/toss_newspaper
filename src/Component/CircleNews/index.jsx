@@ -82,61 +82,62 @@ const TemCircleNews = ({ progress, id }) => {
           fill="#ECF1F2"
           clipPath={`url(#circleClip-${id})`}
         />
-      </motion.g>
-      <motion.g
-        initial={{ opacity: 0 }}
-        animate={imageControls}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        <image
-          href={savedData.smallImage}
-          x={0}
-          y={0}
-          width={size}
-          height={size}
-          clipPath={`url(#circleClip-${id})`}
-        />
-      </motion.g>
-      <motion.circle
-        cx={size / 2}
-        cy={size / 2}
-        r={radius}
-        strokeDasharray={circumference}
-        strokeDashoffset={circumference}
-        fill="none"
-        stroke="#2870DE"
-        strokeWidth={stroke}
-        opacity="1"
-        animate={circleControls}
-        initial={{ rotate: -90 }}
-        exit={{ opacity: 0, rotate: -90 }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
-      />
-    </svg>
-  );
-};
-
-const CircleNewsRow = ({ savedNews, temSavedNews, progress }) => {
-  const [width, setWidth] = useState(0);
-
-  useEffect(() => {
-    const total = savedNews.length + (temSavedNews.length > 0 ? 1 : 0);
-    setWidth(total > 0 ? size + (total - 1) * gap : 0);
-  }, [temSavedNews, savedNews]);
-
-  return (
-    <CircleNewsRowWrap width={width}>
-      {savedNews.map((key) => (
-        <CircleNews key={key} id={key} />
-      ))}
-      <AnimatePresence>
-        {temSavedNews[0] > 0 && (
-          <TemCircleNews key={temSavedNews[0]} progress={progress} id={temSavedNews[0]} />
+        <defs>
+          <clipPath id={`circleClip-${id}`}>
+            <circle cx={8} cy={8} r={7.2} />
+          </clipPath>
+        </defs>
+        {savedData?.smallImage && (
+          <motion.g 
+            opacity="0"
+            animate={imageControls}>
+            <image
+              href={savedData.smallImage}
+              x={0}
+              y={0}
+              width={16}
+              height={16}
+              clipPath={`url(#circleClip-${id})`}
+            />
+          </motion.g>
         )}
-      </AnimatePresence>
-    </CircleNewsRowWrap>
+          <motion.circle
+            cx={8}
+            cy={8}
+            r={8-0.8}
+            strokeDasharray={45.24}
+            strokeDashoffset={(45.24)}
+            fill="none"
+            stroke="#2870DE"
+            strokeWidth="1.6"
+            opacity="1"
+            animate={circleControls}
+            transform="rotate(-90 8 8)"
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }} 
+          />
+        </svg>
+    </>
   );
 };
+
+const CircleNewsRow = ({ savedNews, temSavedNews, progress}) => {
+  const [width,setWidth] = useState(0)
+  useEffect(()=>{
+   setWidth(savedNews.length > 0 ||  temSavedNews > 0 ? (16)+((savedNews.length + temSavedNews.length - 1)*8):0)
+  },[temSavedNews,savedNews])
+  return(
+   <CircleNewsRowWrap width={width}>
+    {savedNews.map((key)=>{
+      return(
+       <CircleNews key={key} id={key}></CircleNews>
+      )
+    })}
+    <AnimatePresence>
+      {temSavedNews.length === 0 ? '': <TemCircleNews progress={progress} id={temSavedNews[0]}></TemCircleNews>}
+    </AnimatePresence>
+   </CircleNewsRowWrap>
+  )
+}
 
 export default CircleNewsRow;
