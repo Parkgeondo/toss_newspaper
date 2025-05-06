@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 export const NewsWrapper = styled.div`
   display: flex;
   position: relative;
+  // top: 85px;
   top: 85px;
   flex-direction: column;
   height: 673px;

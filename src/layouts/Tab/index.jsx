@@ -3,11 +3,11 @@ import { TabWrapper } from "./styles";
 import CircleNewsRow from "../../Component/CircleNews";
 
 
-const Tab = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews, temSavedNews, setTemSavedNews, progress }) => {
+const Tab = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews, temSavedNews, setTemSavedNews, progress,scroll }) => {
 
   return (
     <>
-      <TabWrapper>
+      <TabWrapper scroll2={scroll}>
           <TabButton onClick={() => setSelectedTab(tabs[0])} isActive={selectedTab === tabs[0]}>
           뉴스
           </TabButton>

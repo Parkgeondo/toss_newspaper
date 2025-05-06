@@ -4,7 +4,7 @@ import { Ripple } from "./styles";
 import { Ripplearea } from "./styles";
 import { useMotionValue, animate, AnimatePresence } from 'framer-motion';
 import { useState,useRef,useEffect,useCallback } from "react";
-import useLongPressTimer from "../../utile";
+import useLongPressTimer from "../../utile/useLongPressTimer";
 
 const NewsBox = ({ publisher, title, category, subTitle1, subTitle2, subTitle3, content1, content2, content3, date, smallImage, savedNews, setSavedNews, id, temSavedNews, setTemSavedNews , setProgress}) => {
   

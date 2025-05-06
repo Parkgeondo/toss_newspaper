@@ -2,6 +2,7 @@ export const newsData = [
     {
       id: 1,
       publisher:'새로미디어',
+      publisherImg:'/img/publisher1.png',
       title: "AI 비서가 당신의 하루를 설계한다",
       category:'테크',
       subTitle1:'',
@@ -19,6 +20,7 @@ export const newsData = [
     {
       id: 2,
       publisher:'넥스트코리아',
+      publisherImg:'/img/publisher3.png',
       title: "디지털 디톡스, 현대인의 필수 습관으로 자리 잡다",
       category:'라이프스타일',
       subTitle1:'디지털 피로, 현대 사회의 새로운 문제',
@@ -34,6 +36,7 @@ export const newsData = [
     {
         id: 3,
         publisher:'한울타리뉴스',
+        publisherImg:'/img/publisher2.png',
         title: "미니멀리즘 주거 공간, 공간의 질을 바꾸다",
         category:'라이프스타일',
         subTitle1:'소유의 시대에서 경험의 시대로',
@@ -49,6 +52,7 @@ export const newsData = [
       {
         id: 4,
         publisher:'넥스트코리아',
+        publisherImg:'/img/publisher3.png',
         title: "Z세대는 왜 명품보다 중고시장을 선택하는가?",
         category:'비즈니스',
         subTitle1:'',
@@ -64,6 +68,7 @@ export const newsData = [
       {
         id: 5,
         publisher:'소소매거진',
+        publisherImg:'/img/publisher4.png',
         title: "식물 키우기가 현대인의 새로운 힐링 취미로 떠오르다",
         category:'라이프스타일',
         subTitle1:'바쁜 일상 속에서 자연을 가까이하는 방법',
@@ -79,6 +84,7 @@ export const newsData = [
       {
         id: 6,
         publisher:'소소매거진',
+        publisherImg:'/img/publisher4.png',
         title: "식물 키우기가 현대인의 새로운 힐링 취미로 떠오르다",
         category:'라이프스타일',
         subTitle1:'바쁜 일상 속에서 자연을 가까이하는 방법',
@@ -94,6 +100,7 @@ export const newsData = [
       {
         id: 7,
         publisher:'소소매거진',
+        publisherImg:'/img/publisher4.png',
         title: "식물 키우기가 현대인의 새로운 힐링 취미로 떠오르다",
         category:'라이프스타일',
         subTitle1:'바쁜 일상 속에서 자연을 가까이하는 방법',
@@ -109,6 +116,7 @@ export const newsData = [
       {
         id: 8,
         publisher:'소소매거진',
+        publisherImg:'/img/publisher4.png',
         title: "식물 키우기가 현대인의 새로운 힐링 취미로 떠오르다",
         category:'라이프스타일',
         subTitle1:'바쁜 일상 속에서 자연을 가까이하는 방법',

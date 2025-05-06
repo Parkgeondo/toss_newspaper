@@ -10,8 +10,10 @@ export const TabWrapper = styled.div`
   margin-top: 8px;
   background:white;
   border-bottom: 2px solid #E6E9EF;
+  // top:85px;
   top:85px;
   z-index:999;
   position: relative;
+  transform: ${({ scroll2 }) => `translateY(${-scroll2}px)`};
 `
 

@@ -1,20 +1,24 @@
 import { NewsWrapper, StyledScrollbar, ChangeScreen } from './styles';
 import NewsBox from '../../Component/NewsBox';
+import SavedNews from '../../Component/SavedNews'
 import { newsData } from '../../data/newsData';
 import { useRef, useState, useEffect } from 'react';
 import { useMotionValue, animate } from "framer-motion";
 
+import ScrollTracker from'../../utile/useScrollTraker';
+
 //selectedTab 현재 선택되어 있는 탭
 //savedNews는 현재 저장되어 있는 뉴스들
 
-const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSavedNews,setTemSavedNews, setProgress}) => {
+const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSavedNews,setTemSavedNews, setProgress, setScroll}) => {
 
-  const scrollbarRef = useRef(null);
+  const newsScrollbarRef = useRef(null);
+  const savedScrollbarRef = useRef(null);
   const [scrolling, setScrolling] = useState(false);
   const timeoutRef = useRef(null);
 
   //스크롤한후, 1초뒤 스크롤 없앰
-  const handleScroll = () => {
+  const handleScroll = (e) => {
     setScrolling(true);
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -62,18 +66,18 @@ const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSav
     }
   }
 
+
   return (
     <ChangeScreen
       style={{ x }}
       drag="x"
       onDragEnd={handleDragEnd}
       dragConstraints={{ left: -375, right: 0 }}
- 
       >
       <NewsWrapper>
           <StyledScrollbar
-            ref={scrollbarRef}
-            onScroll={handleScroll}
+            ref={newsScrollbarRef}
+            onScroll={(e)=>{handleScroll(e)}}
             className={scrolling ? 'scrolling' : ''}
             removeTracksWhenNotUsed
             disableTracksWidthCompensation
@@ -91,6 +95,8 @@ const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSav
               },
             }}
           >
+            {/* 스크롤 계산 */}
+            <ScrollTracker scrollRef={newsScrollbarRef} setScroll={setScroll}/>
               {newsData.map((data) => (
                 <NewsBox key={data.id} {...data} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews} setProgress={setProgress}/>
               ))}
@@ -98,7 +104,7 @@ const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSav
       </NewsWrapper>
       <NewsWrapper>
         <StyledScrollbar
-            ref={scrollbarRef}
+            ref={savedScrollbarRef}
             onScroll={handleScroll}
             className={scrolling ? 'scrolling' : ''}
             removeTracksWhenNotUsed
@@ -117,7 +123,11 @@ const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSav
               },
             }}
           >
-          
+            {/* 스크롤 계산 */}
+            <ScrollTracker scrollRef={savedScrollbarRef} setScroll={setScroll}/>
+          {savedNews.map((data) => (
+            <SavedNews key={data} id={data}></SavedNews>
+          ))}
         </StyledScrollbar>
       </NewsWrapper>
     </ChangeScreen>

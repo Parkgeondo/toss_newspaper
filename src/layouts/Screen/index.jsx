@@ -18,15 +18,18 @@ function Layout() {
   //뉴스 저장시 진행 그래프
   const [progress, setProgress] = useState(0);
 
+  //tab부분 스크롤링
+  const [scroll, setScroll] = useState(0);
+
   useEffect(()=>{
-    console.log(`savedNews:${savedNews}, temSavedNews:${temSavedNews}`)
-  },[savedNews,temSavedNews])
+    console.log(scroll)
+  },[scroll])
 
   return (
     <>
       <Header></Header>
-      <Tab tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews} progress={progress}></Tab>
-      <News tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews} setProgress={setProgress}></News>
+      <Tab tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews} progress={progress} scroll={scroll}></Tab>
+      <News tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews} setProgress={setProgress} setScroll={setScroll}></News>
     </>
   );
 }
