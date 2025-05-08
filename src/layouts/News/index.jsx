@@ -14,19 +14,7 @@ const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSav
 
   const newsScrollbarRef = useRef(null);
   const savedScrollbarRef = useRef(null);
-  const [scrolling, setScrolling] = useState(false);
   const timeoutRef = useRef(null);
-
-  //스크롤한후, 1초뒤 스크롤 없앰
-  const handleScroll = (e) => {
-    setScrolling(true);
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-    timeoutRef.current = setTimeout(() => {
-      setScrolling(false);
-    }, 1000);
-  };
 
   //그 페이지 이동 함수
   const pageMove = (moveLocation) => {
@@ -76,24 +64,7 @@ const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSav
       >
       <NewsWrapper scroll={scroll}>
           <StyledScrollbar
-            // ref={newsScrollbarRef}
-            // onScroll={(e)=>{handleScroll(e)}}
-            // className={scrolling ? 'scrolling' : ''}
-            // removeTracksWhenNotUsed
             disableTracksWidthCompensation
-            // trackYProps={{
-            //   style: {
-            //     borderRadius: '4px',
-            //     width: '6px',
-            //     right: '2px',
-            //   },
-            // }}
-            // thumbYProps={{
-            //   style: {
-            //     backgroundColor: '#616881',
-            //     borderRadius: '4px',
-            //   },
-            // }}
           >
             {/* 스크롤 계산 */}
             <ScrollTracker scrollRef={newsScrollbarRef} setScroll={setScroll}/>
@@ -104,24 +75,7 @@ const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSav
       </NewsWrapper>
       <NewsWrapper scroll={scroll}>
         <StyledScrollbar
-            // ref={savedScrollbarRef}
-            // onScroll={handleScroll}
-            // className={scrolling ? 'scrolling' : ''}
-            // removeTracksWhenNotUsed
             disableTracksWidthCompensation
-            // trackYProps={{
-            //   style: {
-            //     borderRadius: '4px',
-            //     width: '6px',
-            //     right: '2px',
-            //   },
-            // }}
-            // thumbYProps={{
-            //   style: {
-            //     backgroundColor: '#616881',
-            //     borderRadius: '4px',
-            //   },
-            // }}
           >
             {/* 스크롤 계산 */}
             <ScrollTracker scrollRef={savedScrollbarRef} setScroll={setScroll}/>
