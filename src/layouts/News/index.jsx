@@ -14,7 +14,19 @@ const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSav
 
   const newsScrollbarRef = useRef(null);
   const savedScrollbarRef = useRef(null);
+  const [scrolling, setScrolling] = useState(false);
   const timeoutRef = useRef(null);
+
+  //스크롤한후, 1초뒤 스크롤 없앰
+  const handleScroll = (e) => {
+    setScrolling(true);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => {
+      setScrolling(false);
+    }, 1000);
+  };
 
   //그 페이지 이동 함수
   const pageMove = (moveLocation) => {
@@ -64,6 +76,7 @@ const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSav
       >
       <NewsWrapper scroll={scroll}>
           <StyledScrollbar
+            ref={newsScrollbarRef}
             disableTracksWidthCompensation
           >
             {/* 스크롤 계산 */}
@@ -75,6 +88,7 @@ const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSav
       </NewsWrapper>
       <NewsWrapper scroll={scroll}>
         <StyledScrollbar
+            ref={savedScrollbarRef}
             disableTracksWidthCompensation
           >
             {/* 스크롤 계산 */}
