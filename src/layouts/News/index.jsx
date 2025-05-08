@@ -10,7 +10,7 @@ import ScrollTracker from'../../utile/useScrollTraker';
 //selectedTab 현재 선택되어 있는 탭
 //savedNews는 현재 저장되어 있는 뉴스들
 
-const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSavedNews,setTemSavedNews, setProgress}) => {
+const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSavedNews,setTemSavedNews, setProgress, scroll, setScroll}) => {
 
   const newsScrollbarRef = useRef(null);
   const savedScrollbarRef = useRef(null);
@@ -74,26 +74,26 @@ const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSav
       onDragEnd={handleDragEnd}
       dragConstraints={{ left: -375, right: 0 }}
       >
-      <NewsWrapper>
+      <NewsWrapper scroll={scroll}>
           <StyledScrollbar
-            ref={newsScrollbarRef}
-            onScroll={(e)=>{handleScroll(e)}}
-            className={scrolling ? 'scrolling' : ''}
-            removeTracksWhenNotUsed
+            // ref={newsScrollbarRef}
+            // onScroll={(e)=>{handleScroll(e)}}
+            // className={scrolling ? 'scrolling' : ''}
+            // removeTracksWhenNotUsed
             disableTracksWidthCompensation
-            trackYProps={{
-              style: {
-                borderRadius: '4px',
-                width: '6px',
-                right: '2px',
-              },
-            }}
-            thumbYProps={{
-              style: {
-                backgroundColor: '#616881',
-                borderRadius: '4px',
-              },
-            }}
+            // trackYProps={{
+            //   style: {
+            //     borderRadius: '4px',
+            //     width: '6px',
+            //     right: '2px',
+            //   },
+            // }}
+            // thumbYProps={{
+            //   style: {
+            //     backgroundColor: '#616881',
+            //     borderRadius: '4px',
+            //   },
+            // }}
           >
             {/* 스크롤 계산 */}
             <ScrollTracker scrollRef={newsScrollbarRef} setScroll={setScroll}/>
@@ -102,26 +102,26 @@ const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSav
               ))}
           </StyledScrollbar>
       </NewsWrapper>
-      <NewsWrapper>
+      <NewsWrapper scroll={scroll}>
         <StyledScrollbar
-            ref={savedScrollbarRef}
-            onScroll={handleScroll}
-            className={scrolling ? 'scrolling' : ''}
-            removeTracksWhenNotUsed
+            // ref={savedScrollbarRef}
+            // onScroll={handleScroll}
+            // className={scrolling ? 'scrolling' : ''}
+            // removeTracksWhenNotUsed
             disableTracksWidthCompensation
-            trackYProps={{
-              style: {
-                borderRadius: '4px',
-                width: '6px',
-                right: '2px',
-              },
-            }}
-            thumbYProps={{
-              style: {
-                backgroundColor: '#616881',
-                borderRadius: '4px',
-              },
-            }}
+            // trackYProps={{
+            //   style: {
+            //     borderRadius: '4px',
+            //     width: '6px',
+            //     right: '2px',
+            //   },
+            // }}
+            // thumbYProps={{
+            //   style: {
+            //     backgroundColor: '#616881',
+            //     borderRadius: '4px',
+            //   },
+            // }}
           >
             {/* 스크롤 계산 */}
             <ScrollTracker scrollRef={savedScrollbarRef} setScroll={setScroll}/>

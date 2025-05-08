@@ -5,12 +5,12 @@ import { motion } from 'framer-motion';
 export const NewsWrapper = styled.div`
   display: flex;
   position: relative;
-  // top: 85px;
-  top: 85px;
   flex-direction: column;
-  height: 673px;
+  height: ${({ scroll }) => `${Math.min(711, 673 + scroll)}px`};
   -webkit-overflow-scrolling: touch; 
   width: 375px;
+  transform: ${({ scroll }) => `translateY(${Math.max(103, 141 - scroll)}px)`};
+  // 앞쪽은 스크롤이 올라갔을때 최대 0에서 103만큼 내려옴, 기본은 141에서 스크롤이 내려감
 `;
 
 export const ChangeScreen = styled(motion.div)`

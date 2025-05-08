@@ -19,5 +19,4 @@ body {
   -moz-user-select: none;
   -ms-use-select: none;
   user-select: none;
-  transition:ease-out;
 }

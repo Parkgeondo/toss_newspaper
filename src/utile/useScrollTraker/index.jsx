@@ -18,6 +18,9 @@ const ScrollTracker = ({scrollRef, setScroll}) => {
       //스크롤 비율
       const ratio = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
       setScroll(scrollTop)
+
+      //38px에서 달깍
+      //0에서 19는 0으로 20에서 38까지는 38로 점진적으로 이동
     }
     scrollEl.addEventListener("scroll", handleScroll);
   },[scrollRef])

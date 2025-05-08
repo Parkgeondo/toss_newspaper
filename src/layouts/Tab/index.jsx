@@ -1,9 +1,10 @@
 import TabButton from "../../Component/TabButton";
 import { TabWrapper } from "./styles";
 import CircleNewsRow from "../../Component/CircleNews";
+import {Tab_underLine} from "./styles";
 
 
-const Tab = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews, temSavedNews, setTemSavedNews, progress }) => {
+const Tab = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews, temSavedNews, setTemSavedNews, progress,scroll }) => {
 
   return (
     <>
@@ -15,6 +16,7 @@ const Tab = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews, temSav
           저장한 뉴스
           <CircleNewsRow savedNews={savedNews} temSavedNews={temSavedNews} progress={progress}/>
         </TabButton>
+        <Tab_underLine isActive={selectedTab === tabs[0]}></Tab_underLine>
       </TabWrapper>
     </>
   );

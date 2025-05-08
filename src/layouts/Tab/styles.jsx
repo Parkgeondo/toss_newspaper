@@ -4,16 +4,22 @@ import {motion} from 'framer-motion'
 
 export const TabWrapper = styled.div`
   display: flex;
-  width: 100%;
+  width: 375px;
   height: 48px;
   padding: 0px 14px;
-  margin-top: 8px;
   background:white;
   border-bottom: 2px solid #E6E9EF;
-  // top:85px;
-  top:85px;
   z-index:999;
-  position: relative;
-  transform: ${({ scroll2 }) => `translateY(${-scroll2}px)`};
+  position: fixed;
+  transform: ${({ scroll2 }) => `translateY(${Math.max(55, 95 - scroll2)}px)`};
 `
 
+export const Tab_underLine = styled.div`
+    position: absolute;
+    left:${({isActive})=>(isActive === true ? 14 : 187.5)}px;
+    bottom:-2px;
+    height: 2px;
+    width: 173px;
+    background-color: #343D4C;
+    transition:cubic-bezier(0.165, 0.84, 0.44, 1) 0.2s left;
+`

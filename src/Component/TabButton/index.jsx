@@ -8,7 +8,7 @@ const TabButton = ({ children, onClick, isActive, style }) => {
       <span style={style}>
        {children}
       </span>
-      {isActive && (<Tab_underLine layoutId="underline"></Tab_underLine>)}
+      {/* {isActive && (<Tab_underLine layoutId="underline"></Tab_underLine>)} */}
     </TabButtonWrapper>
   );
 };
