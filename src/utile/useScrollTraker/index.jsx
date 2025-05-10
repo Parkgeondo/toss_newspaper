@@ -1,33 +1,30 @@
 import { useEffect } from "react";
 
-//첫번째는 ref, 두번째는 실제로 변하는 setState
-const ScrollTracker = ({scrollRef, setScroll}) => {
-  useEffect(()=>{
-    if (!scrollRef?.current?.scrollerElement) return;
+const ScrollTracker = ({ scrollRef, setScroll }) => {
+  useEffect(() => {
+    if (!scrollRef?.current) return;
 
-    const scrollEl = scrollRef.current.scrollerElement;
+    const scrollEl = scrollRef.current;
 
     const handleScroll = () => {
+      const scrollTop = scrollEl.scrollTop; // ✅ 현재 스크롤 위치
+      const scrollHeight = scrollEl.scrollHeight - scrollEl.clientHeight; // ✅ 스크롤 가능한 전체 높이
 
-        //스크롤한 정도
-      const scrollTop = scrollEl.scrollTop;
-
-      //스크롤할 전체
-      const scrollHeight = scrollEl.scrollHeight - scrollEl.clientHeight;
-
-      //스크롤 비율
       const ratio = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
-      setScroll(scrollTop)
+      setScroll(scrollTop);
 
-      //38px에서 달깍
-      //0에서 19는 0으로 20에서 38까지는 38로 점진적으로 이동
-    }
+      console.log(`현재 스크롤 위치: ${scrollTop}px`);
+      console.log(`스크롤 비율: ${Math.round(ratio * 100)}%`);
+    };
+
     scrollEl.addEventListener("scroll", handleScroll);
-  },[scrollRef])
-  
-  return (
-    <div></div>
-  )
-}
+
+    return () => {
+      scrollEl.removeEventListener("scroll", handleScroll);
+    };
+  }, [scrollRef, setScroll]);
+
+  return <div></div>;
+};
 
 export default ScrollTracker;
