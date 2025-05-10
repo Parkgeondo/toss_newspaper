@@ -8,7 +8,7 @@ const Tab = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews, temSav
 
   return (
     <>
-      <TabWrapper scroll2={scroll}>
+      <TabWrapper scrollHeight={scroll}>
           <TabButton onClick={() => setSelectedTab(tabs[0])} isActive={selectedTab === tabs[0]}>
           뉴스
           </TabButton>

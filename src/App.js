@@ -3,7 +3,7 @@ import './App.css';
 import { useEffect, useState } from "react";
 import StatusBar from './Component/StatusBar';
 import Screen from './layouts/Screen';
-
+import Test from '../src/test';
 
 //현재 기기가 모바일인지 PC인지 판단
 const useDeviceType = () => {
@@ -26,6 +26,7 @@ function App() {
       backgroundColor : !isMobile ? 'white' : 'white ',
       }}>
         <StatusBar></StatusBar>
+        {/* <Test></Test> */}
         <Screen></Screen>
     </div>
   );

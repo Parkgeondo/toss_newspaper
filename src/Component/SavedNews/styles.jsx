@@ -9,10 +9,12 @@ display:flex;
 flex-direction: column;
 padding: 20px 14px 0px 14px;
 border-bottom: 1px solid #E6E9EF;
+s
 
 & > img{
   border-radius: 8px;
 }
+
 
 & > div{
 }

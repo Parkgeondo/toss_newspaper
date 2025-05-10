@@ -70,7 +70,6 @@ const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSav
 
 
   return (
-
     //양옆으로 페이지 슬라이드
     <ChangeScreen
       style={{ x }}
@@ -78,30 +77,18 @@ const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSav
       onDragEnd={handleDragEnd}
       dragConstraints={{ left: -375, right: 0 }}
       >
-      <Tab tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews} progress={progress} scroll={scroll}></Tab>
-      <NewsWrapper scroll={scroll}>
-          <StyledScrollbar
-            ref={newsScrollbarRef}
-            disableTracksWidthCompensation
-          >
-            {/* 스크롤 계산 */}
+      <NewsWrapper scroll={scroll} ref={newsScrollbarRef}>
             <ScrollTracker scrollRef={newsScrollbarRef} setScroll={setScroll}/>
               {newsData.map((data) => (
                 <NewsBox key={data.id} {...data} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews} setProgress={setProgress}/>
               ))}
-          </StyledScrollbar>
       </NewsWrapper>
       <NewsWrapper scroll={scroll}>
-        <StyledScrollbar
-            ref={savedScrollbarRef}
-            disableTracksWidthCompensation
-          >
             {/* 스크롤 계산 */}
             <ScrollTracker scrollRef={savedScrollbarRef} setScroll={setScroll}/>
           {savedNews.map((data) => (
             <SavedNews key={data} id={data}></SavedNews>
           ))}
-        </StyledScrollbar>
       </NewsWrapper>
     </ChangeScreen>
   );

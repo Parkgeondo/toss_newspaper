@@ -11,6 +11,7 @@ background:white;
 position:absolute;
 top:48px;
 z-index:999;
+  background-color: #111D4C60;
  & h1{
     font-size: 20px;
     color: #26282C;
