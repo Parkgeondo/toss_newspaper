@@ -1,6 +1,8 @@
 import { NewsWrapper, StyledScrollbar, ChangeScreen } from './styles';
 import NewsBox from '../../Component/NewsBox';
 import SavedNews from '../../Component/SavedNews'
+import Tab from '../Tab';
+
 import { newsData } from '../../data/newsData';
 import { useRef, useState, useEffect } from 'react';
 import { useMotionValue, animate } from "framer-motion";
@@ -10,7 +12,7 @@ import ScrollTracker from'../../utile/useScrollTraker';
 //selectedTab 현재 선택되어 있는 탭
 //savedNews는 현재 저장되어 있는 뉴스들
 
-const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSavedNews,setTemSavedNews, setProgress, scroll, setScroll}) => {
+const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSavedNews,setTemSavedNews, progress, setProgress, scroll, setScroll}) => {
 
   const newsScrollbarRef = useRef(null);
   const savedScrollbarRef = useRef(null);
@@ -68,12 +70,15 @@ const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSav
 
 
   return (
+
+    //양옆으로 페이지 슬라이드
     <ChangeScreen
       style={{ x }}
       drag="x"
       onDragEnd={handleDragEnd}
       dragConstraints={{ left: -375, right: 0 }}
       >
+      <Tab tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews} progress={progress} scroll={scroll}></Tab>
       <NewsWrapper scroll={scroll}>
           <StyledScrollbar
             ref={newsScrollbarRef}
