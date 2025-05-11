@@ -12,5 +12,4 @@ padding-left: 28px;
 position:absolute;
 top:0;
 z-index:999;
-background-color: #513D4C;
 `

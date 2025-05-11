@@ -11,10 +11,10 @@ export const NewsWrapper = styled.div`
   -webkit-overflow-scrolling: touch; 
   width: 375px;
   // transform: ${({ scroll }) => `translateY(${Math.max(94, 88 - scroll)}px)`};
-  transform: translateY(94px);
+  transform: translateY(95px);
   // 앞쪽은 스크롤이 올라갔을때 최대 0에서 103만큼 내려옴, 기본은 141에서 스크롤이 내려감
-  background-color: red;
   overflow-y: scroll;
+  padding-top:48px;
   scrollbar-width: none;
   -ms-overflow-style: none;
   &::-webkit-scrollbar {
@@ -26,10 +26,5 @@ export const ChangeScreen = styled(motion.div)`
   position: relative;
   display: flex;
   width:calc(375px*2);
-`;
-
-export const StyledScrollbar = styled(Scrollbar)`
-  .ScrollbarsCustom-TrackY {
-    opacity: 0;
 `;
 

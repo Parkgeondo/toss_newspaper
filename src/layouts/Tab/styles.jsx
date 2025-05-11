@@ -11,8 +11,7 @@ export const TabWrapper = styled.div`
   border-bottom: 2px solid #E6E9EF;
   z-index:999;
   position: fixed;
-  opacity:50%;
-  transform: ${({ scrollHeight }) => `translateY(${Math.max(47, 94 - scrollHeight)}px)`};
+  transform: ${({ scrollHeight }) => `translateY(${Math.max(48, 93 - scrollHeight)}px)`};
 `
 
 export const Tab_underLine = styled.div`

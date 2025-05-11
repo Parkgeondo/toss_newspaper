@@ -18,8 +18,14 @@ function Layout() {
   //뉴스 저장시 진행 그래프
   const [progress, setProgress] = useState(0);
 
-  //tab부분 스크롤링
-  const [scroll, setScroll] = useState(0);
+  //내용부분 스크롤링
+  const [scroll, setScroll] = useState([0,0]);
+  
+  //tab의 위치값을 저장하는 변수 하나 추가
+  const [tabControl, setTabControl] = useState([0,0])
+
+  //스크롤을 했을때 tabControl과 scroll을 동기화
+
 
   useEffect(()=>{
     console.log(scroll)
@@ -28,8 +34,8 @@ function Layout() {
   return (
     <>
       <Header></Header>
-      <Tab tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews} progress={progress} scroll={scroll}></Tab>
-      <News tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews} progress={progress} setProgress={setProgress} scroll={scroll} setScroll={setScroll}></News>
+      <Tab tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} temSavedNews={temSavedNews} progress={progress} scroll={scroll} tabControl={tabControl}></Tab>
+      <News tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews} setProgress={setProgress} scroll={scroll} setScroll={setScroll} setTabControl={setTabControl}></News>
     </>
   );
 }

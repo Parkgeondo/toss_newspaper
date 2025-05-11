@@ -26,7 +26,6 @@ function App() {
       backgroundColor : !isMobile ? 'white' : 'white ',
       }}>
         <StatusBar></StatusBar>
-        {/* <Test></Test> */}
         <Screen></Screen>
     </div>
   );

@@ -2,13 +2,18 @@ import TabButton from "../../Component/TabButton";
 import { TabWrapper } from "./styles";
 import CircleNewsRow from "../../Component/CircleNews";
 import {Tab_underLine} from "./styles";
+import { useEffect, useState } from "react";
+import useLongPressTimer from "../../utile/useLongPressTimer";
 
 
-const Tab = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews, temSavedNews, setTemSavedNews, progress,scroll }) => {
+const Tab = ({tabs, selectedTab, setSelectedTab, savedNews, temSavedNews,progress, tabControl }) => {
+
 
   return (
     <>
-      <TabWrapper scrollHeight={scroll}>
+      {/* <TabWrapper scrollHeight={scroll[0]}> */}
+      <TabWrapper scrollHeight={selectedTab === tabs[0] ? tabControl[0] : tabControl[1]}>
+      {/* <TabWrapper scrollHeight = {tabsControl}> */}
           <TabButton onClick={() => setSelectedTab(tabs[0])} isActive={selectedTab === tabs[0]}>
           뉴스
           </TabButton>
