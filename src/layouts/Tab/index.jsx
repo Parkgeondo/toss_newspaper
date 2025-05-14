@@ -5,9 +5,15 @@ import {Tab_underLine} from "./styles";
 import { useEffect, useState } from "react";
 import useLongPressTimer from "../../utile/useLongPressTimer";
 
+const Tab = ({tabs, selectedTab, setSelectedTab, savedNews, temSavedNews,progress,setTabControl ,tabControl, scroll }) => {
 
-const Tab = ({tabs, selectedTab, setSelectedTab, savedNews, temSavedNews,progress, tabControl }) => {
-
+  useEffect(()=>{
+    if(selectedTab === tabs[0]){
+      setTabControl(scroll[0])
+    }else if(selectedTab === tabs[1]){
+      setTabControl(scroll[1])
+    }
+  },[scroll])
 
   return (
     <>

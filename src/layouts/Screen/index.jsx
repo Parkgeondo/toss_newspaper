@@ -27,14 +27,14 @@ function Layout() {
   //스크롤을 했을때 tabControl과 scroll을 동기화
 
 
-  useEffect(()=>{
-    console.log(scroll,tabControl)
-  },[scroll,tabControl])
+  // useEffect(()=>{
+  //   console.log(scroll,tabControl)
+  // },[scroll,tabControl])
 
   return (
     <>
       <Header></Header>
-      <Tab tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} temSavedNews={temSavedNews} progress={progress} scroll={scroll} tabControl={tabControl}></Tab>
+      <Tab tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} temSavedNews={temSavedNews} progress={progress} scroll={scroll} tabControl={tabControl} setTabControl={setTabControl}></Tab>
       <News tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews} setProgress={setProgress} scroll={scroll} setScroll={setScroll} setTabControl={setTabControl}></News>
     </>
   );

@@ -1,6 +1,7 @@
 import { useEffect, useCallback } from "react";
 import useLongPressTimer from "../useLongPressTimer";
 import Interpolation from "../interpolation";
+import Syn from "../syn";
 
 // 1. 문제점. 각 두개의 페이지가 아직 스크롤이 되지 않았을때, tab이 동기화 되어있지 않은 점
 // 2. 뉴스는 스크롤이 되어 있고, 저장된 뉴스는 스크롤이 되어있지 않을때, 저장된 뉴스로 이동시, 저장된 뉴스 페이지는 탭은 최소화하고 스크롤되어 있는 문제점일시
@@ -10,7 +11,7 @@ import Interpolation from "../interpolation";
 // 💡 공통적으로 사용하는 스크롤 값 헬퍼 함수
 const getScrollTop = (ref) => ref?.current?.scrollTop ?? 0;
 
-const ScrollTracker = ({ scrollRef, setScroll, otherRef, id, setTabControl,scroll, dragging }) => {
+const ScrollTracker = ({ scrollRef, setScroll, otherRef, id, setTabControl, scroll, dragging, tabs, selectedTab}) => {
   // ✅ 스크롤 멈췄을 때 호출되는 함수
   const onScrollEnd = useCallback(() => {
     const scrollTop = getScrollTop(scrollRef);
@@ -29,23 +30,13 @@ const ScrollTracker = ({ scrollRef, setScroll, otherRef, id, setTabControl,scrol
   const handleScroll = useCallback(() => {
     const scrollTop = getScrollTop(scrollRef);
 
-    console.log(dragging)
-
     if (id === 0) {
       setScroll((prev) => [scrollTop, prev[1]]);
-      //슬라이드를 하거나 탭을 누를때는 작동하지 않게 할것
-      if(!dragging){
-        setTabControl(scroll[0])
-      }
     } else if (id === 1) {
       setScroll((prev) => [prev[0], scrollTop]);
-      //슬라이드를 하거나 탭을 누를때는 작동하지 않게 할것
-      if(!dragging){
-        setTabControl(scroll[1])
-      }
     }
-
     
+    Syn(scroll, scrollRef, otherRef, selectedTab, tabs)
 
     // 타이머 리셋 (스크롤 멈춤 감지)
     endScrollTimer();

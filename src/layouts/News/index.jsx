@@ -62,19 +62,17 @@ const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSav
       style={{ x }}
       drag="x"
       onDragEnd={(e, info) => {
-        console.log('드래그 끝', dragging)
         setDragging(false);
         handleDragEnd(e, info);
       }}
       onDragStart={() => {
-        console.log('드래그 시작', dragging)
         Syn(scroll, newsScrollbarRef, savedScrollbarRef, selectedTab, tabs);
         setDragging(true);
       }}
       dragConstraints={{ left: -375, right: 0 }}
       >
       <NewsWrapper scroll={scroll[0]} ref={newsScrollbarRef}>
-            <ScrollTracker scrollRef={newsScrollbarRef} setScroll={setScroll} otherRef={savedScrollbarRef} id={0} setTabControl={setTabControl} scroll={scroll} dragging={dragging}/>
+            <ScrollTracker scrollRef={newsScrollbarRef} scroll={scroll} setScroll={setScroll} otherRef={savedScrollbarRef} id={0} setTabControl={setTabControl} dragging={dragging} selectedTab={selectedTab}/>
               {newsData.map((data) => (
                 <NewsBox key={data.id} {...data} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews} setProgress={setProgress}/>
               ))}
