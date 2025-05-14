@@ -14,7 +14,10 @@ import Syn from '../../utile/syn';
 //savedNews는 현재 저장되어 있는 뉴스들
 
 const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSavedNews,setTemSavedNews, setProgress, scroll, setScroll, setTabControl}) => {
-
+  
+    //다른 곳에서도 사용할수있도록 만듬
+    const x = useMotionValue(0);
+  
   //스크롤 제어 Ref
   const newsScrollbarRef = useRef(null);
   const savedScrollbarRef = useRef(null);
@@ -34,9 +37,6 @@ const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSav
   }, [selectedTab]);
 
 
-  //다른 곳에서도 사용할수있도록 만듬
-  const x = useMotionValue(0);
-
   //드래그를 놓으면 함수가 실행
   const handleDragEnd = (e, info) => {
     if (info.offset.x < -150 && selectedTab === tabs[0]) {
@@ -53,18 +53,28 @@ const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSav
       setSelectedTab(tabs[1])
     }
   }
-  
+
+  //드래그를 시전하면 함수 지정
+  const [dragging, setDragging] = useState(false);
 
   return (
     <ChangeScreen
       style={{ x }}
       drag="x"
-      onDragEnd={handleDragEnd}
-      onDragStart={() => Syn(scroll,newsScrollbarRef,savedScrollbarRef,selectedTab)}
+      onDragEnd={(e, info) => {
+        console.log('드래그 끝', dragging)
+        setDragging(false);
+        handleDragEnd(e, info);
+      }}
+      onDragStart={() => {
+        console.log('드래그 시작', dragging)
+        Syn(scroll, newsScrollbarRef, savedScrollbarRef, selectedTab, tabs);
+        setDragging(true);
+      }}
       dragConstraints={{ left: -375, right: 0 }}
       >
       <NewsWrapper scroll={scroll[0]} ref={newsScrollbarRef}>
-            <ScrollTracker scrollRef={newsScrollbarRef} setScroll={setScroll} otherRef={savedScrollbarRef} id={0} setTabControl={setTabControl} scroll={scroll}/>
+            <ScrollTracker scrollRef={newsScrollbarRef} setScroll={setScroll} otherRef={savedScrollbarRef} id={0} setTabControl={setTabControl} scroll={scroll} dragging={dragging}/>
               {newsData.map((data) => (
                 <NewsBox key={data.id} {...data} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews} setProgress={setProgress}/>
               ))}

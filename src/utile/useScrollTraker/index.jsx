@@ -10,7 +10,7 @@ import Interpolation from "../interpolation";
 // 💡 공통적으로 사용하는 스크롤 값 헬퍼 함수
 const getScrollTop = (ref) => ref?.current?.scrollTop ?? 0;
 
-const ScrollTracker = ({ scrollRef, setScroll, otherRef, id, setTabControl,scroll }) => {
+const ScrollTracker = ({ scrollRef, setScroll, otherRef, id, setTabControl,scroll, dragging }) => {
   // ✅ 스크롤 멈췄을 때 호출되는 함수
   const onScrollEnd = useCallback(() => {
     const scrollTop = getScrollTop(scrollRef);
@@ -29,13 +29,23 @@ const ScrollTracker = ({ scrollRef, setScroll, otherRef, id, setTabControl,scrol
   const handleScroll = useCallback(() => {
     const scrollTop = getScrollTop(scrollRef);
 
+    console.log(dragging)
+
     if (id === 0) {
       setScroll((prev) => [scrollTop, prev[1]]);
+      //슬라이드를 하거나 탭을 누를때는 작동하지 않게 할것
+      if(!dragging){
+        setTabControl(scroll[0])
+      }
     } else if (id === 1) {
       setScroll((prev) => [prev[0], scrollTop]);
+      //슬라이드를 하거나 탭을 누를때는 작동하지 않게 할것
+      if(!dragging){
+        setTabControl(scroll[1])
+      }
     }
 
-    setTabControl(scroll)
+    
 
     // 타이머 리셋 (스크롤 멈춤 감지)
     endScrollTimer();

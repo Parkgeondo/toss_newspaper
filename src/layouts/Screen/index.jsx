@@ -21,15 +21,15 @@ function Layout() {
   //내용부분 스크롤링
   const [scroll, setScroll] = useState([0,0]);
   
-  //tab의 위치값을 저장하는 변수 하나 추가
-  const [tabControl, setTabControl] = useState([0,0])
+  //tab의 위치값을 저장하는 변수 하나 추가, 이걸 하나로 만들어야하나?
+  const [tabControl, setTabControl] = useState([0])
 
   //스크롤을 했을때 tabControl과 scroll을 동기화
 
 
   useEffect(()=>{
-    console.log(scroll)
-  },[scroll])
+    console.log(scroll,tabControl)
+  },[scroll,tabControl])
 
   return (
     <>
