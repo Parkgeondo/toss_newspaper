@@ -66,19 +66,18 @@ const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSav
         handleDragEnd(e, info);
       }}
       onDragStart={() => {
-        Syn(scroll, newsScrollbarRef, savedScrollbarRef, selectedTab, tabs);
         setDragging(true);
       }}
       dragConstraints={{ left: -375, right: 0 }}
       >
       <NewsWrapper scroll={scroll[0]} ref={newsScrollbarRef}>
-            <ScrollTracker scrollRef={newsScrollbarRef} scroll={scroll} setScroll={setScroll} otherRef={savedScrollbarRef} id={0} setTabControl={setTabControl} dragging={dragging} selectedTab={selectedTab}/>
+            <ScrollTracker scrollRef={newsScrollbarRef} tabs={tabs} newsScrollbarRef={newsScrollbarRef} savedScrollbarRef={savedScrollbarRef} scroll={scroll} setScroll={setScroll} otherRef={savedScrollbarRef} id={0} setTabControl={setTabControl} dragging={dragging} selectedTab={selectedTab}/>
               {newsData.map((data) => (
                 <NewsBox key={data.id} {...data} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews} setProgress={setProgress}/>
               ))}
       </NewsWrapper>
       <NewsWrapper scroll={scroll[1]} ref={savedScrollbarRef}>
-            <ScrollTracker scrollRef={savedScrollbarRef} setScroll={setScroll} otherRef={newsScrollbarRef} id={1} setTabControl={setTabControl} scroll={scroll}/>
+            <ScrollTracker scrollRef={savedScrollbarRef} tabs={tabs} newsScrollbarRef={newsScrollbarRef} savedScrollbarRef={savedScrollbarRef} scroll={scroll} setScroll={setScroll} otherRef={newsScrollbarRef} id={1} setTabControl={setTabControl} dragging={dragging} selectedTab={selectedTab}/>
               {savedNews.map((data) => (
                 <SavedNews key={data} id={data}></SavedNews>
               ))}

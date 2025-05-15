@@ -1,4 +1,4 @@
-const Syn = (scroll, newsScrollbarRef, savedScrollbarRef,selectedTab,tabs) => {
+const Syn = (scroll, newsScrollbarRef, savedScrollbarRef, selectedTab,tabs) => {
 
   if(scroll[0] > 48 && scroll[1] < 48 && selectedTab === tabs[0]){
     savedScrollbarRef.current.scrollTo({ top: 48 });

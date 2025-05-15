@@ -8,10 +8,9 @@ import Syn from "../syn";
 // 2-1. 탭을 눌렀을때, 혹은 가로 스크롤을 했을때, 스크롤을 알맞게 변환
 // 2-2. 변환된 화면에 따라서 스크롤은 알아서 변환
 
-// 💡 공통적으로 사용하는 스크롤 값 헬퍼 함수
 const getScrollTop = (ref) => ref?.current?.scrollTop ?? 0;
 
-const ScrollTracker = ({ scrollRef, setScroll, otherRef, id, setTabControl, scroll, dragging, tabs, selectedTab}) => {
+const ScrollTracker = ({ scrollRef, newsScrollbarRef, savedScrollbarRef, setScroll, otherRef, id, setTabControl, scroll, dragging, tabs, selectedTab}) => {
   // ✅ 스크롤 멈췄을 때 호출되는 함수
   const onScrollEnd = useCallback(() => {
     const scrollTop = getScrollTop(scrollRef);
@@ -36,7 +35,7 @@ const ScrollTracker = ({ scrollRef, setScroll, otherRef, id, setTabControl, scro
       setScroll((prev) => [prev[0], scrollTop]);
     }
     
-    Syn(scroll, scrollRef, otherRef, selectedTab, tabs)
+    Syn(scroll, newsScrollbarRef, savedScrollbarRef, selectedTab, tabs)
 
     // 타이머 리셋 (스크롤 멈춤 감지)
     endScrollTimer();

@@ -27,9 +27,9 @@ function Layout() {
   //스크롤을 했을때 tabControl과 scroll을 동기화
 
 
-  // useEffect(()=>{
-  //   console.log(scroll,tabControl)
-  // },[scroll,tabControl])
+  useEffect(()=>{
+    console.log(scroll,tabControl)
+  },[scroll,tabControl])
 
   return (
     <>
