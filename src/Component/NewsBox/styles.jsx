@@ -17,9 +17,18 @@ export const NewsBoxWapper = styled(motion.div)`
     width:80px;
     height:80px;
    }
+
    & .publisher {
     font-size:12px;
     color:#3F4249;
+    display: flex;
+    gap: 5px;
+
+    & > img{
+     width:16px;
+     border: 1px rgba(19, 31, 87, 0.18) solid;
+     border-radius: 13px;
+    }
    }
    & .title {
     font-size:16px;

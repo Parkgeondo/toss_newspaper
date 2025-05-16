@@ -6,7 +6,7 @@ import { useMotionValue, animate, AnimatePresence } from 'framer-motion';
 import { useState,useRef,useEffect,useCallback } from "react";
 import useLongPressTimer from "../../utile/useLongPressTimer";
 
-const NewsBox = ({ publisher, title, category, content1, date, smallImage, setSavedNews, id, setTemSavedNews , setProgress}) => {
+const NewsBox = ({ publisher, publisherImg, title, category, content1, date, smallImage, setSavedNews, id, setTemSavedNews , setProgress}) => {
   
   //원형 그룹
   const [ripples, setRipples] = useState([]);
@@ -80,7 +80,7 @@ const NewsBox = ({ publisher, title, category, content1, date, smallImage, setSa
           <img src={smallImage} className="smallImage" alt=""/>
           <div className="text">
             <div className="publisher">
-              {/* <img src="" alt="" /> */}
+              <img src={publisherImg} alt="" />
               {publisher}
             </div>
             <div className="title">
