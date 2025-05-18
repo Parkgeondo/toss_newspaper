@@ -3,6 +3,7 @@
   width: 375px;
   overflow: hidden;
   position: relative;
+  border-radius: 12px;
 }
 
 @font-face {

@@ -2,11 +2,14 @@ import TabButton from "../../Component/TabButton";
 import { TabWrapper } from "./styles";
 import CircleNewsRow from "../../Component/CircleNews";
 import {Tab_underLine} from "./styles";
+import { useMotionValue, useSpring } from "framer-motion";
 import { useEffect, useState } from "react";
 import useLongPressTimer from "../../utile/useLongPressTimer";
 
 const Tab = ({tabs, selectedTab, setSelectedTab, savedNews, temSavedNews,progress,setTabControl ,tabControl, scroll }) => {
 
+  // 부드러운 애니메이션 설정
+  
   useEffect(()=>{
     if(selectedTab === tabs[0]){
       setTabControl(scroll[0])

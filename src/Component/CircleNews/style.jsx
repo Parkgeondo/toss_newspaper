@@ -8,4 +8,5 @@ export const CircleNewsRowWrap = styled.div`
    position: relative;
    align-items: center;
    overflow: visible;
+   display: flex;
 `

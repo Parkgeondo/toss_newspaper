@@ -16,7 +16,8 @@ s
 }
 
 
-& > div{
+& > .bigImage{
+  border-radius: 8px;
 }
 
 & > .title{

@@ -9,11 +9,25 @@ const gap = 8;
 const radius = (size - stroke) / 2;
 const circumference = radius * 2 * Math.PI;
 
-const CircleNews = ({ id }) => {
+const CircleNews = ({ id, isShrinking = false, offsetX, savedNews, temSavedNews}) => {
   const savedData = newsData.find((item) => item.id === id);
 
+  useEffect(()=>{
+    console.log(offsetX)
+  },[offsetX])
+
   return (
-    <svg style={{ marginRight: -gap, overflow: "visible" }} width={size} height={size}>
+    <motion.svg
+      initial={{ x: offsetX, scale: 1 }}
+      style={{ marginRight: -gap, overflow: "visible"}}
+      width={size}
+      height={size}
+      animate={{
+        scale: isShrinking ? 0 : 1,
+         x: offsetX,
+      }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      >
       <defs>
         <clipPath id={`circleClip-${id}`}>
           <circle cx={size / 2} cy={size / 2} r={radius} />
@@ -36,7 +50,7 @@ const CircleNews = ({ id }) => {
         strokeWidth={stroke}
         opacity="1"
       />
-    </svg>
+    </motion.svg>
   );
 };
 
@@ -120,18 +134,40 @@ const TemCircleNews = ({ progress, id }) => {
 const CircleNewsRow = ({ savedNews, temSavedNews, progress }) => {
   const [width, setWidth] = useState(0);
 
+  //한번에 보여줄 카운트 양
+  const visibleMax = 5;
+
+  //전체 원의 갯수
+  const totalCount = savedNews.length + temSavedNews.length;
+  
+  //초과한 원의 갯수
+  const overCount = Math.max(0, totalCount - visibleMax);
+
+  const isSaved = savedNews.includes(temSavedNews[0]);
+
   useEffect(() => {
-    const total = savedNews.length + (temSavedNews.length > 0 ? 1 : 0);
-    setWidth(total > 0 ? size + (total - 1) * gap : 0);
+
+    // 보여지는 원의 갯수
+      const visibleCount = Math.min(totalCount, visibleMax);
+
+    // 보여지는 원의 갯수에 따른 넓이 조절
+      setWidth(visibleCount > 0 ? size + (visibleCount - 1) * gap : 0);
+
+
   }, [temSavedNews, savedNews]);
 
   return (
     <CircleNewsRowWrap width={width}>
-      {savedNews.map((key) => (
-        <CircleNews key={key} id={key} />
-      ))}
+      {savedNews.map((key, index) => {
+        const isHidden = index < overCount;
+        //이 부분 수정해보기
+        const offsetX = !isHidden ? -8 * overCount : 0;
+
+        return(
+        <CircleNews key={index} id={key} isShrinking={isHidden} offsetX={offsetX} savedNews={savedNews} temSavedNews={temSavedNews}/>
+      )})}
       <AnimatePresence>
-        {temSavedNews[0] > 0 && (
+        {(temSavedNews[0]) > 0 && (
           <TemCircleNews key={temSavedNews[0]} progress={progress} id={temSavedNews[0]} />
         )}
       </AnimatePresence>

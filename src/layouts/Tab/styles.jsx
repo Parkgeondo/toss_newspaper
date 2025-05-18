@@ -12,6 +12,7 @@ export const TabWrapper = styled.div`
   z-index:999;
   position: fixed;
   transform: ${({ scrollHeight }) => `translateY(${Math.max(48, 93 - scrollHeight)}px)`};
+  transition: transform 0.08s cubic-bezier(0.165, 0.84, 0.44, 1);
 `
 
 export const Tab_underLine = styled.div`

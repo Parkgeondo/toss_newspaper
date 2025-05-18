@@ -2,11 +2,12 @@ import { NewsBoxWapper } from "./styles";
 import { NewsBoxline } from "./styles";
 import { Ripple } from "./styles";
 import { Ripplearea } from "./styles";
-import { useMotionValue, animate, AnimatePresence } from 'framer-motion';
+import { useMotionValue, animate, AnimatePresence, motion } from 'framer-motion';
 import { useState,useRef,useEffect,useCallback } from "react";
 import useLongPressTimer from "../../utile/useLongPressTimer";
+import WavyShader from "../../utile/wavyShader";
 
-const NewsBox = ({ publisher, publisherImg, title, category, content1, date, smallImage, setSavedNews, id, setTemSavedNews , setProgress}) => {
+const NewsBox = ({ publisher, publisherImg, title, category, content1, date, smallImage, setSavedNews, id, setTemSavedNews , setProgress, index, savedNews}) => {
   
   //원형 그룹
   const [ripples, setRipples] = useState([]);
@@ -39,25 +40,52 @@ const NewsBox = ({ publisher, publisherImg, title, category, content1, date, sma
   // 커스텀 훅 타이머 실제로 뉴스 적용하는 부분
   const handleSaveNews = useCallback(() => {
     setSavedNews(prev =>
-      prev.includes(id) ? [...prev] : [...prev, id]
+      prev.includes(id)
+        ? prev.filter(newsId => newsId !== id) // 제거
+        : [...prev, id] // 추가
     );
     setTemSavedNews([]);
-  }, [setSavedNews,setTemSavedNews,id]);
+  }, [setSavedNews, setTemSavedNews, id]);
   const { start, end } = useLongPressTimer(handleSaveNews, 850);
 
 
   //타이머가 얹어지면 신문 저장하기
   // 임시 그래프 뉴스를 보여주는 부분
   const handleTemSavedtNews = useCallback(() => {
-    setTemSavedNews(prev =>
-      [id])
+    if (savedNews.includes(id)) {
+      setTemSavedNews([]); // 이미 저장된 뉴스는 임시 표시 안 함
+    } else {
+      setTemSavedNews([id]);
       setProgress(1);
-  },[setTemSavedNews, setProgress, id]);
+    }
+  },[savedNews, setTemSavedNews, setProgress, id]);
   const { start: start_tem, end: end_tem } = useLongPressTimer(handleTemSavedtNews, 300);
+
+  //이 뉴스박스가 저장되어 있는지 판단
+  const isSaved = savedNews.includes(id);
 
   return (
     <>
-      <NewsBoxline>
+      <NewsBoxline
+      >
+        {/* 배경 쉐이더 */}
+        <AnimatePresence>
+          {isSaved && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.3 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+              style={{
+                position: "absolute",
+                inset: 0,
+                zIndex: 0,
+              }}
+            >
+              <WavyShader />
+            </motion.div>
+          )}
+        </AnimatePresence>
         <Ripplearea
           onMouseDown={(e)=>{createRipple(e); start(e); start_tem(e);}}
           onMouseUp={(e)=>{removeRipple(e); end(e); end_tem(e); setTemSavedNews([]); setProgress(0);}}

@@ -1,17 +1,17 @@
-const Interpolation = (element, target) => {
+const Interpolation = (setter, currentValue, target) => {
   const animate = () => {
-    const current = element.scrollTop;
-    const distance = target - current;
-    const step = distance * 0.2; // 부드러운 이동 비율
+    const distance = target - currentValue;
+    const step = distance * 0.2;
+
+    const nextValue = currentValue + step;
 
     if (Math.abs(distance) < 1) {
-      element.scrollTop = target; // 도달 시 종료
+      setter(target);
       return;
     }
 
-    element.scrollTop = current + step;
-
-    requestAnimationFrame(animate);
+    setter(nextValue);
+    requestAnimationFrame(() => animate(setter, nextValue, target));
   };
 
   animate();

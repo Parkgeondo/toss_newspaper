@@ -15,11 +15,15 @@ const ScrollTracker = ({ scrollRef, newsScrollbarRef, savedScrollbarRef, setScro
   const onScrollEnd = useCallback(() => {
     const scrollTop = getScrollTop(scrollRef);
 
+
+    // 탭 부분이 자연스럽게 애니메이션 될 수 있도록 제작
     if (scrollTop < 24 && scrollTop >= 0) {
-      scrollRef.current.scrollTo({ top: 0, behavior: 'smooth' }); 
+      scrollRef.current.scrollTo({ top: 0}); 
     } else if (scrollTop >= 24 && scrollTop < 48) {
-      scrollRef.current.scrollTo({ top: 48, behavior: 'smooth' }); 
+      scrollRef.current.scrollTo({ top: 48}); 
     }
+
+
   }, []);
 
   // ✅ 타이머 관리 (롱프레스 로직 재활용)
@@ -29,12 +33,14 @@ const ScrollTracker = ({ scrollRef, newsScrollbarRef, savedScrollbarRef, setScro
   const handleScroll = useCallback(() => {
     const scrollTop = getScrollTop(scrollRef);
 
+    //스크롤 값을 전역 변수로 변경
     if (id === 0) {
       setScroll((prev) => [scrollTop, prev[1]]);
     } else if (id === 1) {
       setScroll((prev) => [prev[0], scrollTop]);
     }
     
+    //두 페이지의 탭 위치를 스크롤 할때마다 동기화
     Syn(scroll, newsScrollbarRef, savedScrollbarRef, selectedTab, tabs)
 
     // 타이머 리셋 (스크롤 멈춤 감지)

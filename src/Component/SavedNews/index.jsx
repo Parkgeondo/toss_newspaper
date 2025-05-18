@@ -20,7 +20,7 @@ const SavedNews = ({ id }) => {
         {date}
       </div>
 
-      <img src={bigImage} alt="" />
+      <img className="bigImage" src={bigImage} alt="" />
 
       <div className="textBody">
         {subTitle1 && <div className="subtitle">{subTitle1}</div>}

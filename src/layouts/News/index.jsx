@@ -72,8 +72,8 @@ const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSav
       >
       <NewsWrapper scroll={scroll[0]} ref={newsScrollbarRef}>
             <ScrollTracker scrollRef={newsScrollbarRef} tabs={tabs} newsScrollbarRef={newsScrollbarRef} savedScrollbarRef={savedScrollbarRef} scroll={scroll} setScroll={setScroll} otherRef={savedScrollbarRef} id={0} setTabControl={setTabControl} dragging={dragging} selectedTab={selectedTab}/>
-              {newsData.map((data) => (
-                <NewsBox key={data.id} {...data} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews} setProgress={setProgress}/>
+              {newsData.map((data,index) => (
+                <NewsBox key={data.id} {...data} index ={index} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews} setProgress={setProgress}/>
               ))}
       </NewsWrapper>
       <NewsWrapper scroll={scroll[1]} ref={savedScrollbarRef}>

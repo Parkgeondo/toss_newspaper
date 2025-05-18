@@ -76,7 +76,8 @@ export const NewsBoxWapper = styled(motion.div)`
 `
 
 export const NewsBoxline = styled(motion.div)`
-   border-bottom: 1px solid #E6E9EF;
+   border-bottom: 1px solid #E0E7F5;
+   position: relative;
 `
 //물결원
 export const Ripple = styled(motion.span)`
@@ -85,7 +86,7 @@ export const Ripple = styled(motion.span)`
   height: 600px;
   border-radius: 50%;
   pointer-events: none;
-  background-color:#595F6C;
+  background-color:#415FA2;
 `;
 
 export const Ripplearea = styled(motion.div)`
