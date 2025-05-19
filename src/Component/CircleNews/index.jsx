@@ -12,10 +12,6 @@ const circumference = radius * 2 * Math.PI;
 const CircleNews = ({ id, isShrinking = false, offsetX, savedNews, temSavedNews}) => {
   const savedData = newsData.find((item) => item.id === id);
 
-  useEffect(()=>{
-    console.log(offsetX)
-  },[offsetX])
-
   return (
     <motion.svg
       initial={{ x: offsetX, scale: 1 }}

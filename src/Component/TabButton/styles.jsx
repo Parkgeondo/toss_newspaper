@@ -15,13 +15,9 @@ export const TabButtonWrapper = styled.div`
   display:flex; 
   gap:4px;
   }
-`
-
-export const Tab_underLine = styled(motion.div)`
-    position: absolute;
-    left:0;
-    bottom:-2px;
-    height: 2px;
-    width: 173px;
-    background-color: #343D4C;
+  ${({ tabNavi }) =>
+    tabNavi &&
+    `
+    flex: 2;
+  `}
 `

@@ -2,11 +2,15 @@ import TabButton from "../../Component/TabButton";
 import { TabWrapper } from "./styles";
 import CircleNewsRow from "../../Component/CircleNews";
 import {Tab_underLine} from "./styles";
-import { useMotionValue, useSpring } from "framer-motion";
+import {Tab_readingLine} from "./styles";
+import { useMotionValue, animate, AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from "react";
 import useLongPressTimer from "../../utile/useLongPressTimer";
+import WavyShader from "../../utile/wavyShader";
 
-const Tab = ({tabs, selectedTab, setSelectedTab, savedNews, temSavedNews,progress,setTabControl ,tabControl, scroll }) => {
+
+
+const Tab = ({tabNavi, tabs, selectedTab, setSelectedTab, savedNews, temSavedNews,progress,setTabControl ,tabControl, scroll }) => {
 
   // 부드러운 애니메이션 설정
   
@@ -18,17 +22,32 @@ const Tab = ({tabs, selectedTab, setSelectedTab, savedNews, temSavedNews,progres
     }
   },[scroll])
 
+
+
   return (
     <>
       <TabWrapper scrollHeight={tabControl}>
           <TabButton onClick={() => setSelectedTab(tabs[0])} isActive={selectedTab === tabs[0]}>
           뉴스
           </TabButton>
-          <TabButton style={{transform:'translateX(2px)'}} onClick={() => setSelectedTab(tabs[1])} isActive={selectedTab === tabs[1]} savedNews>
+          <TabButton tabNavi={tabNavi} style={{transform:'translateX(2px)'}} onClick={() => setSelectedTab(tabs[1])} isActive={selectedTab === tabs[1]} savedNews>
           저장한 뉴스
           <CircleNewsRow savedNews={savedNews} temSavedNews={temSavedNews} progress={progress}/>
         </TabButton>
-        <Tab_underLine isActive={selectedTab === tabs[0]}></Tab_underLine>
+        <Tab_underLine tabNavi={tabNavi} isActive={selectedTab === tabs[0]}></Tab_underLine>
+        <Tab_readingLine>
+          <AnimatePresence>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.3 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4, ease: "easeInOut" }}
+                style={{ position: "absolute", inset: 0, zIndex: 0 }}
+              >
+                <WavyShader />
+              </motion.div>
+          </AnimatePresence>
+        </Tab_readingLine>
       </TabWrapper>
     </>
   );

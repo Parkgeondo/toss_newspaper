@@ -23,4 +23,23 @@ export const Tab_underLine = styled.div`
     width: 173px;
     background-color: #343D4C;
     transition:cubic-bezier(0.165, 0.84, 0.44, 1) 0.2s left;
+    ${({ tabNavi }) =>
+      tabNavi &&
+      `
+      left:129.67px;
+      width: 231.33px;
+      height: 3px;
+  `}
+`
+
+export const Tab_readingLine = styled.div`
+    position: absolute;
+    left:${({isActive})=>(isActive === true ? 14 : 187.5)}px;
+    bottom:-2px;
+    height: 3px;
+    width: 173px;
+    background-color:#3568CF;
+    transition:cubic-bezier(0.165, 0.84, 0.44, 1) 0.2s left;
+    left:129.67px;
+    width: 100px;
 `

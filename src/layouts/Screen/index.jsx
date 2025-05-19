@@ -24,17 +24,19 @@ function Layout() {
   //tab의 위치값을 저장하는 변수 하나 추가, 이걸 하나로 만들어야하나?
   const [tabControl, setTabControl] = useState([0])
 
+  //tab 네비게이션 확장
+  const [tabNavi, setTabNavi] = useState(true)
+
   //스크롤을 했을때 tabControl과 scroll을 동기화
 
-
-  // useEffect(()=>{
-  //   console.log(savedNews, temSavedNews)
-  // },[savedNews, temSavedNews])
+  useEffect(()=>{
+    console.log(savedNews, temSavedNews)
+  },[savedNews, temSavedNews])
 
   return (
     <>
       <Header></Header>
-      <Tab tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} temSavedNews={temSavedNews} progress={progress} scroll={scroll} tabControl={tabControl} setTabControl={setTabControl}></Tab>
+      <Tab tabNavi={tabNavi} tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} temSavedNews={temSavedNews} progress={progress} scroll={scroll} tabControl={tabControl} setTabControl={setTabControl}></Tab>
       <News tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews} setProgress={setProgress} scroll={scroll} setScroll={setScroll} setTabControl={setTabControl}></News>
     </>
   );
