@@ -6,11 +6,11 @@ import {Tab_readingLine} from "./styles";
 import { useMotionValue, animate, AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from "react";
 import useLongPressTimer from "../../utile/useLongPressTimer";
-import WavyShader from "../../utile/wavyShader";
+import WavyShader_Tab from "../../utile/wavyShader_tab";
 
 
 
-const Tab = ({tabNavi, tabs, selectedTab, setSelectedTab, savedNews, temSavedNews,progress,setTabControl ,tabControl, scroll }) => {
+const Tab = ({tabLine, tabNavi, tabs, selectedTab, setSelectedTab, savedNews, temSavedNews,progress,setTabControl ,tabControl, scroll }) => {
 
   // 부드러운 애니메이션 설정
   
@@ -22,7 +22,7 @@ const Tab = ({tabNavi, tabs, selectedTab, setSelectedTab, savedNews, temSavedNew
     }
   },[scroll])
 
-
+  const width = 30;
 
   return (
     <>
@@ -35,19 +35,22 @@ const Tab = ({tabNavi, tabs, selectedTab, setSelectedTab, savedNews, temSavedNew
           <CircleNewsRow savedNews={savedNews} temSavedNews={temSavedNews} progress={progress}/>
         </TabButton>
         <Tab_underLine tabNavi={tabNavi} isActive={selectedTab === tabs[0]}></Tab_underLine>
-        <Tab_readingLine>
-          <AnimatePresence>
+        {savedNews.map((id) => {
+          const percent = Math.floor((tabLine.get(id) || 0) * 100);
+          return (
+            <Tab_readingLine key={id} width={percent}>
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.3 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.4, ease: "easeInOut" }}
-                style={{ position: "absolute", inset: 0, zIndex: 0 }}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  zIndex: 0,
+                }}
               >
-                <WavyShader />
+                <WavyShader_Tab />
               </motion.div>
-          </AnimatePresence>
-        </Tab_readingLine>
+            </Tab_readingLine>
+          );
+        })}
       </TabWrapper>
     </>
   );

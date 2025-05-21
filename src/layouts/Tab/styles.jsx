@@ -36,10 +36,11 @@ export const Tab_readingLine = styled.div`
     position: absolute;
     left:${({isActive})=>(isActive === true ? 14 : 187.5)}px;
     bottom:-2px;
+    // height: 500px;
     height: 3px;
-    width: 173px;
-    background-color:#3568CF;
-    transition:cubic-bezier(0.165, 0.84, 0.44, 1) 0.2s left;
+    // width: 773px;
+    width:${({width}) => (width)}px;
+    // width: 173px;
     left:129.67px;
-    width: 100px;
+    background-color: #343D4C;
 `

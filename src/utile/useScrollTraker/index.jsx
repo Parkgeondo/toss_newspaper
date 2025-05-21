@@ -10,7 +10,7 @@ import Syn from "../syn";
 
 const getScrollTop = (ref) => ref?.current?.scrollTop ?? 0;
 
-const ScrollTracker = ({ scrollRef, newsScrollbarRef, savedScrollbarRef, setScroll, otherRef, id, setTabControl, scroll, dragging, tabs, selectedTab}) => {
+const ScrollTracker = ({ visibilities, scrollRef, newsScrollbarRef, savedScrollbarRef, setScroll, otherRef, id, setTabControl, scroll, dragging, tabs, selectedTab}) => {
   // ✅ 스크롤 멈췄을 때 호출되는 함수
   const onScrollEnd = useCallback(() => {
     const scrollTop = getScrollTop(scrollRef);
@@ -22,8 +22,6 @@ const ScrollTracker = ({ scrollRef, newsScrollbarRef, savedScrollbarRef, setScro
     } else if (scrollTop >= 24 && scrollTop < 48) {
       scrollRef.current.scrollTo({ top: 48}); 
     }
-
-
   }, []);
 
   // ✅ 타이머 관리 (롱프레스 로직 재활용)
@@ -32,6 +30,7 @@ const ScrollTracker = ({ scrollRef, newsScrollbarRef, savedScrollbarRef, setScro
   // ✅ 스크롤 이벤트 핸들러 스크롤을 했을때, 전역으로 스크롤 값을 보내줌. 스크롤 했을때 작동
   const handleScroll = useCallback(() => {
     const scrollTop = getScrollTop(scrollRef);
+
 
     //스크롤 값을 전역 변수로 변경
     if (id === 0) {

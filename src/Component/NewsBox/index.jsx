@@ -8,6 +8,7 @@ import useLongPressTimer from "../../utile/useLongPressTimer";
 import WavyShader from "../../utile/wavyShader";
 import { useRipple } from "../../utile/useRipple";
 
+
 const NewsBox = ({
   publisher,
   publisherImg,
@@ -82,6 +83,8 @@ const NewsBox = ({
     endTemp(e);
     cancelDelete();
   };
+
+
 
   return (
     <NewsBoxline>

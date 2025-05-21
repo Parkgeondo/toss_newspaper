@@ -4,7 +4,7 @@ import SavedNews from '../../Component/SavedNews'
 import Tab from '../Tab';
 
 import { newsData } from '../../data/newsData';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { useMotionValue, animate } from "framer-motion";
 
 import ScrollTracker from'../../utile/useScrollTraker';
@@ -13,7 +13,7 @@ import Syn from '../../utile/syn';
 //selectedTab 현재 선택되어 있는 탭
 //savedNews는 현재 저장되어 있는 뉴스들
 
-const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSavedNews,setTemSavedNews, setProgress, scroll, setScroll, setTabControl}) => {
+const News = ({setTabLine, tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSavedNews,setTemSavedNews, setProgress, scroll, setScroll, setTabControl}) => {
   
     //다른 곳에서도 사용할수있도록 만듬
     const x = useMotionValue(0);
@@ -57,6 +57,14 @@ const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSav
   //드래그를 시전하면 함수 지정
   const [dragging, setDragging] = useState(false);
 
+  const handleProgressUpdate = useCallback((id, value) => {
+    setTabLine(prev => {
+      const next = new Map(prev);
+      next.set(id, value);
+      return next;
+    });
+  }, []);
+
   return (
     <ChangeScreen
       style={{ x }}
@@ -79,7 +87,7 @@ const News = ({tabs, selectedTab, setSelectedTab, savedNews, setSavedNews,temSav
       <NewsWrapper scroll={scroll[1]} ref={savedScrollbarRef}>
             <ScrollTracker scrollRef={savedScrollbarRef} tabs={tabs} newsScrollbarRef={newsScrollbarRef} savedScrollbarRef={savedScrollbarRef} scroll={scroll} setScroll={setScroll} otherRef={newsScrollbarRef} id={1} setTabControl={setTabControl} dragging={dragging} selectedTab={selectedTab}/>
               {savedNews.map((data) => (
-                <SavedNews key={data} id={data}></SavedNews>
+                <SavedNews onProgress={handleProgressUpdate} key={data} id={data} savedScrollbarRef={savedScrollbarRef}></SavedNews>
               ))}
       </NewsWrapper>
     </ChangeScreen>

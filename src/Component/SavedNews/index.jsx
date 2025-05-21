@@ -1,40 +1,55 @@
 import { useState,useRef,useEffect,useCallback } from "react";
 import { newsData } from "../../data/newsData";
 import {SavedNewsWrapper} from "./styles";
+import {motion, useScroll} from "framer-motion";
 
-const SavedNews = ({ id }) => {
+const SavedNews = ({ id,savedScrollbarRef,onProgress }) => {
   const savedData = newsData.find((item) => item.id === id);
 
   const {publisher, publisherImg, title, date,category, subTitle1, subTitle2, subTitle3, content1, content2, content3, content4, content5, data, bigImage} = savedData
 
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+        container: savedScrollbarRef,
+        target: ref,
+        offset: ["end end", "start start"],
+  })
+
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.on("change", (latest) => {
+      onProgress?.(id, latest); // 전달 (null-safe)
+    });
+    return () => unsubscribe();
+  }, [scrollYProgress]);
+
   return (
-    <SavedNewsWrapper>
-      <div className="title">{title}</div>
+    <SavedNewsWrapper ref={ref}>
+        <div className="title">{title}</div>
 
-      <div className="publishData">
-        <img src={publisherImg} alt="" />
-        {publisher}
-        <div className="dot"></div>
-        {category}
-        <div className="dot"></div>
-        {date}
-      </div>
+        <div className="publishData">
+          <img src={publisherImg} alt="" />
+          {publisher}
+          <div className="dot"></div>
+          {category}
+          <div className="dot"></div>
+          {date}
+        </div>
 
-      <img className="bigImage" src={bigImage} alt="" />
+        <img className="bigImage" src={bigImage} alt="" />
 
-      <div className="textBody">
-        {subTitle1 && <div className="subtitle">{subTitle1}</div>}
-        {content1 && <div className="content">{content1}</div>}
+        <div className="textBody">
+          {subTitle1 && <div className="subtitle">{subTitle1}</div>}
+          {content1 && <div className="content">{content1}</div>}
 
-        {subTitle2 && <div className="subtitle">{subTitle2}</div>}
-        {content2 && <div className="content">{content2}</div>}
+          {subTitle2 && <div className="subtitle">{subTitle2}</div>}
+          {content2 && <div className="content">{content2}</div>}
 
-        {subTitle3 && <div className="subtitle">{subTitle3}</div>}
-        {content3 && <div className="content">{content3}</div>}
+          {subTitle3 && <div className="subtitle">{subTitle3}</div>}
+          {content3 && <div className="content">{content3}</div>}
 
-        {content4 && <div className="content">{content4}</div>}
-        {content5 && <div className="content">{content5}</div>}
-      </div>
+          {content4 && <div className="content">{content4}</div>}
+          {content5 && <div className="content">{content5}</div>}
+        </div>
     </SavedNewsWrapper>
   );
 };
