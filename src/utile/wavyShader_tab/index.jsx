@@ -75,10 +75,10 @@ const Plane = () => {
   );
 };
 
-const WavyShader_Tab = () => {
+const WavyShader_Tab = ({ color = [1, 1, 1] }) => {
   return (
     <Canvas style={{ width: '100%', height: '100%' }} orthographic camera={{ position: [0, 0, 1], zoom: 100 }}>
-      <Plane />
+      <Plane color={color} />
     </Canvas>
   );
 };

@@ -7,6 +7,7 @@ import { useMotionValue, animate, AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState } from "react";
 import useLongPressTimer from "../../utile/useLongPressTimer";
 import WavyShader_Tab from "../../utile/wavyShader_tab";
+import { newsData } from "../../data/newsData";
 
 
 
@@ -20,9 +21,8 @@ const Tab = ({tabLine, tabNavi, tabs, selectedTab, setSelectedTab, savedNews, te
     }else if(selectedTab === tabs[1]){
       setTabControl(scroll[1])
     }
-  },[scroll])
-
-  const width = 30;
+    console.log(tabLine);
+  },[scroll, tabLine])
 
   return (
     <>
@@ -36,17 +36,22 @@ const Tab = ({tabLine, tabNavi, tabs, selectedTab, setSelectedTab, savedNews, te
         </TabButton>
         <Tab_underLine tabNavi={tabNavi} isActive={selectedTab === tabs[0]}></Tab_underLine>
         {savedNews.map((id) => {
-          const percent = Math.floor((tabLine.get(id) || 0) * 100);
+          const percent = Math.floor((tabLine.get(id) || 0));
+          const newsItem = newsData.find((n) => n.id === id);
+          const rgb = newsItem?.color || [1, 1, 1]; // fallback to white
           return (
-            <Tab_readingLine key={id} width={percent}>
+            <Tab_readingLine key={id}>
               <motion.div
+                animate={{ width: `${100 - percent}%` }}
+                transition={{ type: "spring", stiffness: 200, damping: 30 }}
                 style={{
+                  height: "100%",
                   position: "absolute",
-                  inset: 0,
-                  zIndex: 0,
+                  top: 0,
+                  left: 0,
                 }}
               >
-                <WavyShader_Tab />
+              <WavyShader_Tab color={rgb} />
               </motion.div>
             </Tab_readingLine>
           );

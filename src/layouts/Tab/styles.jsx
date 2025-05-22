@@ -33,14 +33,11 @@ export const Tab_underLine = styled.div`
 `
 
 export const Tab_readingLine = styled.div`
-    position: absolute;
-    left:${({isActive})=>(isActive === true ? 14 : 187.5)}px;
-    bottom:-2px;
-    // height: 500px;
-    height: 3px;
-    // width: 773px;
-    width:${({width}) => (width)}px;
-    // width: 173px;
-    left:129.67px;
-    background-color: #343D4C;
+  position: absolute;
+  left: 129.67px;
+  bottom: -2px;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 2px;
+  width: 231.33px;
 `

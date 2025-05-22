@@ -17,7 +17,9 @@ const SavedNews = ({ id,savedScrollbarRef,onProgress }) => {
 
   useEffect(() => {
     const unsubscribe = scrollYProgress.on("change", (latest) => {
-      onProgress?.(id, latest); // 전달 (null-safe)
+      const clamped = Math.min(1, Math.max(0, latest)); // [0, 1] 사이 고정
+      const percent = Number((clamped * 100).toFixed(1)); // 🔢 0.0 ~ 100.0 형태로 반올림
+      onProgress?.(id, percent);
     });
     return () => unsubscribe();
   }, [scrollYProgress]);

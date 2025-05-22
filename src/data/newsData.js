@@ -15,7 +15,8 @@ export const newsData = [
       content5:'이러한 개인화 AI 비서는 점차 가정과 자동차, 사무실 등 다양한 공간에서 활용될 것으로 전망된다. 집에서는 AI가 사용자의 기상 시간에 맞춰 커피를 준비하고 조명을 조절하며, 출근 시간에는 차량 내 AI가 실시간 교통 정보를 반영해 최적의 경로를 추천하는 방식이다. 하지만 AI가 지나치게 많은 정보를 학습하는 데 대한 우려도 존재한다. 개인의 데이터를 활용하는 만큼 프라이버시 보호와 보안 문제를 해결하는 것이 중요한 과제로 떠오르고 있다.',
       date: "25.03.13",
       smallImage:'/img/newsImg1.png',
-      bigImage:'/img/newsBigImg1.png'
+      bigImage:'/img/newsBigImg1.png',
+      color:[0.8, 0.8, 0.1]
     },
     {
       id: 2,
@@ -31,7 +32,8 @@ export const newsData = [
       content3:'일부 기업들은 직원들의 생산성과 정신 건강을 위해 ‘디지털 디톡스 데이’를 운영하고 있다. 예를 들어, 한 글로벌 IT 기업은 매월 한 번 직원들에게 이메일과 채팅 사용을 제한하고, 대신 오프라인 회의를 장려하는 프로그램을 도입했다. 또한 호텔 업계에서는 스마트폰 사용을 최소화할 수 있도록 ‘디지털 디톡스 리트릿’을 제공하며, 아날로그적인 경험을 강화한 여행 상품을 선보이고 있다.',
       date: "25.03.13",
       smallImage:'/img/newsImg2.png',
-      bigImage:'/img/newsBigImg2.png'
+      bigImage:'/img/newsBigImg2.png',
+      color:[0.1, 0.1, 0.8]
     },
     {
         id: 3,
@@ -47,7 +49,8 @@ export const newsData = [
         content3:'미니멀리즘 주거 공간이 단순히 인테리어 스타일을 넘어 심리적 안정감에도 영향을 미친다는 연구 결과가 있다. 공간이 깔끔하고 정리되어 있을수록 집중력이 향상되고, 스트레스가 감소하며, 삶의 질이 높아진다는 것이다. 특히, 불필요한 물건을 줄이면 소비 습관도 자연스럽게 개선되어 경제적으로도 긍정적인 영향을 미칠 수 있다.',
         date: "25.03.13",
         smallImage:'/img/newsImg3.png',
-        bigImage:'/img/newsBigImg3.png'
+        bigImage:'/img/newsBigImg3.png',
+        color:[210, 214, 208]
       },
       {
         id: 4,
@@ -63,7 +66,8 @@ export const newsData = [
         content3:'이에 따라 명품 브랜드들도 변화하고 있다. 루이비통, 샤넬 등 일부 브랜드는 중고 제품을 공식적으로 인증하는 서비스를 도입하며, 자체적으로 리세일 플랫폼을 운영하는 경우도 늘어나고 있다. 온라인 중고 명품 거래 플랫폼인 ‘더리얼리얼(The RealReal)’, ‘베스티에르 콜렉티브(Vestiaire Collective)’ 등이 급성장하면서, 이제는 중고 명품 시장이 하나의 독립적인 산업으로 자리 잡았다. 이러한 변화는 패션뿐만 아니라 자동차, 전자기기 등 다양한 산업에서도 유사하게 나타나고 있다. 새로운 제품을 소유하는 것보다, 필요할 때만 빌리거나 중고 제품을 이용하는 방식이 점점 확산되고 있는 것이다. 앞으로 리세일 시장이 얼마나 더 성장할지, 그리고 명품 브랜드들이 이러한 변화에 어떻게 대응할지 주목된다.',
         date: "25.03.13",
         smallImage:'/img/newsImg4.png',
-        bigImage:'/img/newsBigImg4.png'
+        bigImage:'/img/newsBigImg4.png',
+        color:[56, 49, 43]
       },
       {
         id: 5,
