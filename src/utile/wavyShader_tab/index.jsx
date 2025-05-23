@@ -77,7 +77,11 @@ const Plane = () => {
 
 const WavyShader_Tab = ({ color = [1, 1, 1] }) => {
   return (
-    <Canvas style={{ width: '100%', height: '100%' }} orthographic camera={{ position: [0, 0, 1], zoom: 100 }}>
+    <Canvas
+      orthographic
+      camera={{ position: [0, 0, 1], zoom: 100 }}
+      style={{ width: 231.33, height: 12 }} // 고정
+    >
       <Plane color={color} />
     </Canvas>
   );

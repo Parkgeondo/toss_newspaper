@@ -1,5 +1,5 @@
 import TabButton from "../../Component/TabButton";
-import { TabWrapper } from "./styles";
+import { MotionTabReadingLine, TabWrapper } from "./styles";
 import CircleNewsRow from "../../Component/CircleNews";
 import {Tab_underLine} from "./styles";
 import {Tab_readingLine} from "./styles";
@@ -21,7 +21,6 @@ const Tab = ({tabLine, tabNavi, tabs, selectedTab, setSelectedTab, savedNews, te
     }else if(selectedTab === tabs[1]){
       setTabControl(scroll[1])
     }
-    console.log(tabLine);
   },[scroll, tabLine])
 
   return (
@@ -36,24 +35,17 @@ const Tab = ({tabLine, tabNavi, tabs, selectedTab, setSelectedTab, savedNews, te
         </TabButton>
         <Tab_underLine tabNavi={tabNavi} isActive={selectedTab === tabs[0]}></Tab_underLine>
         {savedNews.map((id) => {
-          const percent = Math.floor((tabLine.get(id) || 0));
-          const newsItem = newsData.find((n) => n.id === id);
-          const rgb = newsItem?.color || [1, 1, 1]; // fallback to white
+          const percent = tabLine.get(id) ?? 0;
+          const width = 231.33 * ((100 - percent) / 100); // 100%일 때 231.33px
+
           return (
-            <Tab_readingLine key={id}>
-              <motion.div
-                animate={{ width: `${100 - percent}%` }}
-                transition={{ type: "spring", stiffness: 200, damping: 30 }}
-                style={{
-                  height: "100%",
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                }}
-              >
-              <WavyShader_Tab color={rgb} />
-              </motion.div>
-            </Tab_readingLine>
+            <MotionTabReadingLine
+              key={id}
+              animate={{ width }}
+              transition={{ type: "spring", stiffness: 200, damping: 30 }}
+            >
+              <WavyShader_Tab />
+            </MotionTabReadingLine>
           );
         })}
       </TabWrapper>

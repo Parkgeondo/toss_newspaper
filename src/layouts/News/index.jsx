@@ -57,8 +57,10 @@ const News = ({setTabLine, tabs, selectedTab, setSelectedTab, savedNews, setSave
   //드래그를 시전하면 함수 지정
   const [dragging, setDragging] = useState(false);
 
+  //현재 저장된 뉴스들의 스크롤 값 변경
   const handleProgressUpdate = useCallback((id, value) => {
     setTabLine(prev => {
+      if (prev.get(id) === value) return prev; // 값이 같으면 무시
       const next = new Map(prev);
       next.set(id, value);
       return next;

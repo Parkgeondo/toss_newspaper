@@ -32,7 +32,7 @@ export const Tab_underLine = styled.div`
   `}
 `
 
-export const Tab_readingLine = styled.div`
+export const MotionTabReadingLine = styled(motion.div)`
   position: absolute;
   left: 129.67px;
   bottom: -2px;
@@ -40,4 +40,5 @@ export const Tab_readingLine = styled.div`
   overflow: hidden;
   border-radius: 2px;
   width: 231.33px;
-`
+  transform-origin: left center;
+`;
