@@ -22,13 +22,15 @@ export const Tab_underLine = styled.div`
     height: 2px;
     width: 173px;
     background-color: #343D4C;
-    transition:cubic-bezier(0.165, 0.84, 0.44, 1) 0.2s left;
+    transition:left 0.3s ease, width 0.3s ease, transform 0.3s ease;
+    transform: scaleY(1);
     ${({ tabNavi }) =>
       tabNavi &&
       `
       left:129.67px;
       width: 231.33px;
       height: 3px;
+      transform: scaleY(1.5);
   `}
 `
 
@@ -39,6 +41,6 @@ export const MotionTabReadingLine = styled(motion.div)`
   height: 3px;
   overflow: hidden;
   border-radius: 2px;
-  width: 231.33px;
+  width: 0px;
   transform-origin: left center;
 `;

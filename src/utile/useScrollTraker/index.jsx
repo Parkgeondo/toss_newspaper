@@ -10,7 +10,7 @@ import Syn from "../syn";
 
 const getScrollTop = (ref) => ref?.current?.scrollTop ?? 0;
 
-const ScrollTracker = ({ visibilities, scrollRef, newsScrollbarRef, savedScrollbarRef, setScroll, otherRef, id, setTabControl, scroll, dragging, tabs, selectedTab}) => {
+const ScrollTracker = ({ visibilities, scrollRef, newsScrollbarRef, savedScrollbarRef, setScroll, otherRef, id, tabControl, setTabControl, scroll, dragging, tabs, selectedTab}) => {
   // ✅ 스크롤 멈췄을 때 호출되는 함수
   const onScrollEnd = useCallback(() => {
     const scrollTop = getScrollTop(scrollRef);

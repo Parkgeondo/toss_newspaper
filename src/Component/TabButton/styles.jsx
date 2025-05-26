@@ -10,10 +10,14 @@ export const TabButtonWrapper = styled.div`
   font-weight: 600;
   position:relative;
   color: ${({ isActive }) => (isActive ? "#343D4C" : "#8C919A")};
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, flex 0.3s ease;
   & > span {
-  display:flex; 
-  gap:4px;
+  display:flex;
+  align-items: center;
+  transform:translateX(2px);
+  flex-direction:column;
+  overflow: hidden;
+  height: 19.08px;
   }
   ${({ tabNavi }) =>
     tabNavi &&

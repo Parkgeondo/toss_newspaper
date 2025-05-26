@@ -8,13 +8,16 @@ import { useEffect, useState } from "react";
 import useLongPressTimer from "../../utile/useLongPressTimer";
 import WavyShader_Tab from "../../utile/wavyShader_tab";
 import { newsData } from "../../data/newsData";
+import useColorPicker from "../../utile/useColorPicker";
+import TabTitle from "../../Component/TabTitle";
 
 
 
 const Tab = ({tabLine, tabNavi, tabs, selectedTab, setSelectedTab, savedNews, temSavedNews,progress,setTabControl ,tabControl, scroll }) => {
 
+  const coloredNews = useColorPicker();
+
   // 부드러운 애니메이션 설정
-  
   useEffect(()=>{
     if(selectedTab === tabs[0]){
       setTabControl(scroll[0])
@@ -23,28 +26,50 @@ const Tab = ({tabLine, tabNavi, tabs, selectedTab, setSelectedTab, savedNews, te
     }
   },[scroll, tabLine])
 
+  const isTabWided = tabControl > 48 && selectedTab === tabs[1]
+
   return (
     <>
       <TabWrapper scrollHeight={tabControl}>
-          <TabButton onClick={() => setSelectedTab(tabs[0])} isActive={selectedTab === tabs[0]}>
+        <TabButton onClick={() => setSelectedTab(tabs[0])} isActive={selectedTab === tabs[0]}>
           뉴스
-          </TabButton>
-          <TabButton tabNavi={tabNavi} style={{transform:'translateX(2px)'}} onClick={() => setSelectedTab(tabs[1])} isActive={selectedTab === tabs[1]} savedNews>
-          저장한 뉴스
-          <CircleNewsRow savedNews={savedNews} temSavedNews={temSavedNews} progress={progress}/>
         </TabButton>
-        <Tab_underLine tabNavi={tabNavi} isActive={selectedTab === tabs[0]}></Tab_underLine>
-        {savedNews.map((id) => {
+        <TabButton tabNavi={isTabWided} onClick={() => setSelectedTab(tabs[1])} isActive={selectedTab === tabs[1]} savedNews>
+         <TabTitle
+            title={
+              (newsData.find((n) => n.id === savedNews[0])?.title ?? "저장된 뉴스")
+            }
+            tabNavi={isTabWided}
+            savedNews={savedNews}
+            temSavedNews={temSavedNews}
+            progress={progress}
+          />
+          {savedNews.slice(1).map((id) => {
+            const title = newsData[id].title;
+            return(<TabTitle
+            title={title}
+            key={id}
+            id={id}
+            tabNavi={isTabWided}
+            savedNews={savedNews}
+            temSavedNews={temSavedNews}
+            progress={progress}
+            />)
+        })}
+        </TabButton>
+        <Tab_underLine tabNavi={isTabWided} isActive={selectedTab === tabs[0]}></Tab_underLine>
+        {isTabWided && savedNews.map((id) => {
           const percent = tabLine.get(id) ?? 0;
-          const width = 231.33 * ((100 - percent) / 100); // 100%일 때 231.33px
-
+          const width = 231.33 * ((percent) / 100);
+          const newsItem = coloredNews.find((n) => n.id === id);
+          const color = newsItem.color;
           return (
             <MotionTabReadingLine
               key={id}
               animate={{ width }}
               transition={{ type: "spring", stiffness: 200, damping: 30 }}
             >
-              <WavyShader_Tab />
+              <WavyShader_Tab color={color} />
             </MotionTabReadingLine>
           );
         })}

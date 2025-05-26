@@ -2,6 +2,7 @@ import Header from '../../Component/Header';
 import Tab from '../Tab';
 import News from '../News';
 import { useState, useEffect, use } from 'react';
+import { newsData } from '../../data/newsData';
 
 function Layout() {
 
@@ -25,15 +26,21 @@ function Layout() {
   const [tabControl, setTabControl] = useState([0])
 
   //tab 네비게이션 확장
-  const [tabNavi, setTabNavi] = useState(true)
+  const [tabNavi, setTabNavi] = useState(false)
 
   //savedNew 진행율
-  const [tabLine, setTabLine] = useState(() => new Map());
+const [tabLine, setTabLine] = useState(() => {
+  const initialMap = new Map();
+  newsData.forEach(news => {
+    initialMap.set(news.id, 0);
+  });
+  return initialMap;
+});
 
-
-  // useEffect(()=>{
-  //   console.log(savedNews, temSavedNews)
-  // },[savedNews, temSavedNews])
+  useEffect(()=>{
+    console.log(tabLine)
+    console.log(savedNews)
+  },[tabLine])
 
   return (
     <>

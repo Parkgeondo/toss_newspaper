@@ -12,7 +12,8 @@ const SavedNews = ({ id,savedScrollbarRef,onProgress }) => {
   const { scrollYProgress } = useScroll({
         container: savedScrollbarRef,
         target: ref,
-        offset: ["end end", "start start"],
+        // offset: ["start center", "end center"]
+        offset: ["start start","end end"],
   })
 
   useEffect(() => {

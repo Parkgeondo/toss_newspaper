@@ -5,8 +5,15 @@ import { shaderMaterial } from "@react-three/drei";
 import * as THREE from "three";
 
 // Define ShaderMaterial using drei's helper
-const GradientMaterial = shaderMaterial(
-  { iTime: 0, iResolution: new THREE.Vector2() },
+const GradientMaterial_tab = shaderMaterial(
+   {
+    iTime: 0,
+    iResolution: new THREE.Vector2(),
+    uColor0: new THREE.Vector3(),
+    uColor1: new THREE.Vector3(),
+    uColor2: new THREE.Vector3(),
+    uColor3: new THREE.Vector3(), // 메인 컬러
+  },
   // vertex shader
   `
     varying vec2 vUv;
@@ -19,6 +26,10 @@ const GradientMaterial = shaderMaterial(
   `
     uniform float iTime;
     uniform vec2 iResolution;
+    uniform vec3 uColor0;
+    uniform vec3 uColor1;
+    uniform vec3 uColor2;
+    uniform vec3 uColor3;
     varying vec2 vUv;
 
     void main() {
@@ -27,16 +38,16 @@ const GradientMaterial = shaderMaterial(
       vec2 p[4];
       p[0] = vec2(0.1, 0.4);
       p[1] = vec2(0.9, 0.9);
-      p[2] = vec2(cos(iTime * 2.0), sin(iTime * 1.0)) * 0.3 + vec2(0.5, 0.1);;
-      p[3] = vec2(cos(iTime * 3.0), sin(iTime * 3.0)) * 0.3 + vec2(0.3, 0.5);
+      p[2] = vec2(cos(iTime * 1.0), sin(iTime * 1.0)) * 0.3 + vec2(0.5, 0.1);;
+      p[3] = vec2(cos(iTime * 3.0), sin(iTime * 0.0)) * 0.3 + vec2(0.3, 0.5);
 
       vec3 c[4];
-      c[0] = vec3(0.8, 0.8, 0.9);
-      c[1] = vec3(0.9, 0.9, 0.97);
-      c[2] = vec3(0.94, 0.94, 0.98);
-      c[3] = vec3(0.76, 0.74, 0.89);
+      c[0] = uColor0;
+      c[1] = uColor1;
+      c[2] = uColor2;
+      c[3] = uColor3;
 
-      float blend = 1.0;
+      float blend = 3.0;
       vec3 sum = vec3(0.0);
       float valence = 0.0;
 
@@ -54,11 +65,17 @@ const GradientMaterial = shaderMaterial(
   `
 );
 
-extend({ GradientMaterial });
+extend({ GradientMaterial_tab });
 
-const Plane = () => {
+const Plane = ({ color }) => {
   const materialRef = useRef();
   const { size } = useThree();
+
+  const origin = new THREE.Vector3(...color); // c[3]
+  const base = origin.clone().multiplyScalar(2.3); // c[3]
+  const darker = origin.clone().multiplyScalar(1.6); // c[2]
+  const moreDarker = origin.clone().multiplyScalar(1.8); // c[1]
+  const darkest = origin.clone().multiplyScalar(1.9); // c[0]
 
   useFrame(({ clock }) => {
     if (materialRef.current) {
@@ -70,12 +87,18 @@ const Plane = () => {
   return (
     <mesh>
       <planeGeometry args={[3, 1]} />
-      <gradientMaterial ref={materialRef} />
+      <gradientMaterial_tab
+        ref={materialRef}
+        uColor0={darkest}
+        uColor1={moreDarker}
+        uColor2={darker}
+        uColor3={base}
+      />
     </mesh>
   );
 };
 
-const WavyShader_Tab = ({ color = [1, 1, 1] }) => {
+const WavyShader_Tab = ({ color }) => {
   return (
     <Canvas
       orthographic
