@@ -1,86 +1,84 @@
-// WavyNoiseBackground.jsx
-import React, { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { Canvas, useFrame, extend, useThree } from "@react-three/fiber";
-import { shaderMaterial } from "@react-three/drei";
 import * as THREE from "three";
+import { MeshLineGeometry, MeshLineMaterial } from "meshline";
+import {
+  EffectComposer,
+  Bloom,
+  DepthOfField,
+  Vignette,
+} from "@react-three/postprocessing";
+import { KernelSize } from "postprocessing";
 
-const WavyNoiseMaterial = shaderMaterial(
-  { iTime: 0, iResolution: new THREE.Vector2() },
-  // Vertex Shader
-  `
-    varying vec2 vUv;
-    void main() {
-      vUv = uv;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-    }
-  `,
-  // Fragment Shader
-  `
-    uniform float iTime;
-    uniform vec2 iResolution;
-    varying vec2 vUv;
+extend({ MeshLineGeometry, MeshLineMaterial });
 
-    float random(vec2 st) {
-      return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
-    }
+function AnimatedWave() {
+  const ref = useRef();
 
-    float noise(vec2 st) {
-      vec2 i = floor(st);
-      vec2 f = fract(st);
-      
-      float a = random(i);
-      float b = random(i + vec2(1.0, 0.0));
-      float c = random(i + vec2(0.0, 1.0));
-      float d = random(i + vec2(1.0, 1.0));
-
-      vec2 u = f * f * (3.0 - 2.0 * f);
-      
-      return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
-    }
-
-    void main() {
-      vec2 uv = vUv * 3.0; // 확대
-      float n = noise(uv + iTime * 0.1);
-
-      vec3 color1 = vec3(0.96, 0.94, 1.0); // 부드러운 흰보라
-      vec3 color2 = vec3(0.88, 0.92, 1.0); // 옅은 하늘색
-      vec3 color3 = vec3(0.96, 0.98, 1.0); // 거의 흰색에 가까운 파스텔
-
-      vec3 color = mix(color1, color2, n);
-      color = mix(color, color3, smoothstep(0.4, 0.8, n));
-
-      gl_FragColor = vec4(color, 1.0);
-    }
-  `
-);
-
-extend({ WavyNoiseMaterial });
-
-const Plane = () => {
-  const materialRef = useRef();
-  const { size } = useThree();
+  // Define control points
+  const start = new THREE.Vector3(-5, -1, 0);
+  const control1 = new THREE.Vector3(-1, 2, 0);
+  const control2 = new THREE.Vector3(1, -2, 0);
+  const end = new THREE.Vector3(2, 9, 0);
 
   useFrame(({ clock }) => {
-    if (materialRef.current) {
-      materialRef.current.iTime = clock.getElapsedTime();
-      materialRef.current.iResolution.set(size.width, size.height);
-    }
+    const t = clock.getElapsedTime();
+    control1.y = 2 + Math.sin(t) * 4.3;
+    control2.y = -2 + Math.cos(t) * 4.3;
+
+    const dynamicCurve = new THREE.CubicBezierCurve3(
+      start,
+      control1,
+      control2,
+      end
+    );
+    const updatedPoints = dynamicCurve.getPoints(100);
+    ref.current.setPoints(updatedPoints);
   });
 
   return (
     <mesh>
-      <planeGeometry args={[4, 4]} />
-      <wavyNoiseMaterial ref={materialRef} />
+      <meshLineGeometry ref={ref} />
+      <meshLineMaterial
+        color={"#aabfff"}
+        lineWidth={1.25}
+        transparent
+        depthWrite={false}
+      />
     </mesh>
   );
-};
+}
 
-const WavyNoiseBackground = () => {
+export default function WaveBezierScene() {
   return (
-    <Canvas style={{ width: '100%', height: '100%' }} orthographic camera={{ position: [0, 0, 1], zoom: 220 }}>
-      <Plane />
+    <Canvas
+      orthographic
+      camera={{ position: [0, 0, 10], zoom: 100 }}
+      style={{
+        width: "900px",
+        height: "900px",
+        background: "#f5f7fa",
+        filter: "blur(32px)",
+        left: '-262.5px',
+        top: '-43px'
+      }}
+    >
+      <AnimatedWave />
+
+      <EffectComposer multisampling={4}>
+        <Bloom
+          intensity={1.5}
+          luminanceThreshold={0.2}
+          kernelSize={KernelSize.VERY_LARGE}
+        />
+        <DepthOfField
+          focusDistance={0.015}
+          focalLength={0.02}
+          bokehScale={2}
+          height={480}
+        />
+        <Vignette eskil={false} offset={0.1} darkness={0.7} />
+      </EffectComposer>
     </Canvas>
   );
-};
-
-export default WavyNoiseBackground;
+}

@@ -5,7 +5,7 @@ const StatusBar = () => {
   return (
     <>
         <StatusBarstyle>
-          11:04 <img src={StatusImage} alt="Status Bar Background"/>
+        <img src={StatusImage} alt="Status Bar Background"/>
         </StatusBarstyle>
     </>
   );

@@ -3,7 +3,7 @@ import Tab from '../Tab';
 import News from '../News';
 import { useState, useEffect, use } from 'react';
 import { newsData } from '../../data/newsData';
-import WavyShader_background from '../../utile/wavyShader _background';
+import AnimatedWave from '../../utile/wavyShader _background';
 
 function Layout() {
 
@@ -45,7 +45,7 @@ const [tabLine, setTabLine] = useState(() => {
 
   return (
     <>
-      <WavyShader_background></WavyShader_background>
+      <AnimatedWave></AnimatedWave>
       {/* <Header></Header> */}
       {/* <Tab tabLine={tabLine} tabNavi={tabNavi} tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} temSavedNews={temSavedNews} progress={progress} scroll={scroll} tabControl={tabControl} setTabControl={setTabControl}></Tab>
       <News setTabLine={setTabLine} tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews} setProgress={setProgress} scroll={scroll} setScroll={setScroll} setTabControl={setTabControl}></News> */}
