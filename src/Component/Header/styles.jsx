@@ -7,12 +7,11 @@ align-items: center;
 padding: 0px 14px;
 height: 45px;
 width:100%;
-background:white;
 position:absolute;
-top:48px;
+top:60px;
 z-index:999;
  & h1{
-    font-size: 20px;
-    color: #26282C;
+    font-size: 24px;
+    color: #151A31;
  }
 `

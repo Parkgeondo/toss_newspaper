@@ -46,7 +46,7 @@ const [tabLine, setTabLine] = useState(() => {
   return (
     <>
       <AnimatedWave></AnimatedWave>
-      {/* <Header></Header> */}
+      <Header></Header>
       {/* <Tab tabLine={tabLine} tabNavi={tabNavi} tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} temSavedNews={temSavedNews} progress={progress} scroll={scroll} tabControl={tabControl} setTabControl={setTabControl}></Tab>
       <News setTabLine={setTabLine} tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews} setProgress={setProgress} scroll={scroll} setScroll={setScroll} setTabControl={setTabControl}></News> */}
     </>

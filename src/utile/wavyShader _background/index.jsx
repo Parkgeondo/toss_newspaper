@@ -12,24 +12,24 @@ import { KernelSize } from "postprocessing";
 
 extend({ MeshLineGeometry, MeshLineMaterial });
 
-function AnimatedWave() {
+function AnimatedWave({ start, control1, control2, end }) {
   const ref = useRef();
 
-  // Define control points
-  const start = new THREE.Vector3(-5, -1, 0);
-  const control1 = new THREE.Vector3(-1, 2, 0);
-  const control2 = new THREE.Vector3(1, -2, 0);
-  const end = new THREE.Vector3(2, 9, 0);
+  // 움직이는 control 포인트를 복사해서 따로 저장
+  const control1Ref = useRef(control1.clone());
+  const control2Ref = useRef(control2.clone());
 
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
-    control1.y = 2 + Math.sin(t) * 4.3;
-    control2.y = -2 + Math.cos(t) * 4.3;
+
+    // 애니메이션 적용
+    control1Ref.current.y = control1.y + Math.sin(t) * 4.3;
+    control2Ref.current.y = control2.y + Math.cos(t) * 4.3;
 
     const dynamicCurve = new THREE.CubicBezierCurve3(
       start,
-      control1,
-      control2,
+      control1Ref.current,
+      control2Ref.current,
       end
     );
     const updatedPoints = dynamicCurve.getPoints(100);
@@ -50,6 +50,12 @@ function AnimatedWave() {
 }
 
 export default function WaveBezierScene() {
+
+  const start = new THREE.Vector3(-5, -1, 0);
+  const control1 = new THREE.Vector3(-1, 2, 0);
+  const control2 = new THREE.Vector3(1, -2, 0);
+  const end = new THREE.Vector3(2, 9, 0);
+
   return (
     <Canvas
       orthographic
@@ -63,7 +69,12 @@ export default function WaveBezierScene() {
         top: '-43px'
       }}
     >
-      <AnimatedWave />
+      <AnimatedWave
+        start={start}
+        control1={control1}
+        control2={control2}
+        end={end}
+      />
 
       <EffectComposer multisampling={4}>
         <Bloom

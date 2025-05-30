@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import StatusBar from './Component/StatusBar';
 import Screen from './layouts/Screen';
 import Test from '../src/test';
+import { ThemeProvider } from '@emotion/react';
+import theme from './styles/theme';
 
 //현재 기기가 모바일인지 PC인지 판단
 const useDeviceType = () => {
@@ -25,8 +27,10 @@ function App() {
     <div className="App" style={{
       backgroundColor : !isMobile ? 'white' : 'white ',
       }}>
+        <ThemeProvider theme={theme}>
         <StatusBar></StatusBar>
         <Screen></Screen>
+        </ThemeProvider>
     </div>
   );
 }
