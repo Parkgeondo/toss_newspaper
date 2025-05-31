@@ -4,6 +4,7 @@ import News from '../News';
 import { useState, useEffect, use } from 'react';
 import { newsData } from '../../data/newsData';
 import AnimatedWave from '../../utile/wavyShader _background';
+import FloatingNewsCards from '../FloatingNewsCards';
 
 function Layout() {
 
@@ -45,8 +46,9 @@ const [tabLine, setTabLine] = useState(() => {
 
   return (
     <>
-      <AnimatedWave></AnimatedWave>
+      <FloatingNewsCards></FloatingNewsCards>
       <Header></Header>
+      <AnimatedWave></AnimatedWave>
       {/* <Tab tabLine={tabLine} tabNavi={tabNavi} tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} temSavedNews={temSavedNews} progress={progress} scroll={scroll} tabControl={tabControl} setTabControl={setTabControl}></Tab>
       <News setTabLine={setTabLine} tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews} setProgress={setProgress} scroll={scroll} setScroll={setScroll} setTabControl={setTabControl}></News> */}
     </>

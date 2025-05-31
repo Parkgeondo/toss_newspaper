@@ -12,7 +12,7 @@ import { KernelSize } from "postprocessing";
 
 extend({ MeshLineGeometry, MeshLineMaterial });
 
-function AnimatedWave({ start, control1, control2, end }) {
+function AnimatedWave({ start, control1, control2, end, color }) {
   const ref = useRef();
 
   // 움직이는 control 포인트를 복사해서 따로 저장
@@ -23,8 +23,8 @@ function AnimatedWave({ start, control1, control2, end }) {
     const t = clock.getElapsedTime();
 
     // 애니메이션 적용
-    control1Ref.current.y = control1.y + Math.sin(t) * 4.3;
-    control2Ref.current.y = control2.y + Math.cos(t) * 4.3;
+    control1Ref.current.y = control1.y + Math.sin(t) * 1.3;
+    control2Ref.current.y = control2.y + Math.cos(t) * 1.3;
 
     const dynamicCurve = new THREE.CubicBezierCurve3(
       start,
@@ -40,8 +40,8 @@ function AnimatedWave({ start, control1, control2, end }) {
     <mesh>
       <meshLineGeometry ref={ref} />
       <meshLineMaterial
-        color={"#aabfff"}
-        lineWidth={1.25}
+        color={color}
+        lineWidth={0.25}
         transparent
         depthWrite={false}
       />
@@ -51,10 +51,20 @@ function AnimatedWave({ start, control1, control2, end }) {
 
 export default function WaveBezierScene() {
 
-  const start = new THREE.Vector3(-5, -1, 0);
-  const control1 = new THREE.Vector3(-1, 2, 0);
-  const control2 = new THREE.Vector3(1, -2, 0);
-  const end = new THREE.Vector3(2, 9, 0);
+  const start_1 = new THREE.Vector3(-5, -1, 0);
+  const control1_1 = new THREE.Vector3(-1, 2, 0);
+  const control2_1 = new THREE.Vector3(1, -2, 0);
+  const end_1 = new THREE.Vector3(2, 9, 0);
+
+  const start_2 = new THREE.Vector3(-5, 2, 0);
+  const control1_2 = new THREE.Vector3(0, 2, 0);
+  const control2_2 = new THREE.Vector3(2, 4, 0);
+  const end_2 = new THREE.Vector3(2, 9, 0);
+
+  const start_3 = new THREE.Vector3(-5, 0, 0);
+  const control1_3 = new THREE.Vector3(0, -4, 0);
+  const control2_3 = new THREE.Vector3(2, 9, 0);
+  const end_3 = new THREE.Vector3(2, 9, 0);
 
   return (
     <Canvas
@@ -64,31 +74,47 @@ export default function WaveBezierScene() {
         width: "900px",
         height: "900px",
         background: "#f5f7fa",
-        filter: "blur(32px)",
+        filter: "blur(50px)",
         left: '-262.5px',
         top: '-43px'
       }}
-    >
+    >  
       <AnimatedWave
-        start={start}
-        control1={control1}
-        control2={control2}
-        end={end}
+        start={start_3}
+        control1={control1_3}
+        control2={control2_3}
+        end={end_3}
+        color={"#D7F6FF"}
+      />
+      <AnimatedWave
+        start={start_2}
+        control1={control1_2}
+        control2={control2_2}
+        end={end_2}
+        color={"#E3D3FF"}
+      />
+      <AnimatedWave
+        start={start_1}
+        control1={control1_1}
+        control2={control2_1}
+        end={end_1}
+        color={"#CEDEFF"}
       />
 
-      <EffectComposer multisampling={4}>
+
+      <EffectComposer multisampling={1}>
         <Bloom
-          intensity={1.5}
-          luminanceThreshold={0.2}
-          kernelSize={KernelSize.VERY_LARGE}
+          // intensity={0.3}
+          // luminanceThreshold={0.2}
+          // kernelSize={KernelSize.VERY_LARGE}
         />
         <DepthOfField
-          focusDistance={0.015}
-          focalLength={0.02}
-          bokehScale={2}
-          height={480}
+          // focusDistance={0.015}
+          // focalLength={0.02}
+          // bokehScale={2}
+          // height={480}
         />
-        <Vignette eskil={false} offset={0.1} darkness={0.7} />
+        {/* <Vignette eskil={false} offset={0.1} darkness={0.7} /> */}
       </EffectComposer>
     </Canvas>
   );
