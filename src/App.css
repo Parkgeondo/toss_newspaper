@@ -20,4 +20,5 @@ body {
   -moz-user-select: none;
   -ms-use-select: none;
   user-select: none;
+  align-items: center;
 }

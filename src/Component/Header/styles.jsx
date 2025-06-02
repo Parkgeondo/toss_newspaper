@@ -9,7 +9,7 @@ height: 45px;
 width:100%;
 position:absolute;
 top:60px;
-z-index:999;
+z-index:99;
  & h1{
     font-size: 24px;
     color: #151A31;

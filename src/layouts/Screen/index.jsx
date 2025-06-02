@@ -39,10 +39,10 @@ const [tabLine, setTabLine] = useState(() => {
   return initialMap;
 });
 
-  useEffect(()=>{
-    console.log(tabLine)
-    console.log(savedNews)
-  },[tabLine])
+  // useEffect(()=>{
+  //   console.log(tabLine)
+  //   console.log(savedNews)
+  // },[tabLine])
 
   return (
     <>
