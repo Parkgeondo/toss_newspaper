@@ -14,23 +14,27 @@ const distance = useTransform([x, y], ([latestX, latestY]) => {
   const cardCenterX = card_distance + latestX;
 
   // x 방향: 중심에서 멀어질수록 작아짐
+  //rawX는 중심에서 얼마나 멀어졌는지
   const rawX = Math.abs(cardCenterX - screenCenter + card_gap_width * 0.5);
   const maxX = card_width * 2;
   const clampedX = Math.min(rawX, maxX);
+
+  //카드가 카드의 두배 거리보다 멀어지면 1
   const normX = clampedX / maxX; // 0 ~ 1
 
   // y 방향: 위로 드래그할수록 커짐
   const rawY = Math.max(-latestY, 0); // 음수일 때만 사용
-  const maxY = 200;
+  const maxY = 180;
   const clampedY = Math.min(rawY, maxY);
+  //카드가 상단으로 200올라가면 1
   const normY = clampedY / maxY; // 0 ~ 1
 
   // scale 계산: 기본 1에서 x는 축소, y는 확대
-  const scale = 1 - normX * 0.2 + normY * 0.41;
+  const scale = 1 - normX * 0.2 + normY * 0.415;
   return scale;
 });
   const inverseScale = useTransform(distance, latest => 1 / latest);
-  const height = useTransform(y, [0, -300], ["424px", "800px"]);
+  const height = useTransform(y, [0, -300], ["424px", "750px"]);
 
     useMotionValueEvent(y, "change", (latest) => {
       console.log(latest)
@@ -58,9 +62,9 @@ const distance = useTransform([x, y], ([latestX, latestY]) => {
         zIndex: isFocused ? 1110:''
       }}
     >
-      <img src={card_effect} className="card_effect" alt="" />
+      <img src={card_effect} className="card_effect" alt=""style={{scale:inverseScale}}/>
       <div className="gradient"></div>
-      <img src={data.bigImage} className="thumnail" alt="" />
+      <motion.img src={data.bigImage} className="thumnail" alt="" style={{scale:inverseScale, x:'-50%', y:'0px'}}/>
       <motion.div className="text" style={{
         scale: inverseScale,
         transformOrigin: "left top",

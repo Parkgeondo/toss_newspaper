@@ -10,7 +10,7 @@ export const CardNews_wrap = styled(motion.div)`
    flex-shrink: 0;
    border-radius: 24px;
    padding: 24px;
-   border: 1px white solid;
+   /* border: 1px white solid; */
    position: relative;
    overflow: hidden;
    box-shadow: #C5D3F2 0px 6px 24px;
@@ -79,7 +79,6 @@ export const CardNews_wrap = styled(motion.div)`
     position: absolute;
     left: 50%;
     top: -2px;
-    transform: translateX(-50%);
     height: 354px;
    }
 `
