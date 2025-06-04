@@ -86,7 +86,6 @@ export const CardNews_wrap = styled(motion.div)`
     position: absolute;
     left: 50%;
     top: -2px;
-    transform: translateX(-50%);
     height: 354px;
    }
 

@@ -7,6 +7,7 @@ import { cos } from "three/tsl";
 
 function FloatingNewsCards({setOnExpand, currentIndex, setCurrentIndex}) {
 
+  //가짜 카드 앞뒤로 넣어주기
   const blankAddedNews = [
     { id: "blank-start", isBlank: true },
     ...newsData,
@@ -21,8 +22,9 @@ function FloatingNewsCards({setOnExpand, currentIndex, setCurrentIndex}) {
   const offset = (app_width - card_width)*0.5;
   //카드가 차지하는 gap을 포함한 기본 넓이 값
   const card_gap_width = (card_width + gap)
-
+  //처음 카드가 시작하는 지점 -> 첫번재 카드 넓이 + 카드 양옆 공간의 반 - 한쪽 gap
   const initialX = -card_gap_width + (offset - gap*0.5);
+  //최대 스크롤 지점 전체 스크를 카드에서 2개 뺀 숫자 * 카드 기본 갭 넓이값 + 카드 보정값
   const maxScrollLeft = -(blankAddedNews.length - 2) * card_gap_width + (offset - gap*0.5);
 
   const x = useMotionValue(initialX);
