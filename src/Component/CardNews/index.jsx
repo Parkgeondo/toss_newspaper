@@ -8,29 +8,17 @@ import { motion } from "framer-motion";
 function CardNews({setOnExpand, data, cardIndex, card_gap_width , card_width, app_width, isFocused,x,yMinus , card_distance}) {
 const y = useMotionValue(0);
 
-// x와 y에 따라 크기(scale)를 계산
-const distance = useTransform([x, y], ([latestX, latestY]) => {
-  const screenCenter = app_width * 0.5;
-  const cardCenterX = card_distance + latestX;
+  useMotionValueEvent(y, "change", (latest) => {
+    if(y.get() < -240){
+      setOnExpand(true);
+    }
+    yMinus.set(latest)
+  })
 
-  // x 방향: 중심에서 멀어질수록 작아짐
-  const rawX = Math.abs(cardCenterX - screenCenter + card_gap_width * 0.5);
-  const maxX = card_width * 2;
-  const clampedX = Math.min(rawX, maxX);
-  const normX = clampedX / maxX; // 0 ~ 1
-
-  // y 방향: 위로 드래그할수록 커짐
-  const rawY = Math.max(-latestY, 0); // 음수일 때만 사용
-  const maxY = 200;
-  const clampedY = Math.min(rawY, maxY);
-  const normY = clampedY / maxY; // 0 ~ 1
-
-  // scale 계산: 기본 1에서 x는 축소, y는 확대
-  const scale = 1 - normX * 0.2 + normY * 0.41;
-  return scale;
-});
-  const inverseScale = useTransform(distance, latest => 1 / latest);
-  const height = useTransform(y, [0, -300], ["424px", "800px"]);
+  const width = useTransform(y, [0,-240], [265,375]);
+  const height = useTransform(y, [0,-240], [0,386]);
+  const temy = useTransform(yMinus,[0,-240],[0,-55]);
+  const ySlow = useTransform(y, v => v * 0.5);
 
   useMotionValueEvent(y, "change", (latest) => {
     console.log(latest)
@@ -55,9 +43,9 @@ const distance = useTransform([x, y], ([latestX, latestY]) => {
         y
       }}
     >
-      <img src={card_effect} className="card_effect" alt="" />
+      {/* <img src={card_effect} className="card_effect" alt="" /> */}
       <div className="gradient"></div>
-      <motion.img src={data.bigImage} className="thumnail" alt="" style={{scale:inverseScale, x:'-50%', y:'0px'}}/>
+      <img src={data.bigImage} className="thumnail" alt="" />
       <motion.div className="text" style={{
         }}>
         <div className="publisher">
