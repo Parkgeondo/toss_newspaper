@@ -159,9 +159,17 @@ const CircleNewsRow = ({ savedNews, temSavedNews, progress }) => {
         //이 부분 수정해보기
         const offsetX = !isHidden ? -8 * overCount : 0;
 
-        return(
-        <CircleNews key={index} id={key} isShrinking={isHidden} offsetX={offsetX} savedNews={savedNews} temSavedNews={temSavedNews}/>
-      )})}
+        return (
+          <CircleNews
+            key={index}
+            id={key}
+            isShrinking={isHidden}
+            offsetX={offsetX}
+            savedNews={savedNews}
+            temSavedNews={temSavedNews}
+          />
+        );
+      })}
       <AnimatePresence>
         {(temSavedNews[0]) > 0 && (
           <TemCircleNews key={temSavedNews[0]} progress={progress} id={temSavedNews[0]} />
