@@ -5,6 +5,8 @@ import { useState, useEffect, use } from 'react';
 import { newsData } from '../../data/newsData';
 import AnimatedWave from '../../utile/wavyShader _background';
 import FloatingNewsCards from '../FloatingNewsCards';
+import { AnimatePresence } from 'framer-motion';
+import CardDetail from '../../Component/CardDetail';
 
 function Layout() {
 
@@ -31,26 +33,29 @@ function Layout() {
   const [tabNavi, setTabNavi] = useState(false)
 
   //savedNew 진행율
-const [tabLine, setTabLine] = useState(() => {
+  const [tabLine, setTabLine] = useState(() => {
+  
+  //그래프 진행율 맵인것같은데
   const initialMap = new Map();
-  newsData.forEach(news => {
-    initialMap.set(news.id, 0);
+    newsData.forEach(news => {
+      initialMap.set(news.id, 0);
+    });
+    return initialMap;
   });
-  return initialMap;
-});
+//--------------------
+  //현재 선택된 카드
+  const [currentIndex,setCurrentIndex] = useState(1)
 
-  // useEffect(()=>{
-  //   console.log(tabLine)
-  //   console.log(savedNews)
-  // },[tabLine])
-
+  //세부 화면 펼쳐지고 있는지
+  const [onExpand, setOnExpand] = useState(false);
   return (
     <>
-      <FloatingNewsCards></FloatingNewsCards>
+      <AnimatePresence>
+          {onExpand && <CardDetail data = {newsData[currentIndex-1]} id={currentIndex}></CardDetail>}
+      </AnimatePresence>
+      <FloatingNewsCards setOnExpand={setOnExpand} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex}></FloatingNewsCards>
       <Header></Header>
       <AnimatedWave></AnimatedWave>
-      {/* <Tab tabLine={tabLine} tabNavi={tabNavi} tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} temSavedNews={temSavedNews} progress={progress} scroll={scroll} tabControl={tabControl} setTabControl={setTabControl}></Tab>
-      <News setTabLine={setTabLine} tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} savedNews={savedNews} setSavedNews={setSavedNews} temSavedNews={temSavedNews} setTemSavedNews={setTemSavedNews} setProgress={setProgress} scroll={scroll} setScroll={setScroll} setTabControl={setTabControl}></News> */}
     </>
   );
 }

@@ -3,8 +3,9 @@ import { FloatingNewsCards_wrap } from "./styles"
 import { newsData } from '../../data/newsData';
 import { motion, useMotionValue, useMotionValueEvent, useTransform } from "framer-motion";
 import { useState } from "react";
+import { cos } from "three/tsl";
 
-function FloatingNewsCards() {
+function FloatingNewsCards({setOnExpand, currentIndex, setCurrentIndex}) {
 
   const blankAddedNews = [
     { id: "blank-start", isBlank: true },
@@ -23,31 +24,24 @@ function FloatingNewsCards() {
 
   const initialX = -card_gap_width + (offset - gap*0.5);
   const maxScrollLeft = -(blankAddedNews.length - 2) * card_gap_width + (offset - gap*0.5);
+
   const x = useMotionValue(initialX);
+  const yMinus = useMotionValue(0);
 
   const snapTargetX = (target) => {
     return Math.round((target - offset) / (card_width + 12)) * card_gap_width + (offset - gap*0.5)
   };
 
-  const [currentIndex,setCurrentIndex] = useState(1)
+    useMotionValueEvent(x, "change", (latest) => {
+      const rawX = x.get();
+      setCurrentIndex(- Math.round((rawX - offset) / (card_width + 12)));
+    });
   
-  useMotionValueEvent(x, "change", (latest) => {
-    const rawX = x.get(); // 현재 위치값
-    setCurrentIndex(- Math.round((rawX - offset) / (card_width + 12)))
-  })
-
-  const y = useMotionValue(0);
-  const scale = useTransform(y, [-300, 0], [1.2, 1]);
-
-  useMotionValueEvent(y, "change", (latest) => {
-    console.log(latest)
-  })
 
   return (
     <FloatingNewsCards_wrap
       drag = 'x'
       dragDirectionLock
-      onDirectionLock={(callback) => console.log(callback)}
       style={{ x }}
       dragConstraints={{ left: maxScrollLeft, right: initialX }}
       dragTransition={{
@@ -57,7 +51,7 @@ function FloatingNewsCards() {
       }}
     >
       {blankAddedNews.map((data, cardIndex) => (
-        <CardNews data={data} key={data.id} cardIndex={cardIndex} app_width={app_width} card_gap_width ={card_gap_width} card_width = {card_width} isFocused={cardIndex === currentIndex} x={x} card_distance={card_gap_width * cardIndex}/>
+        <CardNews setOnExpand={setOnExpand} data={data} key={data.id} cardIndex={cardIndex} app_width={app_width} card_gap_width ={card_gap_width} card_width = {card_width} isFocused={cardIndex === currentIndex} x={x} yMinus={yMinus} card_distance={card_gap_width * cardIndex}/>
       ))}
     </FloatingNewsCards_wrap>
   );
