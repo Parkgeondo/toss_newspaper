@@ -6,9 +6,29 @@ export const CardDetail_wrap = styled(motion.div)`
    width: 100%;
    height: 100%;
    background-color: #20262A;
-   padding: 24px;
    position: absolute;
    z-index:120;
+   & .drag{
+    
+   }
+
+   & .textBody{
+    margin-top: 54px;
+      & .subtitle{
+      font-size: 16px;
+      font-weight: 600;
+      color: #C5D6E9;
+      margin-bottom: 16px;
+    }
+    & > .content{
+      text-align: justify;
+      font-size: 14px;
+      font-weight: 500;
+      color: #788DA3;
+      line-height: 160%;
+      margin-bottom: 26px;
+    }
+   }
 
    & .card_effect{
     width: 100%;
@@ -20,10 +40,10 @@ export const CardDetail_wrap = styled(motion.div)`
    }
    & .text{
     top: 286px;
-    width: 217px;
     position: absolute;
     z-index: 100;
     left: 26px;
+    right: 26px;
    }
    & .title{
     font-weight: 500;

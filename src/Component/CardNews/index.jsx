@@ -20,10 +20,6 @@ const y = useMotionValue(0);
   const temy = useTransform(yMinus,[0,-240],[0,-55]);
   const ySlow = useTransform(y, v => v * 0.5);
 
-  useMotionValueEvent(y, "change", (latest) => {
-    console.log(latest)
-  })
-
   if (data.isBlank) {
     return <CardNews_wrap
     style={{ opacity:'0' }}
@@ -43,7 +39,7 @@ const y = useMotionValue(0);
         y
       }}
     >
-      {/* <img src={card_effect} className="card_effect" alt="" /> */}
+      <img src={card_effect} className="card_effect" alt="" />
       <div className="gradient"></div>
       <img src={data.bigImage} className="thumnail" alt="" />
       <motion.div className="text" style={{

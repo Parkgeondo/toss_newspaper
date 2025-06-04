@@ -1,7 +1,9 @@
 import styled from '@emotion/styled';
 import { motion } from "framer-motion";
 
+export const CardNews_darg = styled(motion.div)`
 
+`
 export const CardNews_wrap = styled(motion.div)`
    width: 265px;
    height: 426px;
@@ -11,8 +13,9 @@ export const CardNews_wrap = styled(motion.div)`
    padding: 24px;
    /* border: 1px white solid; */
    position: relative;
-   /* overflow: hidden; */
+   overflow: hidden;
    box-shadow: #C5D3F2 0px 6px 24px;
+
    & .plus{
     position: absolute;
     top: 0px;
@@ -85,6 +88,7 @@ export const CardNews_wrap = styled(motion.div)`
    & .thumnail{
     position: absolute;
     left: 50%;
+    transform: translateX(-50%);
     top: -2px;
     height: 354px;
    }
