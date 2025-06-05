@@ -8,7 +8,7 @@ import FloatingNewsCards from '../FloatingNewsCards';
 import { AnimatePresence } from 'framer-motion';
 import CardDetail from '../../Component/CardDetail';
 
-function Layout() {
+function Layout({setOnExpand, onExpand}) {
 
   //현재 탭 상태 확인(뉴스면 news 저장한 뉴스면 saved)(굳이 텍스트를 쓸 필요가 있나?)
   const tabs = ['news','saved']
@@ -46,8 +46,6 @@ function Layout() {
   //현재 선택된 카드
   const [currentIndex,setCurrentIndex] = useState(1)
 
-  //세부 화면 펼쳐지고 있는지
-  const [onExpand, setOnExpand] = useState(false);
   return (
     <>
       <AnimatePresence>

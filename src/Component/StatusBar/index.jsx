@@ -1,11 +1,13 @@
 import { StatusBarstyle } from "./styles";
 import StatusImage from "../../img/Navigation_Bar.png";
+import { motion } from "framer-motion";
 
-const StatusBar = () => {
+const StatusBar = ({onExpand}) => {
   return (
     <>
         <StatusBarstyle>
-        <img src={StatusImage} alt="Status Bar Background"/>
+        {onExpand && <div className="gradiant"></div>}
+        <motion.img animate={{ filter: onExpand ? "invert(1)" : "invert(0)" }} src={StatusImage} className='stateImg' alt="Status Bar Background"/>
         </StatusBarstyle>
     </>
   );

@@ -1,11 +1,25 @@
 import styled from '@emotion/styled';
 import { motion } from "framer-motion";
 
-export const CardNews_darg = styled(motion.div)`
-
+export const CardNews_drag = styled(motion.div)`
+  box-shadow: #C5D3F2 0px 6px 24px;
+  position: relative;
+  & .plus{
+    top: 0;
+    width: 100%;
+    position: absolute;
+    background-color: #20262A;
+    z-index: -9;
+  }
+  & .card_effect{
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: 100;
+   }
 `
 export const CardNews_wrap = styled(motion.div)`
-   width: 265px;
    height: 426px;
    bottom: 0px;
    flex-shrink: 0;
@@ -14,25 +28,6 @@ export const CardNews_wrap = styled(motion.div)`
    /* border: 1px white solid; */
    position: relative;
    overflow: hidden;
-   box-shadow: #C5D3F2 0px 6px 24px;
-
-   & .plus{
-    position: absolute;
-    top: 0px;
-    width: 100%;
-    left: 0px;
-    height: 100%;
-    background-color: #20262A;
-    z-index: -9;
-   }
-   & .card_effect{
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    position: absolute;
-    z-index: 100;
-   }
    & .text{
     top: 286px;
     width: 217px;

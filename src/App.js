@@ -22,14 +22,16 @@ const useDeviceType = () => {
 
 
 function App() {
+    //세부 화면 펼쳐지고 있는지
+  const [onExpand, setOnExpand] = useState(false);
   const isMobile = useDeviceType();
   return (
     <div className="App" style={{
       backgroundColor : !isMobile ? 'white' : 'white ',
       }}>
         <ThemeProvider theme={theme}>
-        <StatusBar></StatusBar>
-        <Screen></Screen>
+        <StatusBar onExpand={onExpand}></StatusBar>
+        <Screen setOnExpand={setOnExpand} onExpand={onExpand}></Screen>
         </ThemeProvider>
     </div>
   );
