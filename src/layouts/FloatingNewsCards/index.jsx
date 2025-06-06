@@ -6,6 +6,7 @@ import { useState } from "react";
 import { cos } from "three/tsl";
 
 function FloatingNewsCards({setOnExpand, currentIndex, setCurrentIndex}) {
+  
 
   //가짜 카드 앞뒤로 넣어주기
   const blankAddedNews = [
@@ -40,15 +41,30 @@ function FloatingNewsCards({setOnExpand, currentIndex, setCurrentIndex}) {
     });
   
 
+  //드래그 방향 분별
+  const [velocity, setVelocity] = useState({ mouseDown: 0, mouseUp: 0, v: 0, mouseState: false });
+
+  const mouseEvent  = (e) => {
+    console.log(velocity.mouseState)
+    if(velocity.mouseState === false){
+      // console.log(e.clientX)
+      setVelocity(prev => ({ ...prev, mouseDown: e.clientX, mouseState:true }));
+    }else if(velocity.mouseState === true){
+      setVelocity(prev => ({ ...prev, mouseUp: e.clientX, mouseState:false }));
+    }
+  }
+
   return (
     <FloatingNewsCards_wrap
       drag = 'x'
       dragDirectionLock
       style={{ x }}
+      onPointerDown={(e) => mouseEvent(e)}
+      onPointerUp={(e) => mouseEvent(e)}
       dragConstraints={{ left: maxScrollLeft, right: initialX }}
       dragTransition={{
         power: 0.3,
-        timeConstant: 70,
+        timeConstant: 40,
         modifyTarget: snapTargetX,
       }}
     >

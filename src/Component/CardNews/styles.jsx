@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 export const CardNews_drag = styled(motion.div)`
   box-shadow: #C5D3F2 0px 6px 24px;
   position: relative;
+   border: 1px white solid;
   & .plus{
     top: 0;
     width: 100%;
@@ -25,7 +26,6 @@ export const CardNews_wrap = styled(motion.div)`
    flex-shrink: 0;
    border-radius: 24px;
    padding: 24px;
-   /* border: 1px white solid; */
    position: relative;
    overflow: hidden;
    & .text{
