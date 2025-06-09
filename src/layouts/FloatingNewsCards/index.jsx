@@ -2,10 +2,10 @@ import CardNews from "../../Component/CardNews"
 import { FloatingNewsCards_wrap } from "./styles"
 import { newsData } from '../../data/newsData';
 import { motion, useMotionValue, useMotionValueEvent, useTransform } from "framer-motion";
-import { useState } from "react";
-import { cos } from "three/tsl";
+import { useRef, useState } from "react";
+import Refresh from "../../Component/Refresh";
 
-function FloatingNewsCards({setOnExpand, currentIndex, setCurrentIndex}) {
+function FloatingNewsCards({setTemSavedNews, setOnExpand, currentIndex, setCurrentIndex,setSavedNews, savedNews, setProgress}) {
   
 
   //가짜 카드 앞뒤로 넣어주기
@@ -29,38 +29,66 @@ function FloatingNewsCards({setOnExpand, currentIndex, setCurrentIndex}) {
   const maxScrollLeft = -(blankAddedNews.length - 2) * card_gap_width + (offset - gap*0.5);
 
   const x = useMotionValue(initialX);
+  
   const yMinus = useMotionValue(0);
 
-  const snapTargetX = (target) => {
-    return Math.round((target - offset) / (card_width + 12)) * card_gap_width + (offset - gap*0.5)
-  };
-
-    useMotionValueEvent(x, "change", (latest) => {
-      const rawX = x.get();
-      setCurrentIndex(- Math.round((rawX - offset) / (card_width + 12)));
-    });
   
+  useMotionValueEvent(x, "change", (latest) => {
+    setCurrentIndex(- Math.round((latest - offset) / (card_width + 12)));
+  });
+
+  const [overHide,setOverHide] = useState(false)
+  
+  useMotionValueEvent(yMinus, "change", (latest) => {
+    if(latest > 0){
+      setOverHide(true)
+    }else{
+      setOverHide(false)
+    }
+  });
+
 
   //드래그 방향 분별
-  const [velocity, setVelocity] = useState({ mouseDown: 0, mouseUp: 0, v: 0, mouseState: false });
+  const dragdirection = useRef({
+    downPoint:null,
+    upPoint:null,
+    direction:null
+  });
 
-  const mouseEvent  = (e) => {
-    console.log(velocity.mouseState)
-    if(velocity.mouseState === false){
-      // console.log(e.clientX)
-      setVelocity(prev => ({ ...prev, mouseDown: e.clientX, mouseState:true }));
-    }else if(velocity.mouseState === true){
-      setVelocity(prev => ({ ...prev, mouseUp: e.clientX, mouseState:false }));
+  const onPointerDown = (e) => {
+  dragdirection.current.downPoint = e.clientX;
+  };
+
+  const onPointerUp = (e) => {
+    dragdirection.current.upPoint = e.clientX;
+  };
+
+  const snapTargetX = (target) => {
+    const calculate = (target - offset) / card_gap_width;
+
+    const down = dragdirection.current.downPoint;
+    const up = dragdirection.current.upPoint;
+    const direction = down - up;
+
+    if (direction < -20) {
+      return Math.ceil(calculate) * card_gap_width + (offset - gap * 0.5);
+    } else if (direction > 20) {
+      return Math.floor(calculate) * card_gap_width + (offset - gap * 0.5);
+    } else {
+      return Math.round(calculate) * card_gap_width + (offset - gap * 0.5);
     }
-  }
+  };
 
   return (
     <FloatingNewsCards_wrap
       drag = 'x'
       dragDirectionLock
-      style={{ x }}
-      onPointerDown={(e) => mouseEvent(e)}
-      onPointerUp={(e) => mouseEvent(e)}
+      style={{
+        x,
+        overflow: overHide ? `hidden` : 'visible',
+      }}
+      onPointerDown={onPointerDown}
+      onPointerUp={onPointerUp}
       dragConstraints={{ left: maxScrollLeft, right: initialX }}
       dragTransition={{
         power: 0.3,
@@ -68,8 +96,10 @@ function FloatingNewsCards({setOnExpand, currentIndex, setCurrentIndex}) {
         modifyTarget: snapTargetX,
       }}
     >
+      <Refresh></Refresh>
+
       {blankAddedNews.map((data, cardIndex) => (
-        <CardNews setOnExpand={setOnExpand} data={data} key={data.id} cardIndex={cardIndex} app_width={app_width} card_gap_width ={card_gap_width} card_width = {card_width} isFocused={cardIndex === currentIndex} x={x} yMinus={yMinus} card_distance={card_gap_width * cardIndex}/>
+        <CardNews key={data.id} savedNews={savedNews} setSavedNews ={setSavedNews} setProgress={setProgress} setTemSavedNews={setTemSavedNews} id={data.id} setOnExpand={setOnExpand} data={data} cardIndex={cardIndex} currentIndex={currentIndex} app_width={app_width} card_gap_width ={card_gap_width} card_width = {card_width} isFocused={cardIndex === currentIndex} x={x} yMinus={yMinus} card_distance={card_gap_width * cardIndex}/>
       ))}
     </FloatingNewsCards_wrap>
   );

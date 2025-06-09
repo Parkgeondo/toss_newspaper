@@ -9,4 +9,5 @@ export const CircleNewsRowWrap = styled.div`
    align-items: center;
    overflow: visible;
    display: flex;
+   z-index: 210;
 `

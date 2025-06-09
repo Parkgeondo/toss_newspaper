@@ -4,13 +4,35 @@ import { motion } from "framer-motion";
 export const CardNews_drag = styled(motion.div)`
   box-shadow: #C5D3F2 0px 6px 24px;
   position: relative;
-   border: 1px white solid;
   & .plus{
     top: 0;
     width: 100%;
     position: absolute;
     background-color: #20262A;
     z-index: -9;
+
+    & .drag_Button{
+      font-weight: 600;
+      color: #424865;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 207px;
+      height: 50px;
+      position: absolute;
+      background-color: #DBD9E8;
+      border-radius: 0px 0px 24px 24px;
+      bottom: -50px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      font-size: 16px;
+      padding-bottom: 3px;
+      & img{
+        width: 26px;
+      }
+    }
   }
   & .card_effect{
     position: absolute;
@@ -19,13 +41,40 @@ export const CardNews_drag = styled(motion.div)`
     top: 0;
     z-index: 100;
    }
+  & .textBody{
+    transform-origin: center top;
+    left: 50%;
+    padding: 0px 26px;
+    width: 375px;
+    z-index: 100;
+    margin-top: -10px;
+    position: absolute;
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+
+    & .subtitle{
+      font-size: 16px;
+      font-weight: 600;
+      color: #C5D6E9;
+      margin-bottom: 16px;
+    }
+    & .content{
+      text-align: justify;
+      font-size: 14px;
+      font-weight: 500;
+      color: #788DA3;
+      line-height: 160%;
+      margin-bottom: 26px;
+    }
+  }
 `
 export const CardNews_wrap = styled(motion.div)`
    height: 426px;
    bottom: 0px;
    flex-shrink: 0;
    border-radius: 24px;
-   padding: 24px;
    position: relative;
    overflow: hidden;
    & .text{

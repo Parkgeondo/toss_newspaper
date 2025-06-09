@@ -18,10 +18,11 @@ export default function CardDetail({ id, onClose, data }) {
           <div className="badge">{data.category}</div>
           <div className="badge">{data.date}</div>
           <motion.div className="textBody"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}>
+            // initial={{ opacity: 0, y: 10 }}
+            // animate={{ opacity: 1, y: 0 }}
+            // exit={{ opacity: 0 }}
+            // transition={{ duration: 0.3 }}
+            >
             {data.subTitle1 && <div className="subtitle">{data.subTitle1}</div>}
             {data.content1 && <div className="content">{data.content1}</div>}
 

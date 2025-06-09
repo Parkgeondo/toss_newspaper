@@ -42,7 +42,7 @@ const CircleNews = ({ id, isShrinking = false, offsetX, savedNews, temSavedNews}
         cy={size / 2}
         r={radius}
         fill="none"
-        stroke="white"
+        stroke="#F1F1F8"
         strokeWidth={stroke}
         opacity="1"
       />
@@ -158,7 +158,6 @@ const CircleNewsRow = ({ savedNews, temSavedNews, progress }) => {
         const isHidden = index < overCount;
         //이 부분 수정해보기
         const offsetX = !isHidden ? -8 * overCount : 0;
-
         return(
         <CircleNews key={index} id={key} isShrinking={isHidden} offsetX={offsetX} savedNews={savedNews} temSavedNews={temSavedNews}/>
       )})}
