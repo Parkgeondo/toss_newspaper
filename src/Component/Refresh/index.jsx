@@ -46,7 +46,7 @@ function Spinner({count = 8, radius = 1}) {
   )
 }
 
-export default function Refresh() {
+export default function Refresh3D() {
   return (
     <Refresh_wrap>
       <Canvas style={{ width: '350px', height: '350px' }}>

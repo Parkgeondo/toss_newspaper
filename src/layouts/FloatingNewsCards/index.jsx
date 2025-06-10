@@ -3,7 +3,7 @@ import { FloatingNewsCards_wrap } from "./styles"
 import { newsData } from '../../data/newsData';
 import { animate, motion, useMotionValue, useMotionValueEvent, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
-import Refresh from "../../Component/Refresh";
+import Refresh3D from "../../Component/Refresh";
 
 function FloatingNewsCards({setTemSavedNews, setOnExpand, currentIndex, setCurrentIndex,setSavedNews, savedNews, setProgress}) {
   
@@ -25,7 +25,7 @@ function FloatingNewsCards({setTemSavedNews, setOnExpand, currentIndex, setCurre
   const card_gap_width = (card_width + gap)
   //처음 카드가 시작하는 지점 -> 첫번재 카드 넓이 + 카드 양옆 공간의 반 - 한쪽 gap
   // const initialX = 0;
-  const initialX = -card_gap_width + (offset - gap*0.5) + 100;
+  const initialX = -card_gap_width + (offset - gap*0.5);
   //최대 스크롤 지점 전체 스크를 카드에서 2개 뺀 숫자 * 카드 기본 갭 넓이값 + 카드 보정값
   // const maxScrollLeft = -(blankAddedNews.length - 2) * card_gap_width + (offset - gap*0.5);
   const maxScrollLeft = -(blankAddedNews.length - 2) * card_gap_width + (offset - gap*0.5);
@@ -36,6 +36,7 @@ function FloatingNewsCards({setTemSavedNews, setOnExpand, currentIndex, setCurre
 
   
   useMotionValueEvent(x, "change", (latest) => {
+    console.log(x.get())
     setCurrentIndex(- Math.round((latest - offset) / (card_width + 12)));
   });
 
@@ -57,9 +58,26 @@ function FloatingNewsCards({setTemSavedNews, setOnExpand, currentIndex, setCurre
     direction:null
   });
 
-  //새로고침
+  const [dragDisabled, setDragDisabled] = useState(false);
+
   const Refresh = () => {
-  }
+    setDragDisabled(true);
+    console.log('새로고침');
+    // 1초 동안 -135로 이동
+    animate(x, -135, {
+      type: "spring",
+      stiffness: 300,
+      damping: 30,
+    });
+    setTimeout(() => {
+      animate(x, -228, {
+        type: "spring",
+        stiffness: 300,
+        damping: 30,
+        onComplete: () => setDragDisabled(false)
+      });
+    }, 1000); // 1초 후 -228로 이동
+  };
 
   const onPointerDown = (e) => {
   dragdirection.current.downPoint = e.clientX;
@@ -67,7 +85,7 @@ function FloatingNewsCards({setTemSavedNews, setOnExpand, currentIndex, setCurre
 
   const onPointerUp = (e) => {
     dragdirection.current.upPoint = e.clientX;
-    if(x.get() > -140){
+    if(x.get() > -135){
       Refresh()
     }
   };
@@ -79,9 +97,9 @@ function FloatingNewsCards({setTemSavedNews, setOnExpand, currentIndex, setCurre
     const up = dragdirection.current.upPoint;
     const direction = down - up;
 
-    if (direction < -20) {
+    if (direction <= -40) {
       return Math.ceil(calculate) * card_gap_width + (offset - gap * 0.5);
-    } else if (direction > 20) {
+    } else if (direction >= 40) {
       return Math.floor(calculate) * card_gap_width + (offset - gap * 0.5);
     } else {
       return Math.round(calculate) * card_gap_width + (offset - gap * 0.5);
@@ -90,7 +108,7 @@ function FloatingNewsCards({setTemSavedNews, setOnExpand, currentIndex, setCurre
 
   return (
     <FloatingNewsCards_wrap
-      drag = 'x'
+      drag={dragDisabled ? false : "x"}
       dragDirectionLock
       style={{
         x,
@@ -98,14 +116,14 @@ function FloatingNewsCards({setTemSavedNews, setOnExpand, currentIndex, setCurre
       }}
       onPointerDown={onPointerDown}
       onPointerUp={onPointerUp}
-      dragConstraints={{ left: maxScrollLeft, right: initialX }}
+      dragConstraints={{ left: maxScrollLeft - 40, right: initialX + 40 }}
       dragTransition={{
         power: 0.3,
         timeConstant: 40,
         modifyTarget: snapTargetX,
       }}
     >
-      <Refresh></Refresh>
+      <Refresh3D></Refresh3D>
 
       {blankAddedNews.map((data, cardIndex) => (
         <CardNews key={data.id} savedNews={savedNews} setSavedNews ={setSavedNews} setProgress={setProgress} setTemSavedNews={setTemSavedNews} id={data.id} setOnExpand={setOnExpand} data={data} cardIndex={cardIndex} currentIndex={currentIndex} app_width={app_width} card_gap_width ={card_gap_width} card_width = {card_width} isFocused={cardIndex === currentIndex} x={x} yMinus={yMinus} card_distance={card_gap_width * cardIndex}/>
