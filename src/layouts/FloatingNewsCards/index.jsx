@@ -1,7 +1,7 @@
 import CardNews from "../../Component/CardNews"
 import { FloatingNewsCards_wrap } from "./styles"
 import { newsData } from '../../data/newsData';
-import { motion, useMotionValue, useMotionValueEvent, useTransform } from "framer-motion";
+import { animate, motion, useMotionValue, useMotionValueEvent, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
 import Refresh from "../../Component/Refresh";
 
@@ -24,11 +24,11 @@ function FloatingNewsCards({setTemSavedNews, setOnExpand, currentIndex, setCurre
   //카드가 차지하는 gap을 포함한 기본 넓이 값
   const card_gap_width = (card_width + gap)
   //처음 카드가 시작하는 지점 -> 첫번재 카드 넓이 + 카드 양옆 공간의 반 - 한쪽 gap
-  const initialX = 0;
-  // const initialX = -card_gap_width + (offset - gap*0.5);
+  // const initialX = 0;
+  const initialX = -card_gap_width + (offset - gap*0.5) + 100;
   //최대 스크롤 지점 전체 스크를 카드에서 2개 뺀 숫자 * 카드 기본 갭 넓이값 + 카드 보정값
-  const maxScrollLeft = -(blankAddedNews.length - 2) * card_gap_width + (offset - gap*0.5);
   // const maxScrollLeft = -(blankAddedNews.length - 2) * card_gap_width + (offset - gap*0.5);
+  const maxScrollLeft = -(blankAddedNews.length - 2) * card_gap_width + (offset - gap*0.5);
 
   const x = useMotionValue(initialX);
   
@@ -57,12 +57,19 @@ function FloatingNewsCards({setTemSavedNews, setOnExpand, currentIndex, setCurre
     direction:null
   });
 
+  //새로고침
+  const Refresh = () => {
+  }
+
   const onPointerDown = (e) => {
   dragdirection.current.downPoint = e.clientX;
   };
 
   const onPointerUp = (e) => {
     dragdirection.current.upPoint = e.clientX;
+    if(x.get() > -140){
+      Refresh()
+    }
   };
 
   const snapTargetX = (target) => {
