@@ -5,9 +5,12 @@ import { useState, useEffect, use } from 'react';
 import { newsData } from '../../data/newsData';
 import AnimatedWave from '../../utile/wavyShader _background';
 import FloatingNewsCards from '../FloatingNewsCards';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, useMotionValue } from 'framer-motion';
 import CardDetail from '../../Component/CardDetail';
 import SaveBox from "../../Component/SaveBox";
+import SvgMorphToggle from '../../Component/test';
+import Test from '../../Component/test';
+
 
 
 function Layout({setOnExpand, onExpand}) {
@@ -23,7 +26,7 @@ function Layout({setOnExpand, onExpand}) {
   const [temSavedNews, setTemSavedNews] = useState([])
 
   //뉴스 저장시 진행 그래프
-  const [progress, setProgress] = useState(0.5);
+  const [progress, setProgress] = useState(0);
 
   //내용부분 스크롤링
   const [scroll, setScroll] = useState([0,0]);
@@ -55,7 +58,7 @@ function Layout({setOnExpand, onExpand}) {
       </AnimatePresence>
       <FloatingNewsCards setTemSavedNews={setTemSavedNews} savedNews = {savedNews} setSavedNews={setSavedNews} setProgress={setProgress} progress={progress} setOnExpand={setOnExpand} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex}></FloatingNewsCards>
       <Header></Header>
-      <SaveBox savedNews = {savedNews} temSavedNews={temSavedNews} progress={progress}></SaveBox>
+      <SaveBox savedNews = {savedNews} temSavedNews={temSavedNews} box_progress={progress}></SaveBox>
       <AnimatedWave></AnimatedWave>
     </>
   );

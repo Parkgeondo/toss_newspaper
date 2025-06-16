@@ -12,6 +12,6 @@ top:60px;
 z-index:99;
  & h1{
     font-size: 24px;
-    color: #151A31;
+    color: #293468;
  }
 `

@@ -4,10 +4,9 @@ import { motion } from "framer-motion";
 export const SaveBox_front = styled(motion.div)`
     position: absolute;
     z-index: 200;
-    bottom: 37px;
+    bottom: 75px;
     left: 50%;
     transform: translateX(-50%);
-    /* background-color: yellow; */
 `
 
 export const CircleNews_wrap = styled(motion.div)`
@@ -15,29 +14,22 @@ export const CircleNews_wrap = styled(motion.div)`
     gap:4px;
     align-items:center;
     position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -100%);
     font-weight: 600;
     color: #424865;
     font-size: 16px;
+    background-color: #D3D1E5;
     height: 40px;
     padding: 20px;
     border-radius: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    /* background-color: yellow; */
-`
-
-export const Box_Svg = styled(motion.svg)`
-    height: ${props => props.height}px;
-    width: 347px;
-    /* width: ${props => props.width}px; */
-    transition:width 0.1s ease-out;
-    /* border: 1px solid red; */
 `
 
 export const SaveBox_back = styled(motion.div)`
     position: absolute;
-    z-index: 10;
-    bottom: 41px;
+    z-index: 100;
+    bottom: 60px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;

@@ -13,7 +13,7 @@ function Spinner({count = 8, radius = 1}) {
   })
 
   return (
-    <group ref={groupRef}>
+    <group rotation={[Math.PI / 8, -Math.PI / 5, 0]} ref={groupRef}>
       {box_array.map((_, i) => {
         const angle = (i / count) * Math.PI * 2;
         return (
@@ -27,11 +27,11 @@ function Spinner({count = 8, radius = 1}) {
             >
               <meshPhysicalMaterial
                 color="#7779a3"      // 은은한 크리스탈 색 (마음대로!)
-                transmission={0.8}  // 유리/크리스탈 효과 핵심!
-                thickness={0.4}      // 굴절 깊이
+                transmission={0.02}  // 유리/크리스탈 효과 핵심!
+                thickness={1}      // 굴절 깊이
                 roughness={0.05}     // 거칠기 (0에 가까울수록 유리)
                 metalness={0}      // 금속성 (0~1)
-                ior={1.6}            // 굴절률 (유리/수정=1.5~2)
+                ior={2}            // 굴절률 (유리/수정=1.5~2)
                 transparent
                 opacity={1}
                 reflectivity={0.7}
@@ -51,15 +51,14 @@ export default function Refresh3D() {
     <Refresh_wrap>
       <Canvas style={{ width: '350px', height: '350px' }}>
         <OrthographicCamera
-          zoom={40}
+          zoom={30}
           makeDefault
-          position={[0, 4, 0]}
+          position={[0, 0, 3]}
           near={0.01}
           far={100}
         />
         <ambientLight color="#bfd2ff" intensity={10} />
         <Spinner />
-        <OrbitControls />
       </Canvas>
     </Refresh_wrap>
   )

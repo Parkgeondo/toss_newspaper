@@ -127,8 +127,7 @@ const TemCircleNews = ({ progress, id }) => {
   );
 };
 
-const CircleNewsRow = ({ savedNews, temSavedNews, progress }) => {
-  const [width, setWidth] = useState(0);
+const CircleNewsRow = ({ savedNews, temSavedNews, progress, width, setWidth }) => {
 
   //한번에 보여줄 카운트 양
   const visibleMax = 5;

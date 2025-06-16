@@ -7,7 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 
-function CardNews({setOnExpand, data, cardIndex, card_gap_width, card_width, app_width, isFocused,x,yMinus ,card_distance, setSavedNews,savedNews,progress, setProgress,id,setTemSavedNews}) {
+function CardNews({setOnExpand, data, cardIndex, card_gap_width, card_width, app_width, isFocused,x,yMinus ,card_distance, setSavedNews,savedNews, progress, setProgress,id,setTemSavedNews}) {
 const y = useMotionValue(0);
 
   // x와 y에 따라 크기(scale)를 계산
@@ -31,23 +31,24 @@ const y = useMotionValue(0);
       setOnExpand(true);
     }
     if(progress_.get() > 0.98 && !savedNews.includes(id)) {
-      console.log(savedNews, id, isFocused)
       handleSaveNews()
     }
+    setProgress(progress_.get())
     //상단으로 전달용 
     yMinus.set(latest)
   })
+
+
   const [scope, animate] = useAnimate()
-  const progress_ = useTransform(y, [100,550], [0,1]);
+  const progress_ = useTransform(y, [10,550], [0,1]);
 
   //뉴스 저장하기
   const handleSaveNews = useCallback(() => {
-    setSavedNews((prev) =>
-      [...prev, id]
-    );
+    setSavedNews((prev) => prev.includes(id) ? prev : [...prev, id]);
     setTemSavedNews([]);
     setProgress(0);
   }, [setSavedNews, setTemSavedNews, setProgress, id]);
+
 
 
   //드래그 위로 올릴시,
@@ -61,6 +62,7 @@ const dragUp = () => {
     animate(scope.current, { y: 550 }, { duration: 0.4, ease: "circOut" })
   }
 }
+
 
   const width = useTransform(y, [0,-240], [265,375]);
   const height = useTransform(y, [0,-240], [426,810]);
@@ -150,9 +152,7 @@ const dragUp = () => {
             height,
             borderRadius:radius
           }}>
-            {/* <motion.div className="drag_Button">
-              <img src={clip}></img>아래로 당겨 저장하기
-            </motion.div> */}
+
           </motion.div>
       </CardNews_drag>
   )

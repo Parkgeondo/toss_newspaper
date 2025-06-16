@@ -51,20 +51,20 @@ function AnimatedWave({ start, control1, control2, end, color }) {
 
 export default function WaveBezierScene() {
 
-  const start_1 = new THREE.Vector3(-5, -1, 0);
-  const control1_1 = new THREE.Vector3(-1, 2, 0);
-  const control2_1 = new THREE.Vector3(1, -2, 0);
-  const end_1 = new THREE.Vector3(2, 9, 0);
+  const start_1 = new THREE.Vector3(-5, 7, 0);
+  const control1_1 = new THREE.Vector3(-1, 4, 0);
+  const control2_1 = new THREE.Vector3(1, 0, 0);
+  const end_1 = new THREE.Vector3(9, 9, 0);
 
-  const start_2 = new THREE.Vector3(-5, 2, 0);
+  const start_2 = new THREE.Vector3(-5, 4, 0);
   const control1_2 = new THREE.Vector3(0, 2, 0);
   const control2_2 = new THREE.Vector3(2, 4, 0);
-  const end_2 = new THREE.Vector3(2, 9, 0);
+  const end_2 = new THREE.Vector3(9, 9, 0);
 
-  const start_3 = new THREE.Vector3(-5, 0, 0);
+  const start_3 = new THREE.Vector3(-5, 7, 0);
   const control1_3 = new THREE.Vector3(0, -4, 0);
   const control2_3 = new THREE.Vector3(2, 9, 0);
-  const end_3 = new THREE.Vector3(2, 9, 0);
+  const end_3 = new THREE.Vector3(9, 9, 0);
 
   return (
     <Canvas

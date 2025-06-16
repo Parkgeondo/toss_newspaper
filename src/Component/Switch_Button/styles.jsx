@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 export const Switch_Button_wrap = styled.div`
   position:relative;
 & button {
-  background-color: ${({ theme }) => theme.colors.gray};
-  color: ${({theme}) => theme.colors.white};
+  background-color: #ADB3D5CC;
+  color: #ffffff;
   width: 80px;
   height:31px;
   border: none;
@@ -28,6 +28,6 @@ export const Switch_Button_inner = styled(motion.div)`
   width: 40px;
   height:27px;
   border-radius:20px;
-  background-color: ${({ theme }) => theme.colors.primary};
+  background-color: #293468;
   z-index:0;
 `
