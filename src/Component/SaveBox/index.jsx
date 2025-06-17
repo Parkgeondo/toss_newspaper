@@ -98,21 +98,34 @@ export default function SvgMorphToggle({ savedNews, temSavedNews, box_progress }
   function getMarginBottom(box_progress) {
     if (box_progress < 0.05) return 37;
     if (box_progress < 0.1) return 37 + (22 - 37) * ((box_progress - 0.05) / 0.05);
-    if (box_progress < 0.3) return 22;
-    if (box_progress < 1) return 22 + (14 - 22) * ((box_progress - 0.3) / 0.7);
+    if (box_progress < 0.2) return 22;
+    if (box_progress < 0.5) return 22 + (14 - 22) * ((box_progress - 0.2) / 0.3);
+    if (box_progress < 1) return 14;
     return 14;
   }
+
+  function getTextMarginBottom(box_progress) {
+    if (box_progress < 0.05) return 40;
+    if (box_progress < 0.1)  return 40 + (40 - 38) * ((box_progress - 0.05) / 0.05); // 38 → 40
+    if (box_progress < 0.2)  return 40 + (30 - 40) * ((box_progress - 0.1) / 0.1);   // 40 → 30
+    if (box_progress < 0.4)  return 30 + (20 - 30) * ((box_progress - 0.2) / 0.2);   // 30 → 20
+    if (box_progress < 0.7)  return 20 + (14 - 20) * ((box_progress - 0.4) / 0.3);   // 20 → 14
+    return 14;
+  }
+
   const margin_bottom = getMarginBottom(box_progress);
+  const margin_text_bottom = getTextMarginBottom(box_progress);
 
   return (
     <>
       <SaveBox_front style={{ bottom: margin_bottom }}>
-        <CircleNews_wrap>
-          <p style={{
+        <CircleNews_wrap margin_text_bottom = {margin_text_bottom}>
+          <p
+            style={{
             maxWidth: "180px",
             whiteSpace: "nowrap",
             overflow: "hidden",
-            textOverflow: "ellipsis"
+            textOverflow: "ellipsis",
           }}>
             {savedNews.length ? '저장된 뉴스' : '뉴스를 여기로 끌어 저장'}
           </p>

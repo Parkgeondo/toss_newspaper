@@ -32,6 +32,9 @@ const y = useMotionValue(0);
     }
     if(progress_.get() > 0.98 && !savedNews.includes(id)) {
       handleSaveNews()
+      setTimeout(() => {
+        setProgress(0);  // 0.5초 후 0으로 리셋
+      }, 400);
     }
     setProgress(progress_.get())
     //상단으로 전달용 
