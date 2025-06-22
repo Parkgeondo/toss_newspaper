@@ -5,7 +5,7 @@ import { animate, motion, useMotionValue, useMotionValueEvent, useTransform } fr
 import { useRef, useState } from "react";
 import Refresh3D from "../../Component/Refresh";
 
-function FloatingNewsCards({setTemSavedNews, setOnExpand, currentIndex, setCurrentIndex,setSavedNews, savedNews,progress, setProgress}) {
+function FloatingNewsCards({setTemSavedNews, setOnExpand, currentIndex, setCurrentIndex,setSavedNews, savedNews,progress}) {
   
 
   //가짜 카드 앞뒤로 넣어주기
@@ -34,7 +34,6 @@ function FloatingNewsCards({setTemSavedNews, setOnExpand, currentIndex, setCurre
   
   const yMinus = useMotionValue(0);
 
-  
   useMotionValueEvent(x, "change", (latest) => {
     setCurrentIndex(- Math.round((latest - offset) / (card_width + 12)));
   });
@@ -47,16 +46,15 @@ function FloatingNewsCards({setTemSavedNews, setOnExpand, currentIndex, setCurre
     }else{
       setOverHide(false)
     }
+    console.log(yMinus.get())
   });
 
-  //드래그 방향 분별
   const dragdirection = useRef({
     downPoint:null,
     upPoint:null,
     direction:null
   });
 
-  //드래그 비활성화
   const [dragDisabled, setDragDisabled] = useState(false);
 
   const [dragNumber, setDragNumber] = useState(0);
@@ -64,7 +62,6 @@ function FloatingNewsCards({setTemSavedNews, setOnExpand, currentIndex, setCurre
   const Refresh = () => {
     setDragDisabled(true);
     console.log('새로고침');
-    // 1초 동안 -135로 이동
     animate(x, -135, {
       type: "spring",
       stiffness: 300,
@@ -77,7 +74,7 @@ function FloatingNewsCards({setTemSavedNews, setOnExpand, currentIndex, setCurre
         damping: 30,
         onComplete: () => setDragDisabled(false)
       });
-    }, 1000); // 1초 후 -228로 이동
+    }, 1000);
   };
 
   const onPointerDown = (e) => {
@@ -130,10 +127,9 @@ const snapTargetX = (target) => {
         modifyTarget: snapTargetX,
       }}
     >
-      <Refresh3D></Refresh3D>
-
+      {/* <Refresh3D></Refresh3D> */}
       {blankAddedNews.map((data, cardIndex) => (
-        <CardNews key={data.id} savedNews={savedNews} setSavedNews ={setSavedNews} progress={progress} setProgress={setProgress} setTemSavedNews={setTemSavedNews} id={data.id} setOnExpand={setOnExpand} data={data} cardIndex={cardIndex} currentIndex={currentIndex} app_width={app_width} card_gap_width ={card_gap_width} card_width = {card_width} isFocused={cardIndex === currentIndex} x={x} yMinus={yMinus} card_distance={card_gap_width * cardIndex}/>
+        <CardNews key={data.id} savedNews={savedNews} setSavedNews ={setSavedNews} progress={progress} setTemSavedNews={setTemSavedNews} id={data.id} setOnExpand={setOnExpand} data={data} cardIndex={cardIndex} currentIndex={currentIndex} app_width={app_width} card_gap_width ={card_gap_width} card_width = {card_width} isFocused={cardIndex === currentIndex} x={x} yMinus={yMinus} card_distance={card_gap_width * cardIndex}/>
       ))}
     </FloatingNewsCards_wrap>
   );

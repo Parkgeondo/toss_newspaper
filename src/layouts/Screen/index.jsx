@@ -15,7 +15,6 @@ import Test from '../../Component/test';
 
 function Layout({setOnExpand, onExpand}) {
 
-  //현재 탭 상태 확인(뉴스면 news 저장한 뉴스면 saved)(굳이 텍스트를 쓸 필요가 있나?)
   const tabs = ['news','saved']
   const [selectedTab, setSelectedTab] = useState(tabs[0])
 
@@ -26,7 +25,8 @@ function Layout({setOnExpand, onExpand}) {
   const [temSavedNews, setTemSavedNews] = useState([])
 
   //뉴스 저장시 진행 그래프
-  const [progress, setProgress] = useState(0);
+  // const [progress, setProgress] = useState(0);
+ const progress = useMotionValue(0)
 
   //내용부분 스크롤링
   const [scroll, setScroll] = useState([0,0]);
@@ -56,7 +56,7 @@ function Layout({setOnExpand, onExpand}) {
       <AnimatePresence>
           {onExpand && <CardDetail data = {newsData[currentIndex-1]} id={currentIndex}></CardDetail>}
       </AnimatePresence>
-      <FloatingNewsCards setTemSavedNews={setTemSavedNews} savedNews = {savedNews} setSavedNews={setSavedNews} setProgress={setProgress} progress={progress} setOnExpand={setOnExpand} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex}></FloatingNewsCards>
+      <FloatingNewsCards setTemSavedNews={setTemSavedNews} savedNews = {savedNews} setSavedNews={setSavedNews} progress={progress} setOnExpand={setOnExpand} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex}></FloatingNewsCards>
       <Header></Header>
       <SaveBox savedNews = {savedNews} temSavedNews={temSavedNews} box_progress={progress}></SaveBox>
       <AnimatedWave></AnimatedWave>

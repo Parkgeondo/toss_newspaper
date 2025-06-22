@@ -7,7 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 
-function CardNews({setOnExpand, data, cardIndex, card_gap_width, card_width, app_width, isFocused,x,yMinus ,card_distance, setSavedNews,savedNews, progress, setProgress,id,setTemSavedNews}) {
+function CardNews({setOnExpand, data, cardIndex, card_gap_width, card_width, app_width, isFocused,x,yMinus ,card_distance, setSavedNews,savedNews, progress,id,setTemSavedNews}) {
 const y = useMotionValue(0);
 
   // x와 y에 따라 크기(scale)를 계산
@@ -27,58 +27,54 @@ const y = useMotionValue(0);
   });
 
   useMotionValueEvent(y, "change", (latest) => {
-    if(y.get() < -240){
+    progress.set(latest);
+    yMinus.set(latest);
+    if(progress.get() < 0){
+      
+    }
+    if(progress.get() < -212){
       setOnExpand(true);
     }
-    if(progress_.get() > 0.98 && !savedNews.includes(id)) {
-      handleSaveNews()
-      setTimeout(() => {
-        setProgress(0);  // 0.5초 후 0으로 리셋
-      }, 400);
+    if(progress.get() === 550 && !savedNews.includes(id)) {
+      handleSaveNews();
+    progress.set(0);
     }
-    setProgress(progress_.get())
-    //상단으로 전달용 
-    yMinus.set(latest)
   })
 
-
   const [scope, animate] = useAnimate()
-  const progress_ = useTransform(y, [10,550], [0,1]);
 
   //뉴스 저장하기
   const handleSaveNews = useCallback(() => {
     setSavedNews((prev) => prev.includes(id) ? prev : [...prev, id]);
     setTemSavedNews([]);
-    setProgress(0);
-  }, [setSavedNews, setTemSavedNews, setProgress, id]);
+  }, [setSavedNews, setTemSavedNews, id]);
 
 
 
-  //드래그 위로 올릴시,
 const dragUp = () => {
   const dragY = y.get()
   if(dragY<-20){
     animate(scope.current, { y: -242 }, { duration: 0.4, ease: "circOut" })
-  }else if(dragY>-20 && dragY<20){
+  }else if(dragY>-60 && dragY<60){
     animate(scope.current, { y: 0 }, { duration: 0.4, ease: "circOut" })
-  }else if(dragY>20){
+  }else if(dragY>60){
     animate(scope.current, { y: 550 }, { duration: 0.4, ease: "circOut" })
   }
 }
 
 
-  const width = useTransform(y, [0,-240], [265,375]);
-  const height = useTransform(y, [0,-240], [426,810]);
-  const opacity = useTransform(y, [0,-240], [1,0]);
-  const temy = useTransform(yMinus,[0,-240],[0,-55]);
-  const radius = useTransform(y,[0,-240],[24,12]);
+  const width = useTransform(y, [0,-212], [265,375]);
+  const height = useTransform(y, [0,-212], [426,814]);
+  const opacity = useTransform(y, [0,-212], [1,0]);
+  const temy = useTransform(yMinus,[0,-212],[0,-55]);
+  const radius = useTransform(y,[0,-212],[24,12]);
 
-  const textBody_opacity = useTransform(y, [0,-240], [0,480]);
+  const textBody_opacity = useTransform(y, [0,-212], [0,480]);
   const [textMaskPercent, setTextMaskPercent] = useState(0);
   useMotionValueEvent(textBody_opacity, "change", (latest) => {
     setTextMaskPercent(latest);
   });
-  const textBody_scale = useTransform(y, [0,-240], [0.651,1]);
+  const textBody_scale = useTransform(y, [0,-212], [0.651,1]);
 
 
   if (data.isBlank) {
@@ -95,7 +91,7 @@ const dragUp = () => {
         drag="y"
         ref={scope}
         onDragEnd={dragUp}
-        dragDirectionLock   // ✅ 중요!
+        dragDirectionLock 
         dragListener={true}
         // dragConstraints={{ top: -1000, bottom: 0 }}
         style={{
