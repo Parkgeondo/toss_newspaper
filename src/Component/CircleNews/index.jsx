@@ -9,13 +9,12 @@ const gap = 8;
 const radius = (size - stroke) / 2;
 const circumference = radius * 2 * Math.PI;
 
-const CircleNews = ({ id, isShrinking = false, offsetX, savedNews, temSavedNews}) => {
+const CircleNews = ({ id, isShrinking = false, offsetX, savedNews, temSavedNews, marginRight}) => {
   const savedData = newsData.find((item) => item.id === id);
-
   return (
     <motion.svg
       initial={{ x: offsetX, scale: 1 }}
-      style={{ marginRight: -gap, overflow: "visible"}}
+      style={{ marginRight: marginRight, overflow: "visible"}}
       width={size}
       height={size}
       animate={{
@@ -49,6 +48,8 @@ const CircleNews = ({ id, isShrinking = false, offsetX, savedNews, temSavedNews}
     </motion.svg>
   );
 };
+
+export { CircleNews };
 
 const TemCircleNews = ({ progress, id }) => {
   const circleControls = useAnimation();
@@ -158,7 +159,7 @@ const CircleNewsRow = ({ savedNews, temSavedNews, progress, width, setWidth }) =
         //이 부분 수정해보기
         const offsetX = !isHidden ? -8 * overCount : 0;
         return(
-        <CircleNews key={index} id={key} isShrinking={isHidden} offsetX={offsetX} savedNews={savedNews} temSavedNews={temSavedNews}/>
+        <CircleNews marginRight={-8} key={index} id={key} isShrinking={isHidden} offsetX={offsetX} savedNews={savedNews} temSavedNews={temSavedNews}/>
       )})}
       <AnimatePresence>
         {(temSavedNews[0]) > 0 && (

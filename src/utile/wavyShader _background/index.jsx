@@ -71,6 +71,7 @@ export default function WaveBezierScene() {
       orthographic
       camera={{ position: [0, 0, 10], zoom: 100 }}
       style={{
+        zIndex:"-100",
         width: "900px",
         height: "900px",
         background: "#f5f7fa",

@@ -10,6 +10,7 @@ import CardDetail from '../../Component/CardDetail';
 import SaveBox from "../../Component/SaveBox";
 import SvgMorphToggle from '../../Component/test';
 import Test from '../../Component/test';
+import Indicator from '../../Component/Indicator';
 
 
 
@@ -48,17 +49,21 @@ function Layout({setOnExpand, onExpand}) {
     return initialMap;
   });
 //--------------------
+ // 카드 확대와 일반을 매끄럽게 드래그, false면 주도권을 deatil에게 true면 일반card에게
+  const [isDragging, setIsDragging] = useState(false);  
+
   //현재 선택된 카드
   const [currentIndex,setCurrentIndex] = useState(1)
 
   return (
     <>
+      <Indicator currentIndex={currentIndex}></Indicator>
       <AnimatePresence>
-          {onExpand && <CardDetail data = {newsData[currentIndex-1]} id={currentIndex}></CardDetail>}
+          {onExpand && <CardDetail setOnExpand={setOnExpand} isDragging={isDragging} id={currentIndex} progress={progress}></CardDetail>}
       </AnimatePresence>
-      <FloatingNewsCards setTemSavedNews={setTemSavedNews} savedNews = {savedNews} setSavedNews={setSavedNews} progress={progress} setOnExpand={setOnExpand} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex}></FloatingNewsCards>
+      <FloatingNewsCards setIsDragging={setIsDragging} setTemSavedNews={setTemSavedNews} savedNews = {savedNews} setSavedNews={setSavedNews} progress={progress} setOnExpand={setOnExpand} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex}></FloatingNewsCards>
       <Header></Header>
-      <SaveBox savedNews = {savedNews} temSavedNews={temSavedNews} box_progress={progress}></SaveBox>
+      <SaveBox savedNews={savedNews} temSavedNews={temSavedNews} box_progress={progress}></SaveBox>
       <AnimatedWave></AnimatedWave>
     </>
   );

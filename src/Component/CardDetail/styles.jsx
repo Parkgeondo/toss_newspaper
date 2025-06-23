@@ -4,14 +4,15 @@ import { motion } from "framer-motion";
 
 export const CardDetail_wrap = styled(motion.div)`
    width: 100%;
-   height: 100%;
+   gap: 120px;
    background-color: #20262A;
    position: absolute;
    z-index:120;
-   & .drag{
-    
-   }
-
+   display: flex;
+   flex-direction: column;
+    & .drag {
+      background-color: #20262A;
+    }
    & .textBody{
     margin-top: 54px;
       & .subtitle{
@@ -39,11 +40,9 @@ export const CardDetail_wrap = styled(motion.div)`
     z-index: 100;
    }
    & .text{
-    top: 286px;
-    position: absolute;
+    margin-top: -140px;
+    padding: 0px 26px;
     z-index: 100;
-    left: 26px;
-    right: 26px;
    }
    & .title{
     font-weight: 500;
@@ -83,18 +82,15 @@ export const CardDetail_wrap = styled(motion.div)`
       rgba(32, 38, 42, 0.52) 33%,
       rgba(32, 38, 42, 1) 64%
     );
-    position: absolute;
-    top: 190px;
-    left: 0;
-    right: 0;
+    margin-top: -164px;
     height: 236px;
     z-index: 99;
    }
    & .thumnail{
-    position: absolute;
-    left: 50%;
+    width: 100%;
     top: -2px;
-    transform: translateX(-50%);
     height: 354px;
+    object-fit: cover;
+    object-position: center;
    }
 `

@@ -1,4 +1,4 @@
-import { useAnimate, useMotionTemplate, useMotionValue, useMotionValueEvent, useTransform } from "framer-motion";
+import { isDragging, useAnimate, useMotionTemplate, useMotionValue, useMotionValueEvent, useTransform } from "framer-motion";
 import { CardNews_clip, CardNews_wrap } from "./styles"
 import { CardNews_drag } from "./styles"
 import card_effect from "../../img/card_effect.png"
@@ -7,7 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 
-function CardNews({setOnExpand, data, cardIndex, card_gap_width, card_width, app_width, isFocused,x,yMinus ,card_distance, setSavedNews,savedNews, progress,id,setTemSavedNews}) {
+function CardNews({setIsDragging, setOnExpand, data, cardIndex, card_gap_width, card_width, app_width, isFocused,x,yMinus ,card_distance, setSavedNews,savedNews, progress,id,setTemSavedNews}) {
 const y = useMotionValue(0);
 
   // x와 y에 따라 크기(scale)를 계산
@@ -27,12 +27,14 @@ const y = useMotionValue(0);
   });
 
   useMotionValueEvent(y, "change", (latest) => {
-    progress.set(latest);
-    yMinus.set(latest);
-    if(progress.get() < 0){
-      
+    if(isDragging){
+      progress.set(latest);
+    }else if(!isDragging){
+      y.set(progress.get())
     }
-    if(progress.get() < -212){
+    console.log(isDragging,latest,progress.get())
+    yMinus.set(latest);
+    if(progress.get() < -210){
       setOnExpand(true);
     }
     if(progress.get() === 550 && !savedNews.includes(id)) {
@@ -54,12 +56,13 @@ const y = useMotionValue(0);
 const dragUp = () => {
   const dragY = y.get()
   if(dragY<-20){
-    animate(scope.current, { y: -242 }, { duration: 0.4, ease: "circOut" })
+    animate(scope.current, { y: -212 }, { duration: 0.4, ease: "circOut" })
   }else if(dragY>-60 && dragY<60){
     animate(scope.current, { y: 0 }, { duration: 0.4, ease: "circOut" })
   }else if(dragY>60){
     animate(scope.current, { y: 550 }, { duration: 0.4, ease: "circOut" })
   }
+  setIsDragging(false)
 }
 
 
@@ -93,7 +96,7 @@ const dragUp = () => {
         onDragEnd={dragUp}
         dragDirectionLock 
         dragListener={true}
-        // dragConstraints={{ top: -1000, bottom: 0 }}
+        onDragStart={() => setIsDragging(true)}
         style={{
           scale:distance,
           width,
@@ -149,7 +152,7 @@ const dragUp = () => {
         <motion.div className="plus"
           style={{
             height,
-            borderRadius:radius
+            borderRadius:radius,
           }}>
 
           </motion.div>

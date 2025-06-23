@@ -12,7 +12,15 @@ export default function SvgMorphToggle({ savedNews, temSavedNews, box_progress }
   const rotateX = useMotionValue(0); // 🎯 핵심 포인트
   const transform = useTransform(rotateX, (r) => `translateX(-50%) rotateX(${r}deg)`);
 
+  const [zIndex, setZIndex] = useState(100); // 기본값은 원래 계층
+
+
   useMotionValueEvent(box_progress, "change", (latest) => {
+    if(box_progress.get() < 0){
+      setZIndex(0)
+    }else {
+      setZIndex(100)
+    }
     if (latest >= 0.01 && !isOpen) {
       setIsOpen(true);
       const openAnimation = async () => {
@@ -58,7 +66,7 @@ export default function SvgMorphToggle({ savedNews, temSavedNews, box_progress }
 
   return (
     <>
-      <Folder ref={folderRef} style={{ transform }}>
+      <Folder ref={folderRef} style={{ transform, zIndex }}>
         <CircleNews_wrap>
           <p
             style={{

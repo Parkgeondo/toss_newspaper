@@ -7,7 +7,7 @@ export const Folder = styled(motion.div)`
   align-items: center;
   justify-content: center;
   position: absolute;
-  z-index: 200;
+  z-index: 100;
   width: 100px;
   height: 40px;
   border-radius: 12px;
@@ -33,7 +33,7 @@ export const Folder = styled(motion.div)`
 
 export const Folder_back = styled(motion.div)`
     position: absolute;
-    z-index: 50;
+    z-index: -2;
     width: 100px;
     height: 40px;
     border-radius: 12px;

@@ -5,7 +5,7 @@ import { animate, motion, useMotionValue, useMotionValueEvent, useTransform } fr
 import { useRef, useState } from "react";
 import Refresh3D from "../../Component/Refresh";
 
-function FloatingNewsCards({setTemSavedNews, setOnExpand, currentIndex, setCurrentIndex,setSavedNews, savedNews,progress}) {
+function FloatingNewsCards({setIsDragging, setTemSavedNews, setOnExpand, currentIndex, setCurrentIndex,setSavedNews, savedNews,progress}) {
   
 
   //가짜 카드 앞뒤로 넣어주기
@@ -46,7 +46,6 @@ function FloatingNewsCards({setTemSavedNews, setOnExpand, currentIndex, setCurre
     }else{
       setOverHide(false)
     }
-    console.log(yMinus.get())
   });
 
   const dragdirection = useRef({
@@ -129,7 +128,7 @@ const snapTargetX = (target) => {
     >
       {/* <Refresh3D></Refresh3D> */}
       {blankAddedNews.map((data, cardIndex) => (
-        <CardNews key={data.id} savedNews={savedNews} setSavedNews ={setSavedNews} progress={progress} setTemSavedNews={setTemSavedNews} id={data.id} setOnExpand={setOnExpand} data={data} cardIndex={cardIndex} currentIndex={currentIndex} app_width={app_width} card_gap_width ={card_gap_width} card_width = {card_width} isFocused={cardIndex === currentIndex} x={x} yMinus={yMinus} card_distance={card_gap_width * cardIndex}/>
+        <CardNews key={data.id} setIsDragging={setIsDragging} savedNews={savedNews} setSavedNews ={setSavedNews} progress={progress} setTemSavedNews={setTemSavedNews} id={data.id} setOnExpand={setOnExpand} data={data} cardIndex={cardIndex} currentIndex={currentIndex} app_width={app_width} card_gap_width ={card_gap_width} card_width = {card_width} isFocused={cardIndex === currentIndex} x={x} yMinus={yMinus} card_distance={card_gap_width * cardIndex}/>
       ))}
     </FloatingNewsCards_wrap>
   );

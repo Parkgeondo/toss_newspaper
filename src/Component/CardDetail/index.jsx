@@ -1,11 +1,34 @@
+import { useEffect, useState } from "react";
 import {CardDetail_wrap} from "./styles";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useMotionValueEvent } from "framer-motion";
+import { newsData } from '../../data/newsData';
 
+export default function CardDetail({ progress,isDragging,setOnExpand }) {
 
-export default function CardDetail({ id, onClose, data }) {
+  const y = useMotionValue(0);
+
+  //투명도 조절
+  const [isFadingOut, setIsFadingOut] = useState(true);
+
+  useMotionValueEvent(progress, "change", (latest) => {
+    if (isDragging) {
+      y.set(latest + 212);
+    }
+  });
+
+  useMotionValueEvent(y, "change", (latest) => {
+    if(latest > 0 ){
+      // setOnExpand(false)
+      setIsFadingOut(false)
+    }
+  })
+
   return (
-    <CardDetail_wrap>
-      <motion.div className="drag" drag='y'>
+    <CardDetail_wrap drag='y' style={{ y,opacity: isFadingOut ? 1 : 0.2,}} 
+      // onDragStart={()=>{}}
+    >
+      {newsData.map((data) => (
+      <motion.div className="drag" key={data.id}>
         <img src={data.bigImage} className="thumnail" alt="" />
         <div className="gradient"></div>
         <motion.div className="text" style={{
@@ -18,10 +41,6 @@ export default function CardDetail({ id, onClose, data }) {
           <div className="badge">{data.category}</div>
           <div className="badge">{data.date}</div>
           <motion.div className="textBody"
-            // initial={{ opacity: 0, y: 10 }}
-            // animate={{ opacity: 1, y: 0 }}
-            // exit={{ opacity: 0 }}
-            // transition={{ duration: 0.3 }}
             >
             {data.subTitle1 && <div className="subtitle">{data.subTitle1}</div>}
             {data.content1 && <div className="content">{data.content1}</div>}
@@ -37,6 +56,7 @@ export default function CardDetail({ id, onClose, data }) {
           </motion.div>
         </motion.div>
       </motion.div>
+      ))}
     </CardDetail_wrap>
   );
 }

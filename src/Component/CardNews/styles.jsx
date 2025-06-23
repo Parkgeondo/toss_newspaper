@@ -9,8 +9,7 @@ export const CardNews_drag = styled(motion.div)`
     width: 100%;
     position: absolute;
     background-color: #20262A;
-    z-index: -9;
-
+    z-index: -1;
     & .drag_Button{
       font-weight: 600;
       color: #424865;
@@ -39,14 +38,12 @@ export const CardNews_drag = styled(motion.div)`
     width: 100%;
     left: 0;
     top: 0;
-    z-index: 100;
    }
   & .textBody{
     transform-origin: center top;
     left: 50%;
     padding: 0px 26px;
     width: 375px;
-    z-index: 100;
     margin-top: -10px;
     position: absolute;
     -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
@@ -81,8 +78,8 @@ export const CardNews_wrap = styled(motion.div)`
     top: 286px;
     width: 217px;
     position: absolute;
-    z-index: 100;
     left: 26px;
+    z-index: 0;
    }
    & .title{
     font-weight: 500;
@@ -127,10 +124,11 @@ export const CardNews_wrap = styled(motion.div)`
     left: 0;
     right: 0;
     height: 236px;
-    z-index: 99;
+    z-index: -1;
    }
    & .thumnail{
     position: absolute;
+    z-index: -2;
     left: 50%;
     transform: translateX(-50%);
     top: -2px;
