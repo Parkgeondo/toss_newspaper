@@ -7,11 +7,13 @@ import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 
-function CardNews({setIsDragging, setOnExpand, data, cardIndex, card_gap_width, card_width, app_width, isFocused,x,yMinus ,card_distance, setSavedNews,savedNews, progress,id,setTemSavedNews}) {
-const y = useMotionValue(0);
+function CardNews({setIsDragging, setOnExpand, data, cardIndex, card_gap_width, card_width, app_width, isFocused,x, yMinus ,card_distance, setSavedNews,savedNews, progress,id,setTemSavedNews}) {
+
+  //각 카드들의 세로 드래그
+  const y = useMotionValue(0);
 
   // x와 y에 따라 크기(scale)를 계산
-  const distance = useTransform([x, y], ([latestX, latestY]) => {
+  const distance = useTransform(x, (latestX) => {
     const screenCenter = app_width * 0.5;
     const cardCenterX = card_distance + latestX;
 
@@ -21,19 +23,26 @@ const y = useMotionValue(0);
     const clampedX = Math.min(rawX, maxX);
     const normX = clampedX / maxX; // 0 ~ 1
 
-    // scale 계산: 기본 1에서 x는 축소, y는 확대
     const scale = 1 - normX * 0.2;
     return scale;
   });
 
+  //카드 투명도 조절
+  const [isFadingOut, setIsFadingOut] = useState(true);
+
+  //카드 세로 드래그
   useMotionValueEvent(y, "change", (latest) => {
+    yMinus.set(latest);
+    console.log(progress.get())
+    //만약 주도권이 일반카드에게 있는 경우
     if(isDragging){
+    //일반카드의 세로 드래그를 확장카드가 따라감
       progress.set(latest);
+    //만약 주도권이 확장카드에게 있는 경우
     }else if(!isDragging){
+    //확장카드의 세로 드래그를 일반카드가 따라감
       y.set(progress.get())
     }
-    console.log(isDragging,latest,progress.get())
-    yMinus.set(latest);
     if(progress.get() < -210){
       setOnExpand(true);
     }
@@ -41,7 +50,16 @@ const y = useMotionValue(0);
       handleSaveNews();
     progress.set(0);
     }
+    if(y.get() === 550){
+      setIsFadingOut(false)
+    }else{
+      setIsFadingOut(true)
+    }
   })
+
+  useEffect(()=>{
+    console.log(isFadingOut)
+  },[isFadingOut])
 
   const [scope, animate] = useAnimate()
 
@@ -69,7 +87,7 @@ const dragUp = () => {
   const width = useTransform(y, [0,-212], [265,375]);
   const height = useTransform(y, [0,-212], [426,814]);
   const opacity = useTransform(y, [0,-212], [1,0]);
-  const temy = useTransform(yMinus,[0,-212],[0,-55]);
+  const temy = useTransform(y,[0,-212],[0,-55]);
   const radius = useTransform(y,[0,-212],[24,12]);
 
   const textBody_opacity = useTransform(y, [0,-212], [0,480]);
@@ -98,6 +116,7 @@ const dragUp = () => {
         dragListener={true}
         onDragStart={() => setIsDragging(true)}
         style={{
+          opacity: isFadingOut ? 1 : 0,
           scale:distance,
           width,
           x:temy,

@@ -4,14 +4,20 @@ import {SavedNewsWrapper} from "./styles";
 import {motion, useScroll} from "framer-motion";
 
 const SavedNews = ({ id,savedScrollbarRef,onProgress }) => {
+
   const savedData = newsData.find((item) => item.id === id);
 
   const {publisher, publisherImg, title, date,category, subTitle1, subTitle2, subTitle3, content1, content2, content3, content4, content5, data, bigImage} = savedData
 
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
+
+        //스크롤의 부모 주체
         container: savedScrollbarRef,
+
+        //스크롤 주체
         target: ref,
+        
         // offset: ["start center", "end center"]
         offset: ["start start","end end"],
   })

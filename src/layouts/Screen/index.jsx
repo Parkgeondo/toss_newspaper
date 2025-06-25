@@ -26,7 +26,6 @@ function Layout({setOnExpand, onExpand}) {
   const [temSavedNews, setTemSavedNews] = useState([])
 
   //뉴스 저장시 진행 그래프
-  // const [progress, setProgress] = useState(0);
  const progress = useMotionValue(0)
 
   //내용부분 스크롤링
@@ -57,7 +56,7 @@ function Layout({setOnExpand, onExpand}) {
 
   return (
     <>
-      <Indicator currentIndex={currentIndex}></Indicator>
+      <Indicator progress={progress} currentIndex={currentIndex}></Indicator>
       <AnimatePresence>
           {onExpand && <CardDetail setOnExpand={setOnExpand} isDragging={isDragging} id={currentIndex} progress={progress}></CardDetail>}
       </AnimatePresence>

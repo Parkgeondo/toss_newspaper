@@ -3,7 +3,6 @@ import './App.css';
 import { useEffect, useState } from "react";
 import StatusBar from './Component/StatusBar';
 import Screen from './layouts/Screen';
-import Test from '../src/test';
 import { ThemeProvider } from '@emotion/react';
 import theme from './styles/theme';
 

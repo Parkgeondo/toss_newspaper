@@ -30,16 +30,13 @@ function FloatingNewsCards({setIsDragging, setTemSavedNews, setOnExpand, current
   // const maxScrollLeft = -(blankAddedNews.length - 2) * card_gap_width + (offset - gap*0.5);
   const maxScrollLeft = -(blankAddedNews.length - 2) * card_gap_width + (offset - gap*0.5);
 
+  //카드 일열 가로 스크롤 관리
   const x = useMotionValue(initialX);
   
+  //카드 세로 스크롤 상위로 끌어올림
   const yMinus = useMotionValue(0);
 
-  useMotionValueEvent(x, "change", (latest) => {
-    setCurrentIndex(- Math.round((latest - offset) / (card_width + 12)));
-  });
-
-  const [overHide,setOverHide] = useState(false)
-  
+  //카드 세로 스크롤 상위로 끌어올림
   useMotionValueEvent(yMinus, "change", (latest) => {
     if(latest > 0){
       setOverHide(true)
@@ -47,6 +44,12 @@ function FloatingNewsCards({setIsDragging, setTemSavedNews, setOnExpand, current
       setOverHide(false)
     }
   });
+
+  useMotionValueEvent(x, "change", (latest) => {
+    setCurrentIndex(- Math.round((latest - offset) / (card_width + 12)));
+  });
+
+  const [overHide,setOverHide] = useState(false)
 
   const dragdirection = useRef({
     downPoint:null,

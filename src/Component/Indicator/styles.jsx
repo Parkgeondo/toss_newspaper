@@ -11,7 +11,6 @@ export const Indicator_wrap = styled(motion.div)`
     color: white;
     border-radius: 40px;
     left: 50%;
-    top: 36px;
     transform: translate(-50%, 0%);
     white-space: nowrap;
     overflow: hidden;
@@ -22,4 +21,5 @@ export const Indicator_wrap = styled(motion.div)`
     align-items: center;
     justify-content: center;
     gap:8px;
+    transition: translate 0.4s ease-in-out;
 `
