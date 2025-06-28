@@ -14,7 +14,7 @@ import Indicator from '../../Component/Indicator';
 
 
 
-function Layout({setOnExpand, onExpand}) {
+function Layout({setOnExpand, onExpand, containerRef}) {
 
   const tabs = ['news','saved']
   const [selectedTab, setSelectedTab] = useState(tabs[0])
@@ -25,7 +25,7 @@ function Layout({setOnExpand, onExpand}) {
   //뉴스 임시저장
   const [temSavedNews, setTemSavedNews] = useState([])
 
-  //뉴스 저장시 진행 그래프
+  //progress를 일반카드와 확장카드에 같이 쓴다?
  const progress = useMotionValue(0)
 
   //내용부분 스크롤링
@@ -39,7 +39,6 @@ function Layout({setOnExpand, onExpand}) {
 
   //savedNew 진행율
   const [tabLine, setTabLine] = useState(() => {
-  
   //그래프 진행율 맵인것같은데
   const initialMap = new Map();
     newsData.forEach(news => {
@@ -58,7 +57,7 @@ function Layout({setOnExpand, onExpand}) {
     <>
       <Indicator progress={progress} currentIndex={currentIndex}></Indicator>
       <AnimatePresence>
-          {onExpand && <CardDetail setOnExpand={setOnExpand} isDragging={isDragging} id={currentIndex} progress={progress}></CardDetail>}
+          {onExpand && <CardDetail containerRef={containerRef} setTabLine={setTabLine} tabLine={tabLine} setOnExpand={setOnExpand} isDragging={isDragging} id={currentIndex} progress={progress}></CardDetail>}
       </AnimatePresence>
       <FloatingNewsCards setIsDragging={setIsDragging} setTemSavedNews={setTemSavedNews} savedNews = {savedNews} setSavedNews={setSavedNews} progress={progress} setOnExpand={setOnExpand} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex}></FloatingNewsCards>
       <Header></Header>

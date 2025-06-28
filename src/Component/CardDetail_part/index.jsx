@@ -1,4 +1,34 @@
-<motion.div className="drag" key={data.id} ref={(el) => cardRefs.current.set(data.id, el)}>
+import { motion, useMotionValue, useMotionValueEvent, useScroll } from "framer-motion";
+import { useEffect, useRef } from "react";
+
+export default function CardDetail_part({
+  data, id, index, y,
+  containerRef,
+  onProgress,
+  cardHeights,
+  totalHeightBefore
+}) {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (ref.current) {
+      cardHeights.current[index] = ref.current.getBoundingClientRect().height;
+    }
+  }, []);
+
+  useMotionValueEvent(y, "change", (latest) => {
+    const cardStartY = totalHeightBefore(index);
+    const height = cardHeights.current[index] || 1;
+
+    const rawProgress = (Math.abs(latest) - cardStartY) / (height -  containerRef.current.getBoundingClientRect().height);
+    const clamped = Math.max(0, Math.min(1, rawProgress));
+    const percent = Math.round(clamped * 100);
+
+    onProgress?.(id, percent);
+  });
+
+  return (
+      <motion.div className="drag" key={data.id} ref={ref}>
         <img src={data.bigImage} className="thumnail" alt="" />
         <div className="gradient"></div>
         <motion.div className="text" style={{
@@ -25,3 +55,6 @@
             {data.content5 && <div className="content">{data.content5}</div>}
           </motion.div>
         </motion.div>
+      </motion.div>
+  )
+}

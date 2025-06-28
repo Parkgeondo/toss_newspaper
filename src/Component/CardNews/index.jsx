@@ -33,14 +33,9 @@ function CardNews({setIsDragging, setOnExpand, data, cardIndex, card_gap_width, 
   //카드 세로 드래그
   useMotionValueEvent(y, "change", (latest) => {
     yMinus.set(latest);
-    console.log(progress.get())
-    //만약 주도권이 일반카드에게 있는 경우
     if(isDragging){
-    //일반카드의 세로 드래그를 확장카드가 따라감
       progress.set(latest);
-    //만약 주도권이 확장카드에게 있는 경우
     }else if(!isDragging){
-    //확장카드의 세로 드래그를 일반카드가 따라감
       y.set(progress.get())
     }
     if(progress.get() < -210){
@@ -56,11 +51,6 @@ function CardNews({setIsDragging, setOnExpand, data, cardIndex, card_gap_width, 
       setIsFadingOut(true)
     }
   })
-
-  useEffect(()=>{
-    console.log(isFadingOut)
-  },[isFadingOut])
-
   const [scope, animate] = useAnimate()
 
   //뉴스 저장하기
@@ -87,7 +77,7 @@ const dragUp = () => {
   const width = useTransform(y, [0,-212], [265,375]);
   const height = useTransform(y, [0,-212], [426,814]);
   const opacity = useTransform(y, [0,-212], [1,0]);
-  const temy = useTransform(y,[0,-212],[0,-55]);
+  const temy = useTransform(yMinus,[0,-212],[0,-55]);
   const radius = useTransform(y,[0,-212],[24,12]);
 
   const textBody_opacity = useTransform(y, [0,-212], [0,480]);

@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import StatusBar from './Component/StatusBar';
 import Screen from './layouts/Screen';
 import { ThemeProvider } from '@emotion/react';
@@ -24,13 +24,16 @@ function App() {
     //세부 화면 펼쳐지고 있는지
   const [onExpand, setOnExpand] = useState(false);
   const isMobile = useDeviceType();
+
+  const containerRef = useRef(null);
+
   return (
-    <div className="App" style={{
+    <div ref={containerRef} className="App" style={{
       backgroundColor : !isMobile ? 'white' : 'white ',
       }}>
         <ThemeProvider theme={theme}>
         <StatusBar onExpand={onExpand}></StatusBar>
-        <Screen setOnExpand={setOnExpand} onExpand={onExpand}></Screen>
+        <Screen containerRef={containerRef} setOnExpand={setOnExpand} onExpand={onExpand}></Screen>
         </ThemeProvider>
     </div>
   );

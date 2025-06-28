@@ -11,13 +11,10 @@ const SavedNews = ({ id,savedScrollbarRef,onProgress }) => {
 
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
-
         //스크롤의 부모 주체
         container: savedScrollbarRef,
-
         //스크롤 주체
         target: ref,
-        
         // offset: ["start center", "end center"]
         offset: ["start start","end end"],
   })
