@@ -3,7 +3,7 @@ import { SaveBox_front, CircleNews_wrap, Folder, Folder_back } from "./styles";
 import CircleNewsRow from "../CircleNews";
 import { animate, useMotionValue, useMotionValueEvent,useTransform } from "framer-motion";
 
-export default function SvgMorphToggle({ savedNews, temSavedNews, box_progress }) {
+export default function SvgMorphToggle({ savedNews, temSavedNews, progress }) {
   const [width, setWidth] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const folderRef = useRef(null);
@@ -14,6 +14,12 @@ export default function SvgMorphToggle({ savedNews, temSavedNews, box_progress }
 
   const [zIndex, setZIndex] = useState(100); // 기본값은 원래 계층
 
+  const box_progress = useMotionValue(progress);
+
+  useMotionValueEvent(progress, "change", (latest) => {
+    box_progress.set(latest)
+    if(box_progress.get() === 550){box_progress.set(0);}
+  })
 
   useMotionValueEvent(box_progress, "change", (latest) => {
     if(box_progress.get() < 0){
@@ -21,6 +27,7 @@ export default function SvgMorphToggle({ savedNews, temSavedNews, box_progress }
     }else {
       setZIndex(100)
     }
+    //isOpen이 true면 이미 열려있음
     if (latest >= 0.01 && !isOpen) {
       setIsOpen(true);
       const openAnimation = async () => {
@@ -29,7 +36,6 @@ export default function SvgMorphToggle({ savedNews, temSavedNews, box_progress }
           { width: 319, height: 90, bottom: 40 },
           { type: "spring", stiffness: 100, duration: 0.2, mass: 0.3, bounce: 0 }
         );
-
         setTimeout(() => {
           animate(rotateX, -45, {
             type: "spring",
@@ -39,7 +45,6 @@ export default function SvgMorphToggle({ savedNews, temSavedNews, box_progress }
             bounce: 0.6
           });
         }, 200);
-
         await widthAnimation;
       };
       openAnimation();

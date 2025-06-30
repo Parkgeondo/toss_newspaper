@@ -1,4 +1,4 @@
-import { isDragging, useAnimate, useMotionTemplate, useMotionValue, useMotionValueEvent, useTransform } from "framer-motion";
+import { useAnimate, useMotionTemplate, useMotionValue, useMotionValueEvent, useTransform } from "framer-motion";
 import { CardNews_clip, CardNews_wrap } from "./styles"
 import { CardNews_drag } from "./styles"
 import card_effect from "../../img/card_effect.png"
@@ -7,7 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 
-function CardNews({setIsDragging, setOnExpand, data, cardIndex, card_gap_width, card_width, app_width, isFocused,x, yMinus ,card_distance, setSavedNews,savedNews, progress,id,setTemSavedNews}) {
+function CardNews({setIsDragging, isDragging, setOnExpand, onExpand, data, currentIndex, cardIndex, card_gap_width, card_width, app_width, isFocused,x, yMinus ,card_distance, setSavedNews,savedNews, progress,id,setTemSavedNews}) {
 
   //각 카드들의 세로 드래그
   const y = useMotionValue(0);
@@ -27,52 +27,71 @@ function CardNews({setIsDragging, setOnExpand, data, cardIndex, card_gap_width, 
     return scale;
   });
 
-  //카드 투명도 조절
+  //카드 투명도 조절 isFadingOut이 false면 안보임
   const [isFadingOut, setIsFadingOut] = useState(true);
 
   //카드 세로 드래그
   useMotionValueEvent(y, "change", (latest) => {
+    //overflow용 전달
     yMinus.set(latest);
-    if(isDragging){
-      progress.set(latest);
-    }else if(!isDragging){
-      y.set(progress.get())
-    }
+    // console.log("y", progress.get())
+    //일반카드의 세로 값을 progress에 적용시킴
+    progress.set(latest);
+    
+    //일반카드가 위로 움직여서 상단으로 닿았을때
     if(progress.get() < -210){
+      //확장카드가 생성됨
       setOnExpand(true);
     }
-    if(progress.get() === 550 && !savedNews.includes(id)) {
+    //progress가 아래에 550에 닿았을때
+    if(y.get() === 550 && !savedNews.includes(id)) {
+    //뉴스 저장
       handleSaveNews();
-    progress.set(0);
-    }
-    if(y.get() === 550){
       setIsFadingOut(false)
     }else{
       setIsFadingOut(true)
     }
   })
-  const [scope, animate] = useAnimate()
+
+  //이거 맞는것 같긴한데..dragUp이 안되네 
+  useMotionValueEvent(progress, "change", (latest) => {
+    if(id === currentIndex){
+      y.set(latest)
+    }
+  })
+
+  //드래그를 놓았을때, 애니메이션 적용
+  const [scope, animate] = useAnimate();
+  const dragUp = () => {
+    const dragY = y.get();
+     if (!scope.current) return;
+     console.log(dragY)
+    //한번에 확대 카드가 다시 -212로 돌아오는것을 방지
+    if(dragY<=-120 && dragY >= -212){
+      animate(scope.current, { y: -212 }, { duration: 0.4, ease: "circOut" })
+    }else if(dragY < -212){
+      animate(scope.current, { y: -212 }, { duration: 0})
+    }
+    else if(dragY>-120 && dragY < 60){
+      animate(scope.current, { y: 0 }, { duration: 0.4, ease: "circOut" })
+    }else if(dragY>60){
+      animate(scope.current, { y: 550 }, { duration: 0.4, ease: "circOut" })
+    }
+    //왜 이 드래깅
+    setIsDragging(false);
+  }
+
+  useEffect(()=>{
+    if(!onExpand){
+      dragUp();
+    }
+  },[onExpand])
 
   //뉴스 저장하기
   const handleSaveNews = useCallback(() => {
     setSavedNews((prev) => prev.includes(id) ? prev : [...prev, id]);
     setTemSavedNews([]);
   }, [setSavedNews, setTemSavedNews, id]);
-
-
-
-const dragUp = () => {
-  const dragY = y.get()
-  if(dragY<-20){
-    animate(scope.current, { y: -212 }, { duration: 0.4, ease: "circOut" })
-  }else if(dragY>-60 && dragY<60){
-    animate(scope.current, { y: 0 }, { duration: 0.4, ease: "circOut" })
-  }else if(dragY>60){
-    animate(scope.current, { y: 550 }, { duration: 0.4, ease: "circOut" })
-  }
-  setIsDragging(false)
-}
-
 
   const width = useTransform(y, [0,-212], [265,375]);
   const height = useTransform(y, [0,-212], [426,814]);
@@ -86,7 +105,6 @@ const dragUp = () => {
     setTextMaskPercent(latest);
   });
   const textBody_scale = useTransform(y, [0,-212], [0.651,1]);
-
 
   if (data.isBlank) {
     return <CardNews_wrap

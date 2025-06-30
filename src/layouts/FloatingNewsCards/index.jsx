@@ -5,7 +5,7 @@ import { animate, motion, useMotionValue, useMotionValueEvent, useTransform } fr
 import { useRef, useState } from "react";
 import Refresh3D from "../../Component/Refresh";
 
-function FloatingNewsCards({setIsDragging, setTemSavedNews, setOnExpand, currentIndex, setCurrentIndex,setSavedNews, savedNews,progress}) {
+function FloatingNewsCards({setIsDragging, isDragging, setTemSavedNews, setOnExpand, onExpand ,currentIndex, setCurrentIndex,setSavedNews, savedNews,progress}) {
   
 
   //가짜 카드 앞뒤로 넣어주기
@@ -36,7 +36,8 @@ function FloatingNewsCards({setIsDragging, setTemSavedNews, setOnExpand, current
   //카드 세로 스크롤 상위로 끌어올림
   const yMinus = useMotionValue(0);
 
-  //카드 세로 스크롤 상위로 끌어올림
+  //카드 세로 스크롤 상위로 끌어올림 - 그래서 카드들이 저장된 뉴스에 먹히는 것처럼 overflow hidden을 조절함
+  const [overHide,setOverHide] = useState(false)
   useMotionValueEvent(yMinus, "change", (latest) => {
     if(latest > 0){
       setOverHide(true)
@@ -45,25 +46,17 @@ function FloatingNewsCards({setIsDragging, setTemSavedNews, setOnExpand, current
     }
   });
 
+  //카드 가로 스크롤에 따라서 현재 어느 카드인지 확인
   useMotionValueEvent(x, "change", (latest) => {
     setCurrentIndex(- Math.round((latest - offset) / (card_width + 12)));
   });
 
-  const [overHide,setOverHide] = useState(false)
-
-  const dragdirection = useRef({
-    downPoint:null,
-    upPoint:null,
-    direction:null
-  });
-
+  //새로고침하는 동안 드래그 불가
   const [dragDisabled, setDragDisabled] = useState(false);
-
-  const [dragNumber, setDragNumber] = useState(0);
   
+  //새로고침 함수
   const Refresh = () => {
     setDragDisabled(true);
-    console.log('새로고침');
     animate(x, -135, {
       type: "spring",
       stiffness: 300,
@@ -79,38 +72,36 @@ function FloatingNewsCards({setIsDragging, setTemSavedNews, setOnExpand, current
     }, 1000);
   };
 
+  //드래그하는 방향 판단
   const onPointerDown = (e) => {
   dragdirection.current.downPoint = e.clientX;
   };
-
   const onPointerUp = (e) => {
     dragdirection.current.upPoint = e.clientX;
     if(x.get() > -135){
       Refresh()
     }
   };
+  const dragdirection = useRef({
+    downPoint:null,
+    upPoint:null,
+    direction:null
+  });
+  const snapTargetX = (target) => {
+    const calculate = (target - offset) / card_gap_width;
+    const down = dragdirection.current.downPoint;
+    const up = dragdirection.current.upPoint;
+    const direction = down - up;
 
-const snapTargetX = (target) => {
-  const calculate = (target - offset) / card_gap_width;
-
-  const down = dragdirection.current.downPoint;
-  const up = dragdirection.current.upPoint;
-  const direction = down - up;
-
-  // 강제 구간이면 무조건 -228로 snap!
-  if (target > -228 && target < -135) {
-    return -228;
-  }
-
-  // 기존 snap 로직
-  if (direction <= -70) {
-    return Math.ceil(calculate) * card_gap_width + (offset - gap * 0.5);
-  } else if (direction >= 70) {
-    return Math.floor(calculate) * card_gap_width + (offset - gap * 0.5);
-  } else {
-    return Math.round(calculate) * card_gap_width + (offset - gap * 0.5);
-  }
-};
+    // 기존 snap 로직
+    if (direction <= -70) {
+      return Math.ceil(calculate) * card_gap_width + (offset - gap * 0.5);
+    } else if (direction >= 70) {
+      return Math.floor(calculate) * card_gap_width + (offset - gap * 0.5);
+    } else {
+      return Math.round(calculate) * card_gap_width + (offset - gap * 0.5);
+    }
+  };
 
   return (
     <FloatingNewsCards_wrap
@@ -122,7 +113,7 @@ const snapTargetX = (target) => {
       }}
       onPointerDown={onPointerDown}
       onPointerUp={onPointerUp}
-      dragConstraints={{ left: maxScrollLeft - dragNumber, right: initialX + dragNumber }}
+      dragConstraints={{ left: maxScrollLeft, right: initialX}}
       dragTransition={{
         power: 0.1,
         timeConstant: 100,
@@ -131,7 +122,7 @@ const snapTargetX = (target) => {
     >
       {/* <Refresh3D></Refresh3D> */}
       {blankAddedNews.map((data, cardIndex) => (
-        <CardNews key={data.id} setIsDragging={setIsDragging} savedNews={savedNews} setSavedNews ={setSavedNews} progress={progress} setTemSavedNews={setTemSavedNews} id={data.id} setOnExpand={setOnExpand} data={data} cardIndex={cardIndex} currentIndex={currentIndex} app_width={app_width} card_gap_width ={card_gap_width} card_width = {card_width} isFocused={cardIndex === currentIndex} x={x} yMinus={yMinus} card_distance={card_gap_width * cardIndex}/>
+        <CardNews key={data.id} isDragging={isDragging} setIsDragging={setIsDragging} savedNews={savedNews} setSavedNews ={setSavedNews} progress={progress} setTemSavedNews={setTemSavedNews} id={data.id} setOnExpand={setOnExpand} onExpand={onExpand} data={data} cardIndex={cardIndex} currentIndex={currentIndex} app_width={app_width} card_gap_width ={card_gap_width} card_width = {card_width} isFocused={cardIndex === currentIndex} x={x} yMinus={yMinus} card_distance={card_gap_width * cardIndex}/>
       ))}
     </FloatingNewsCards_wrap>
   );
