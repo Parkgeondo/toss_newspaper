@@ -59,15 +59,6 @@ export default function CardDetail({currentIndex, scope, animate, progress, isDr
       setOnExpand(false)
     }
   };
-
-  useEffect(() => {
-  const timeout = setTimeout(() => {
-    if (cardHeights.current.length === 0) return;
-    const offsetY = totalHeightBefore(currentIndex-1);
-    y.set(-offsetY);
-  }, 0);
-  return () => clearTimeout(timeout); 
-}, [currentIndex, isFadingOut]);
   
   return (
     <CardDetail_wrap drag='y' onPointerUp={() => {CardDetail_wrap_up()}} style={{ y, opacity: isFadingOut ? 1 : 0 }}>
