@@ -8,6 +8,7 @@ import useTotalHeightBefore from '../../utile/useTotalHeightBefore';
 
 export default function CardDetail({currentIndex, scope, progress, isDragging, tabLine, setTabLine, containerRef,setOnExpand, setIsDragging }) {
 
+  const data = newsData[currentIndex - 1];
   //카드의 Y 값 조절
   const y = useMotionValue(0);
   
@@ -64,20 +65,20 @@ export default function CardDetail({currentIndex, scope, progress, isDragging, t
   }, [currentIndex]);
   
   return (
-    <CardDetail_wrap drag dragDirectionLock onPointerUp={() => {CardDetail_wrap_up()}} style={{ y, opacity: isFadingOut ? 1 : 0 }}>
-      {newsData.map((data, index) => (
+    <CardDetail_wrap dragConstraints={{ top: -1000}} drag="y" dragDirectionLock onPointerUp={() => {CardDetail_wrap_up()}} style={{ y, opacity: isFadingOut ? 1 : 0 }}>
         <CardDetail_part
           key={data.id}
           id={data.id}
           data={data}
-          index={index}
+          index={currentIndex}
           y={y}
           containerRef={containerRef}
           onProgress={handleProgressUpdate}
           cardHeights={cardHeights}
           totalHeightBefore={totalHeightBefore}
         />
-      ))}
+      <div className="background" style={{backgroundColor: "red", position: "absolute", top: 0, left: 0, right: 0, bottom: 0, zIndex: -1}}>
+      </div>
     </CardDetail_wrap>
   );
 }

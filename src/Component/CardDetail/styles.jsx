@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 
 export const CardDetail_wrap = styled(motion.div)`
    width: 100%;
+   padding: 0px 0px 150px 0px;
    gap: 120px;
    background-color: #20262A;
    position: absolute;

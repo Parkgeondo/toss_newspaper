@@ -11,7 +11,9 @@ export const CardDetail_wrap = styled(motion.div)`
    display: flex;
    flex-direction: column;
     & .drag {
+      border-radius: 16px;
       background-color: #20262A;
+      border: 1px red solid;
     }
    & .textBody{
     margin-top: 54px;
