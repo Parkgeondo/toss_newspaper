@@ -49,6 +49,7 @@ function FloatingNewsCards({setIsDragging, isDragging, setTemSavedNews, setOnExp
   //카드 가로 스크롤에 따라서 현재 어느 카드인지 확인
   useMotionValueEvent(x, "change", (latest) => {
     setCurrentIndex(- Math.round((latest - offset) / (card_width + 12)));
+    // console.log(currentIndex)
   });
 
   //새로고침하는 동안 드래그 불가

@@ -37,6 +37,7 @@ function CardNews({setIsDragging, isDragging, setOnExpand, onExpand, data, curre
     // console.log("y", progress.get())
     //일반카드의 세로 값을 progress에 적용시킴
     progress.set(latest);
+    // progress.set(latest);
     
     //일반카드가 위로 움직여서 상단으로 닿았을때
     if(progress.get() < -210){
@@ -65,7 +66,6 @@ function CardNews({setIsDragging, isDragging, setOnExpand, onExpand, data, curre
   const dragUp = () => {
     const dragY = y.get();
      if (!scope.current) return;
-     console.log(dragY)
     //한번에 확대 카드가 다시 -212로 돌아오는것을 방지
     if(dragY<=-120 && dragY >= -212){
       animate(scope.current, { y: -212 }, { duration: 0.4, ease: "circOut" })
@@ -81,11 +81,16 @@ function CardNews({setIsDragging, isDragging, setOnExpand, onExpand, data, curre
     setIsDragging(false);
   }
 
+  //확장카드가 생성되었을때, 카드를 원래대로 돌리기
   useEffect(()=>{
     if(!onExpand){
       dragUp();
     }
   },[onExpand])
+
+  useEffect(()=>{
+    console.log(isDragging)
+  },[isDragging])
 
   //뉴스 저장하기
   const handleSaveNews = useCallback(() => {

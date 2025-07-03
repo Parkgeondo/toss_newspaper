@@ -19,11 +19,9 @@ export default function CardDetail_part({
   useMotionValueEvent(y, "change", (latest) => {
     const cardStartY = totalHeightBefore(index);
     const height = cardHeights.current[index] || 1;
-
     const rawProgress = (Math.abs(latest) - cardStartY) / (height -  containerRef.current.getBoundingClientRect().height);
     const clamped = Math.max(0, Math.min(1, rawProgress));
     const percent = Math.round(clamped * 100);
-
     onProgress?.(id, percent);
   });
 
