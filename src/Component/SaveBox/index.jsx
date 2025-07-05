@@ -1,33 +1,40 @@
 import React, { useRef, useState } from "react";
 import { SaveBox_front, CircleNews_wrap, Folder, Folder_back } from "./styles";
 import CircleNewsRow from "../CircleNews";
-import { animate, useMotionValue, useMotionValueEvent,useTransform } from "framer-motion";
+import { animate, useMotionValue, useMotionValueEvent, useTransform } from "framer-motion";
 
-export default function SvgMorphToggle({ savedNews, temSavedNews, progress }) {
+export default function SaveBox({ savedNews, temSavedNews, progress }) {
   const [width, setWidth] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const folderRef = useRef(null);
   const folderBackRef = useRef(null);
 
-  const rotateX = useMotionValue(0); // 🎯 핵심 포인트
+  // 회전 애니메이션을 위한 MotionValue
+  const rotateX = useMotionValue(0);
   const transform = useTransform(rotateX, (r) => `translateX(-50%) rotateX(${r}deg)`);
 
   const [zIndex, setZIndex] = useState(100); // 기본값은 원래 계층
 
-  const box_progress = useMotionValue(progress);
+  const boxProgress = useMotionValue(progress);
 
+  // progress 값 변경 감지
   useMotionValueEvent(progress, "change", (latest) => {
-    box_progress.set(latest)
-    if(box_progress.get() === 550){box_progress.set(0);}
-  })
-
-  useMotionValueEvent(box_progress, "change", (latest) => {
-    if(box_progress.get() < 0){
-      setZIndex(0)
-    }else {
-      setZIndex(100)
+    boxProgress.set(latest);
+    if (boxProgress.get() === 550) {
+      boxProgress.set(0);
     }
-    //isOpen이 true면 이미 열려있음
+  });
+
+  // boxProgress 값 변경에 따른 애니메이션 처리
+  useMotionValueEvent(boxProgress, "change", (latest) => {
+    // z-index 조정
+    if (boxProgress.get() < 0) {
+      setZIndex(0);
+    } else {
+      setZIndex(100);
+    }
+
+    // 폴더 열기 애니메이션
     if (latest >= 0.01 && !isOpen) {
       setIsOpen(true);
       const openAnimation = async () => {
@@ -48,7 +55,9 @@ export default function SvgMorphToggle({ savedNews, temSavedNews, progress }) {
         await widthAnimation;
       };
       openAnimation();
-    } else if (latest < 0.01 && isOpen) {
+    } 
+    // 폴더 닫기 애니메이션
+    else if (latest < 0.01 && isOpen) {
       setIsOpen(false);
       const closeAnimation = async () => {
         await animate(rotateX, 0, {

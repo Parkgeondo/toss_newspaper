@@ -3,18 +3,19 @@ import { OrbitControls, OrthographicCamera, RoundedBox } from '@react-three/drei
 import { Refresh_wrap } from "./styles"
 import { useRef } from 'react';
 
-function Spinner({count = 8, radius = 1}) {
-  const box_array = Array.from({ length: count });
+function Spinner({ count = 8, radius = 1 }) {
+  const boxArray = Array.from({ length: count });
   const groupRef = useRef();
+  
   useFrame((state, delta) => {
     if (groupRef.current) {
-      groupRef.current.rotation.z += delta * 3
+      groupRef.current.rotation.z += delta * 3;
     }
-  })
+  });
 
   return (
     <group rotation={[Math.PI / 8, -Math.PI / 5, 0]} ref={groupRef}>
-      {box_array.map((_, i) => {
+      {boxArray.map((_, i) => {
         const angle = (i / count) * Math.PI * 2;
         return (
           <group rotation={[0, 0, angle + Math.PI / 2]} key={i}>
@@ -26,12 +27,12 @@ function Spinner({count = 8, radius = 1}) {
               smoothness={6}          // 라운딩 부드러움 정도
             >
               <meshPhysicalMaterial
-                color="#7779a3"      // 은은한 크리스탈 색 (마음대로!)
+                color="#7779a3"      // 은은한 크리스탈 색
                 transmission={0.02}  // 유리/크리스탈 효과 핵심!
-                thickness={1}      // 굴절 깊이
+                thickness={1}        // 굴절 깊이
                 roughness={0.05}     // 거칠기 (0에 가까울수록 유리)
-                metalness={0}      // 금속성 (0~1)
-                ior={2}            // 굴절률 (유리/수정=1.5~2)
+                metalness={0}        // 금속성 (0~1)
+                ior={2}              // 굴절률 (유리/수정=1.5~2)
                 transparent
                 opacity={1}
                 reflectivity={0.7}
@@ -43,7 +44,7 @@ function Spinner({count = 8, radius = 1}) {
         );
       })}
     </group>
-  )
+  );
 }
 
 export default function Refresh3D() {
@@ -61,5 +62,5 @@ export default function Refresh3D() {
         <Spinner />
       </Canvas>
     </Refresh_wrap>
-  )
+  );
 }

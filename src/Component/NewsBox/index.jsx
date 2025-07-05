@@ -8,7 +8,6 @@ import useLongPressTimer from "../../utile/useLongPressTimer";
 import WavyShader from "../../utile/wavyShader";
 import { useRipple } from "../../utile/useRipple";
 
-
 const NewsBox = ({
   publisher,
   publisherImg,
@@ -24,17 +23,17 @@ const NewsBox = ({
   index,
   savedNews
 }) => {
-
-  //isRemoved 터치 누르고 중간에 뗄때, 추가 및 삭제를 중단
+  // 터치 누르고 중간에 뗄때, 추가 및 삭제를 중단하는 플래그
   const isRemovedRef = useRef(false);
 
-  //현재 Box가 저장되어 있는지 확인
+  // 현재 Box가 저장되어 있는지 확인
   const isSaved = savedNews.includes(id);
 
-  //ripple을 추가하는 함수
+  // ripple을 추가하는 함수
   const { ripples, scale, createRipple, removeRipple } = useRipple();
 
-  //클릭한 뉴스를 savedNews 배열에 저장하는 함수, isRemove가 true -> 이미 저장되어 있던 뉴스를 삭제, false -> 저장되어 있지 않은 뉴스를 추가
+  // 클릭한 뉴스를 savedNews 배열에 저장하는 함수
+  // isRemove가 true -> 이미 저장되어 있던 뉴스를 삭제, false -> 저장되어 있지 않은 뉴스를 추가
   const handleSaveNews = useCallback(() => {
     setSavedNews((prev) =>
       isRemovedRef.current
@@ -83,8 +82,6 @@ const NewsBox = ({
     endTemp(e);
     cancelDelete();
   };
-
-
 
   return (
     <NewsBoxline>

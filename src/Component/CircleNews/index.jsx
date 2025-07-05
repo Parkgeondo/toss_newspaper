@@ -9,20 +9,21 @@ const gap = 8;
 const radius = (size - stroke) / 2;
 const circumference = radius * 2 * Math.PI;
 
-const CircleNews = ({ id, isShrinking = false, offsetX, savedNews, temSavedNews, marginRight}) => {
+const CircleNews = ({ id, isShrinking = false, offsetX, savedNews, temSavedNews, marginRight }) => {
   const savedData = newsData.find((item) => item.id === id);
+  
   return (
     <motion.svg
       initial={{ x: offsetX, scale: 1 }}
-      style={{ marginRight: marginRight, overflow: "visible"}}
+      style={{ marginRight: marginRight, overflow: "visible" }}
       width={size}
       height={size}
       animate={{
         scale: isShrinking ? 0 : 1,
-         x: offsetX,
+        x: offsetX,
       }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
-      >
+    >
       <defs>
         <clipPath id={`circleClip-${id}`}>
           <circle cx={size / 2} cy={size / 2} r={radius} />
@@ -129,38 +130,43 @@ const TemCircleNews = ({ progress, id }) => {
 };
 
 const CircleNewsRow = ({ savedNews, temSavedNews, progress, width, setWidth }) => {
-
-  //한번에 보여줄 카운트 양
+  // 한번에 보여줄 카운트 양
   const visibleMax = 5;
 
-  //전체 원의 갯수
+  // 전체 원의 갯수
   const totalCount = savedNews.length + temSavedNews.length;
   
-  //초과한 원의 갯수
+  // 초과한 원의 갯수
   const overCount = Math.max(0, totalCount - visibleMax);
 
   const isSaved = savedNews.includes(temSavedNews[0]);
 
   useEffect(() => {
-
     // 보여지는 원의 갯수
-      const visibleCount = Math.min(totalCount, visibleMax);
+    const visibleCount = Math.min(totalCount, visibleMax);
 
     // 보여지는 원의 갯수에 따른 넓이 조절
-      setWidth(visibleCount > 0 ? size + (visibleCount - 1) * gap : 0);
-
-
-  }, [temSavedNews, savedNews]);
+    setWidth(visibleCount > 0 ? size + (visibleCount - 1) * gap : 0);
+  }, [temSavedNews, savedNews, totalCount, setWidth]);
 
   return (
     <CircleNewsRowWrap width={width}>
       {savedNews.map((key, index) => {
         const isHidden = index < overCount;
-        //이 부분 수정해보기
         const offsetX = !isHidden ? -8 * overCount : 0;
-        return(
-        <CircleNews marginRight={-8} key={index} id={key} isShrinking={isHidden} offsetX={offsetX} savedNews={savedNews} temSavedNews={temSavedNews}/>
-      )})}
+        
+        return (
+          <CircleNews 
+            marginRight={-8} 
+            key={index} 
+            id={key} 
+            isShrinking={isHidden} 
+            offsetX={offsetX} 
+            savedNews={savedNews} 
+            temSavedNews={temSavedNews}
+          />
+        );
+      })}
       <AnimatePresence>
         {(temSavedNews[0]) > 0 && (
           <TemCircleNews key={temSavedNews[0]} progress={progress} id={temSavedNews[0]} />
