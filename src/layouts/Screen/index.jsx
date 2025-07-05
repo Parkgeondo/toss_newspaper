@@ -59,7 +59,6 @@ function Layout({setOnExpand, onExpand, containerRef}) {
       <Indicator progress={progress} currentIndex={currentIndex}></Indicator>
       <AnimatePresence>
           {onExpand && <CardDetail currentIndex={currentIndex} setIsDragging={setIsDragging} containerRef={containerRef} setTabLine={setTabLine} tabLine={tabLine} setOnExpand={setOnExpand} isDragging={isDragging} id={currentIndex} progress={progress}></CardDetail>}
-          {onExpand && <>}
       </AnimatePresence>
       <FloatingNewsCards isDragging={isDragging} setIsDragging={setIsDragging} setTemSavedNews={setTemSavedNews} savedNews = {savedNews} setSavedNews={setSavedNews} progress={progress} setOnExpand={setOnExpand} onExpand={onExpand} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex}></FloatingNewsCards>
       <Header></Header>
