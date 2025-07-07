@@ -1,29 +1,11 @@
-import { motion, useMotionValue, useMotionValueEvent, useScroll } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
+import { useRef } from "react";
 
 export default function CardDetail_part({
   data, id, index, y,
-  containerRef,
-  onProgress,
-  cardHeights,
-  totalHeightBefore
+  containerRef
 }) {
   const ref = useRef(null);
-
-  useEffect(() => {
-    if (ref.current) {
-      cardHeights.current[index] = ref.current.getBoundingClientRect().height;
-    }
-  }, []);
-
-  useMotionValueEvent(y, "change", (latest) => {
-    const cardStartY = totalHeightBefore(index);
-    const height = cardHeights.current[index] || 1;
-    const rawProgress = (Math.abs(latest) - cardStartY) / (height -  containerRef.current.getBoundingClientRect().height);
-    const clamped = Math.max(0, Math.min(1, rawProgress));
-    const percent = Math.round(clamped * 100);
-    onProgress?.(id, percent);
-  });
 
   return (
       <motion.div className="drag" key={data.id} ref={ref}>

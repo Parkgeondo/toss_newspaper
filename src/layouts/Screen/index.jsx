@@ -1,5 +1,5 @@
 import Header from '../../Component/Header';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { newsData } from '../../data/newsData';
 import AnimatedWave from '../../utile/wavyShader _background';
 import FloatingNewsCards from '../FloatingNewsCards';
@@ -7,6 +7,7 @@ import { useMotionValue, useMotionValueEvent } from 'framer-motion';
 import CardDetail from '../../Component/CardDetail';
 import SaveBox from "../../Component/SaveBox";
 import Indicator from '../../Component/Indicator';
+import { NextNewsNumber } from '../../Component/NextNews';
 
 function Layout({ setOnExpand, onExpand, containerRef }) {
   // 뉴스 저장 관련 상태
@@ -34,9 +35,25 @@ function Layout({ setOnExpand, onExpand, containerRef }) {
   // 드래그 방향
   const [dragDirection, setDragDirection] = useState(null);
 
+  // 숫자페이지
+  const number_y = useMotionValue(0);
+
+  useMotionValueEvent(progress, "change", (latest) => {
+    // console.log(latest)
+    });
+
+  useEffect(() => {
+    console.log("onExpand",onExpand)
+  }, [onExpand])
+
+  useEffect(() => {
+    console.log("isFadingOut",isFadingOut)
+  }, [isFadingOut])
+
   return (
     <>
       <Indicator progress={progress} currentIndex={currentIndex} />
+      <NextNewsNumber number_y={number_y}/>
       
       {onExpand && (
         <CardDetail
@@ -55,6 +72,7 @@ function Layout({ setOnExpand, onExpand, containerRef }) {
           isDragging={isDragging}
           id={currentIndex}
           progress={progress}
+          number_y={number_y}
         />
       )}
       

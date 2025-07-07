@@ -4,13 +4,13 @@ import { motion } from "framer-motion";
 
 export const CardDetail_wrap = styled(motion.div)`
    width: 100%;
-   padding: 0px 0px 150px 0px;
-   gap: 120px;
+   padding: 0px 0px 0px 0px;
    background-color: #20262A;
    position: absolute;
    z-index:120;
    display: flex;
    flex-direction: column;
+   align-items: center;
     & .drag {
       background-color: #20262A;
     }
@@ -93,5 +93,16 @@ export const CardDetail_wrap = styled(motion.div)`
     height: 354px;
     object-fit: cover;
     object-position: center;
+   }
+
+   & .home-button {
+    width: 52px;
+    height: 52px;
+    background-color: #2B3740;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-top: 55px;
    }
 `

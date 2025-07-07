@@ -5,6 +5,8 @@ import { animate, motion, useAnimation, useMotionValue, useMotionValueEvent } fr
 import { newsData } from '../../data/newsData';
 import CardDetail_part from "../CardDetail_part";
 import useTotalHeightBefore from '../../utile/useTotalHeightBefore';
+import homeIcon from '../../img/home_icon.svg';
+import NextNews from "../../Component/NextNews";
 
 export default function CardDetail({ 
   dragDirection, 
@@ -22,7 +24,8 @@ export default function CardDetail({
   containerRef, 
   setOnExpand, 
   onExpand, 
-  setIsDragging 
+  setIsDragging ,
+  number_y
 }) {
   // 확대카드의 데이터
   const data = newsData[currentIndex - 1];
@@ -31,26 +34,23 @@ export default function CardDetail({
   const y = useMotionValue(0);
   
   // 카드 높이 관련
-  const cardHeights = useRef([]);
-  const GAP = 120; // flex gap
-  const [cardTotalHeight, setCardTotalHeight] = useState(0);
-
-  // 뉴스 스크롤 감지 시작 위치
-  const totalHeightBefore = useTotalHeightBefore(cardHeights, GAP);
+  const cardHeights = useRef(null);
+  const [containerHeight, setContainerHeight] = useState(700); // 기본값
 
   // 이전 Y 값 저장 (드래그 방향 감지용)
   const prevY = useRef(0);
 
-  // 일반 카드가 보내주는 progress를 받아서 같이 이동
-  useMotionValueEvent(progress, "change", (latest) => {
-    // 주도권이 일반카드면
-    if (isDragging) {
-      y.set(latest + 212 - totalHeightBefore(currentIndex - 1));
-    }
-  });
 
   // 확대카드가 스크롤할 때
   useMotionValueEvent(y, "change", (latest) => {
+    // number_y 위치 조정
+    const threshold = -containerHeight + 814 + 380 + 10;
+    if(latest > threshold) {
+      number_y.set(-100);
+    } else if(latest <= threshold) {
+      number_y.set(20);
+    }
+    
     // 드래그 방향 감지
     if (latest > prevY.current) {
       setDragDirection('down');
@@ -75,15 +75,11 @@ export default function CardDetail({
     }
   });
   
-  // 진행률 업데이트 핸들러
-  const handleProgressUpdate = useCallback((id, value) => {
-    setTabLine(prev => {
-      if (prev.get(id) === value) return prev;
-      const next = new Map(prev);
-      next.set(id, value);
-      return next;
-    });
-  }, []);
+  useMotionValueEvent(progress, "change", (latest) => {
+    if (isDragging) {
+      y.set(latest + 212);
+    }
+  });
 
   // 확장카드의 렌더링 제거
   const cardDetailWrapUp = () => {
@@ -92,21 +88,23 @@ export default function CardDetail({
     }
   };
 
-  // 카드 높이 업데이트 시 dragConstraints 계산
-  useEffect(() => {
-    if (cardHeights.current.length > 0) {
-      const totalHeight = cardHeights.current.reduce((sum, height) => sum + height, 0) + (cardHeights.current.length - 1) * GAP;
-      setCardTotalHeight(totalHeight);
-    }
-  }, [cardHeights.current]);
+  const ref = useRef(null);
 
   useEffect(() => {
-    console.log(totalHeightBefore(currentIndex - 1))
-  }, [currentIndex]);
+    if (ref.current) {
+      const height = ref.current.getBoundingClientRect().height;
+      cardHeights.current = height;
+      setContainerHeight(height);
+    }
+  }, []);
+
   
   return (
     <CardDetail_wrap 
-      dragConstraints={{ top: -cardTotalHeight + 814 }} 
+      ref={ref}
+      dragConstraints={{ 
+        top: -containerHeight + 814 + 380
+      }} 
       drag="y" 
       dragDirectionLock 
       onDragStart={() => setDetailIsDragging(true)}
@@ -121,10 +119,11 @@ export default function CardDetail({
         index={currentIndex}
         y={y}
         containerRef={containerRef}
-        onProgress={handleProgressUpdate}
-        cardHeights={cardHeights}
-        totalHeightBefore={totalHeightBefore}
       />
+      <div className="home-button">
+        <img src={homeIcon} alt="home" />
+      </div>
+      <NextNews number_y={number_y}/>
     </CardDetail_wrap>
   );
 }
