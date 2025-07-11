@@ -1,11 +1,18 @@
 import { motion } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
+import LettersPullUp from "../../utile/LettersPullUp";
 
 export default function CardDetail_part({
   data, id, index, y,
   containerRef
 }) {
   const ref = useRef(null);
+  const titleRef = useRef(null);
+  const [isMultiline, setIsMultiline] = useState(false);
+  const [titleWidth, setTitleWidth] = useState(0);
+
+  // title 컨테이너의 width를 감지
+
 
   return (
       <motion.div className="drag" key={data.id} ref={ref}>
@@ -17,7 +24,14 @@ export default function CardDetail_part({
             <img src={data.publisherImg} alt="" />
             {data.publisher}
           </div>
-          <div className="title">{data.title}</div>
+          {/* <div className="title" ref={titleRef}>{data.title}</div> */}
+          <div className="title" ref={titleRef}>
+            <LettersPullUp 
+              text={data.title}
+              width={titleWidth}
+              className="title-text"
+            />
+          </div>
           <div className="badge">{data.category}</div>
           <div className="badge">{data.date}</div>
           <motion.div className="textBody"

@@ -88,7 +88,6 @@ function CardNews({
   const dragUp = () => {
     const dragY = y.get();
     if (!scope.current) return;
-    // 한번에 확대 카드가 다시 -212로 돌아오는 것을 방지
     if (dragY <= -120 && dragY >= -212) {
       if (dragDirection === 'down') {
         animate(scope.current, { y: 0 }, { duration: 0.4, ease: "circOut" });

@@ -21,7 +21,7 @@ export default function Indicator({ progress, currentIndex }) {
     <Indicator_wrap style={{ y: smoothY, x: `-50%` }}>
       <CircleNews marginRight={0} id={currentIndex} />
       <div>
-        {"AI 비서가 당신의 하루를 설계한다."} 
+        {newsData[currentIndex-1].title}
       </div>
     </Indicator_wrap>
   );

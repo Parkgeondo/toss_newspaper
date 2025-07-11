@@ -123,7 +123,7 @@ export default function CardDetail({
       <div className="home-button">
         <img src={homeIcon} alt="home" />
       </div>
-      <NextNews number_y={number_y}/>
+      <NextNews currentIndex={currentIndex} number_y={number_y}/>
     </CardDetail_wrap>
   );
 }

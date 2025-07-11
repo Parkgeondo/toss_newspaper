@@ -21,8 +21,10 @@ display: flex;
     justify-content: center;
     align-items: center;
     color: #788DA3;
+}& .nextNews_number_button.active {
+    color: #fff;
     background-color: #2B3740;
-}
+  }
 `
 
 export const NextNews_part_wrap = styled.div`

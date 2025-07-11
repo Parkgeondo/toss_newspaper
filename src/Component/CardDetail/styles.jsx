@@ -15,7 +15,8 @@ export const CardDetail_wrap = styled(motion.div)`
       background-color: #20262A;
     }
    & .textBody{
-    margin-top: 54px;
+    transform: translateY(38px);
+    /* margin-top: 54px; */
       & .subtitle{
       font-size: 16px;
       font-weight: 600;
@@ -52,6 +53,7 @@ export const CardDetail_wrap = styled(motion.div)`
     margin-top: 6px;
     margin-bottom: 8px;
     line-height: 140%;
+    min-height: 28px; /* 텍스트 애니메이션을 위한 최소 높이 */
    }
    & .badge{
     color: ${({ theme }) => theme.colors.blue.light};

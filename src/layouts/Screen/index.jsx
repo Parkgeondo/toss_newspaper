@@ -35,20 +35,8 @@ function Layout({ setOnExpand, onExpand, containerRef }) {
   // 드래그 방향
   const [dragDirection, setDragDirection] = useState(null);
 
-  // 숫자페이지
+  // 숫자페이지 위치값
   const number_y = useMotionValue(0);
-
-  useMotionValueEvent(progress, "change", (latest) => {
-    // console.log(latest)
-    });
-
-  useEffect(() => {
-    console.log("onExpand",onExpand)
-  }, [onExpand])
-
-  useEffect(() => {
-    console.log("isFadingOut",isFadingOut)
-  }, [isFadingOut])
 
   return (
     <>

@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { motion } from "framer-motion";
 
-
 export const CardDetail_wrap = styled(motion.div)`
    width: 100%;
    gap: 120px;

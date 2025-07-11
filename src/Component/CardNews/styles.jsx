@@ -44,13 +44,11 @@ export const CardNews_drag = styled(motion.div)`
     left: 50%;
     padding: 0px 26px;
     width: 375px;
-    margin-top: -10px;
     position: absolute;
     -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
     mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
-
     & .subtitle{
       font-size: 16px;
       font-weight: 600;

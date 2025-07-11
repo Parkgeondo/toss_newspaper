@@ -6,7 +6,6 @@ const Header = () => {
   return (
     <HeaderWraper>
       <h1>이번주의 인기뉴스</h1>
-      <Switch_Button />
     </HeaderWraper>
   );
 };
