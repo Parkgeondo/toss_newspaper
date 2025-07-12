@@ -62,10 +62,6 @@ export const NextNewsNumber = ({ number_y }) => {
     mass: 0.1,
   });
     
-  useMotionValueEvent(number_y, "change", (latest) => {
-    console.log('NextNewsNumber y position:', latest);
-  });
-
   return (
     <NextNews_number style={{ y: smoothY, x: `-50%` }}>
       {[1, 2, 3].map((num) => (

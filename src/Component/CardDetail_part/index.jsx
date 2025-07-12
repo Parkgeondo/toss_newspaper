@@ -9,7 +9,6 @@ export default function CardDetail_part({
   const ref = useRef(null);
   const titleRef = useRef(null);
   const [isMultiline, setIsMultiline] = useState(false);
-  const [titleWidth, setTitleWidth] = useState(0);
 
   // title 컨테이너의 width를 감지
 
@@ -28,7 +27,7 @@ export default function CardDetail_part({
           <div className="title" ref={titleRef}>
             <LettersPullUp 
               text={data.title}
-              width={titleWidth}
+              width={[219,323]}
               className="title-text"
             />
           </div>
