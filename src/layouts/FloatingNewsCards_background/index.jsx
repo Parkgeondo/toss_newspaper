@@ -1,11 +1,11 @@
-import CardNews from "../../Component/CardNews"
+import CardNews_background from "../../Component/CardNews_background"
 import { FloatingNewsCards_wrap } from "./styles"
 import { newsData } from '../../data/newsData';
 import { animate, motion, useMotionValue, useMotionValueEvent, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
 import Refresh3D from "../../Component/Refresh";
 
-function FloatingNewsCards({ 
+function FloatingNewsCards_background({ 
   dragDirection, 
   setDragDirection, 
   detailIsDragging, 
@@ -135,16 +135,16 @@ function FloatingNewsCards({
     >
       {/* <Refresh3D></Refresh3D> */}
       {blankAddedNews.map((data, cardIndex) => (
-        <CardNews
+        <CardNews_background
           key={data.id}
-          isFadingOut={isFadingOut}
-          setIsFadingOut={setIsFadingOut}
-          isDragging={isDragging}
-          setIsDragging={setIsDragging}
           dragDirection={dragDirection}
           setDragDirection={setDragDirection}
           detailIsDragging={detailIsDragging}
           setDetailIsDragging={setDetailIsDragging}
+          isFadingOut={isFadingOut}
+          setIsFadingOut={setIsFadingOut}
+          isDragging={isDragging}
+          setIsDragging={setIsDragging}
           savedNews={savedNews}
           setSavedNews={setSavedNews}
           progress={progress}
@@ -168,4 +168,4 @@ function FloatingNewsCards({
   );
 }
 
-export default FloatingNewsCards;
+export default FloatingNewsCards_background;

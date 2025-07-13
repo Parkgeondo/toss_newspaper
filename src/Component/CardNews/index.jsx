@@ -157,7 +157,6 @@ function CardNews({
         timeConstant: 100,
       }}
       style={{
-        opacity: cardFadingOut ? 1 : 0,
         scale: distance,
         width,
         x: temy,
@@ -165,20 +164,15 @@ function CardNews({
         borderRadius: radius,
       }}
     >
-      <motion.img
-        style={{
-          height,
-          borderRadius: radius,
-          opacity
-        }}
-        src={card_effect}
-        className="card_effect"
-        alt=""
-      />
-      
+
+      {/* 실제 카드 */}
       <CardNews_wrap
         style={{
           borderRadius: radius,
+          position: 'relative',
+          zIndex: 1,
+          opacity: cardFadingOut ? 1 : 0,
+          // 기존 스타일
         }}
       >
         <div className="gradient"></div>
@@ -224,6 +218,8 @@ function CardNews({
         }}
       />
     </CardNews_drag>
+
+    
   );
 }
 

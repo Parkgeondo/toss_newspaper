@@ -8,6 +8,7 @@ import CardDetail from '../../Component/CardDetail';
 import SaveBox from "../../Component/SaveBox";
 import Indicator from '../../Component/Indicator';
 import { NextNewsNumber } from '../../Component/NextNews';
+import FloatingNewsCards_background from '../FloatingNewsCards_background';
 
 function Layout({ setOnExpand, onExpand, containerRef }) {
   // 뉴스 저장 관련 상태
@@ -23,6 +24,17 @@ function Layout({ setOnExpand, onExpand, containerRef }) {
   // 카드 관련 상태
   const [currentIndex, setCurrentIndex] = useState(1);
 
+  // 공통 x 값 관리 (카드 가로 스크롤)
+  const card_width = 265;
+  const app_width = 375;
+  const gap = 12;
+  const card_gap_width = (card_width + gap);
+  const offset = (app_width - card_width) * 0.5;
+  const initialX = -card_gap_width + (offset - gap * 0.5);
+  const maxScrollLeft = -(newsData.length + 1) * card_gap_width + (offset - gap * 0.5);
+  
+  const sharedX = useMotionValue(initialX);
+
   // 탭 진행율 상태
   const [tabLine, setTabLine] = useState(() => {
     const initialMap = new Map();
@@ -37,6 +49,9 @@ function Layout({ setOnExpand, onExpand, containerRef }) {
 
   // 숫자페이지 위치값
   const number_y = useMotionValue(0);
+
+  // 공통 yMinus 값 관리
+  const sharedYMinus = useMotionValue(0);
 
   return (
     <>
@@ -64,23 +79,32 @@ function Layout({ setOnExpand, onExpand, containerRef }) {
         />
       )}
       
-      {onExpand && (
-        <div
-          key="background"
-          className="background"
-          style={{
-            backgroundColor: "#20262A",
-            opacity: isFadingOut ? 1 : 0,
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            zIndex: 110
-          }}
-        />
-      )}
-      
+      <FloatingNewsCards_background 
+        dragDirection={dragDirection}
+        setDragDirection={setDragDirection}
+        detailIsDragging={detailIsDragging}
+        setDetailIsDragging={(value) => detailIsDragging.set(value)}
+        isFadingOut={isFadingOut}
+        setIsFadingOut={setIsFadingOut}
+        isDragging={isDragging}
+        setIsDragging={setIsDragging}
+        setTemSavedNews={setTemSavedNews}
+        savedNews={savedNews}
+        setSavedNews={setSavedNews}
+        progress={progress}
+        setOnExpand={setOnExpand}
+        onExpand={onExpand}
+        currentIndex={currentIndex}
+        setCurrentIndex={setCurrentIndex}
+        sharedX={sharedX}
+        sharedYMinus={sharedYMinus}
+        card_width={card_width}
+        app_width={app_width}
+        card_gap_width={card_gap_width}
+        initialX={initialX}
+        maxScrollLeft={maxScrollLeft}
+      />
+
       <FloatingNewsCards
         dragDirection={dragDirection}
         setDragDirection={setDragDirection}
@@ -98,7 +122,15 @@ function Layout({ setOnExpand, onExpand, containerRef }) {
         onExpand={onExpand}
         currentIndex={currentIndex}
         setCurrentIndex={setCurrentIndex}
+        sharedX={sharedX}
+        sharedYMinus={sharedYMinus}
+        card_width={card_width}
+        app_width={app_width}
+        card_gap_width={card_gap_width}
+        initialX={initialX}
+        maxScrollLeft={maxScrollLeft}
       />
+
       
       <Header />
       <SaveBox savedNews={savedNews} temSavedNews={temSavedNews} progress={progress} />
