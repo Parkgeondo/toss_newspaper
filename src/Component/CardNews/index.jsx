@@ -28,7 +28,8 @@ function CardNews({
   savedNews,
   progress,
   id,
-  setTemSavedNews
+  setTemSavedNews,
+  isSavedNewsMode
 }) {
   // 각 카드들의 세로 드래그
   const y = useMotionValue(0);
@@ -85,6 +86,8 @@ function CardNews({
 
   // 드래그를 놓았을 때, 애니메이션 적용
   const [scope, animate] = useAnimate();
+
+
   const dragUp = () => {
     const dragY = y.get();
     if (!scope.current) return;
@@ -143,6 +146,8 @@ function CardNews({
       />
     );
   }
+
+  
 
   return (
     <CardNews_drag

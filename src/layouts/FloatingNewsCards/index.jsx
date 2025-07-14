@@ -1,8 +1,8 @@
 import CardNews from "../../Component/CardNews"
 import { FloatingNewsCards_wrap } from "./styles"
 import { newsData } from '../../data/newsData';
-import { animate, motion, useMotionValue, useMotionValueEvent, useTransform } from "framer-motion";
-import { useRef, useState } from "react";
+import { animate, motion, useMotionValue, useMotionValueEvent, useTransform, useAnimate } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import Refresh3D from "../../Component/Refresh";
 
 function FloatingNewsCards({ 
@@ -28,7 +28,9 @@ function FloatingNewsCards({
   app_width,
   card_gap_width,
   initialX,
-  maxScrollLeft
+  maxScrollLeft,
+  isSavedNewsMode,
+  zIndex
 }) {
   // 가짜 카드 앞뒤로 넣어주기
   const blankAddedNews = [
@@ -42,6 +44,9 @@ function FloatingNewsCards({
   
   // 공유된 yMinus 값 사용
   const yMinus = sharedYMinus;
+
+  // FloatingNewsCards_wrap 애니메이션용
+  const [scope, animate] = useAnimate();
 
   // 카드 세로 스크롤 상위로 끌어올림 - 그래서 카드들이 저장된 뉴스에 먹히는 것처럼 overflow hidden을 조절함
   const [overHide, setOverHide] = useState(false);
@@ -116,13 +121,26 @@ function FloatingNewsCards({
     }
   };
 
+  // isSavedNewsMode 변경 시 FloatingNewsCards_wrap 애니메이션
+  useEffect(() => {
+    if (scope.current) {
+      if (isSavedNewsMode) {
+        animate(scope.current, { opacity: 0.5, filter: "blur(3px)" });
+      } else {
+        animate(scope.current, { opacity: 1, filter: "blur(0px)" });
+      }
+    }
+  }, [isSavedNewsMode, animate]);
+
   return (
     <FloatingNewsCards_wrap
+      ref={scope}
       drag={dragDisabled ? false : "x"}
       dragDirectionLock
       style={{
         x,
         overflow: overHide ? 'hidden' : 'visible',
+        zIndex: zIndex,
       }}
       onPointerDown={onPointerDown}
       onPointerUp={onPointerUp}
@@ -162,6 +180,7 @@ function FloatingNewsCards({
           x={x}
           yMinus={yMinus}
           card_distance={card_gap_width * cardIndex}
+          isSavedNewsMode={isSavedNewsMode}
         />
       ))}
     </FloatingNewsCards_wrap>

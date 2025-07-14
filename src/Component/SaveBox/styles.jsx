@@ -16,16 +16,15 @@ export const Folder = styled(motion.div)`
   background-color: #D3D1E5;
   bottom: 75px;
   left: 50%;
-  transform: translateX(-50%) rotateX(0deg);
   box-shadow: inset 0 2px 0px #F8F7FF, inset 0 0px 24px #E0DFF2;
 
   -webkit-mask-image: url(${maskUrl});
   -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: center;
+  -webkit-mask-position: 50% 50%;
 
   mask-image: url(${maskUrl});
   mask-repeat: no-repeat;
-  mask-position: center;
+  mask-position: 50% 50%;
 
   mask-size:auto;
   mask-clip: no-clip;

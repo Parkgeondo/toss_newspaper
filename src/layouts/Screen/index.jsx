@@ -53,6 +53,21 @@ function Layout({ setOnExpand, onExpand, containerRef }) {
   // 공통 yMinus 값 관리
   const sharedYMinus = useMotionValue(0);
 
+  // 저장된 뉴스 보기 모드
+  const [isSavedNewsMode, setIsSavedNewsMode] = useState(false);
+  
+  // z-index 상태 관리
+  const [cardsZIndex, setCardsZIndex] = useState(100);
+  
+  // isSavedNewsMode 변경 시 0.5초 뒤에 zIndex 변경
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setCardsZIndex(isSavedNewsMode ? -3 : 100);
+    }, 300);
+    
+    return () => clearTimeout(timer);
+  }, [isSavedNewsMode]);
+
   return (
     <>
       <Indicator progress={progress} currentIndex={currentIndex} />
@@ -103,6 +118,8 @@ function Layout({ setOnExpand, onExpand, containerRef }) {
         card_gap_width={card_gap_width}
         initialX={initialX}
         maxScrollLeft={maxScrollLeft}
+        isSavedNewsMode
+        zIndex={cardsZIndex}
       />
 
       <FloatingNewsCards
@@ -129,11 +146,12 @@ function Layout({ setOnExpand, onExpand, containerRef }) {
         card_gap_width={card_gap_width}
         initialX={initialX}
         maxScrollLeft={maxScrollLeft}
+        isSavedNewsMode={isSavedNewsMode}
+        zIndex={cardsZIndex}
       />
-
       
       <Header />
-      <SaveBox savedNews={savedNews} temSavedNews={temSavedNews} progress={progress} />
+      <SaveBox isSavedNewsMode={isSavedNewsMode} setIsSavedNewsMode={setIsSavedNewsMode} savedNews={savedNews} temSavedNews={temSavedNews} progress={progress} />
       <AnimatedWave />
     </>
   );
