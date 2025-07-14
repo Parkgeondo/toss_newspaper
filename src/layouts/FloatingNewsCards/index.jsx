@@ -125,9 +125,9 @@ function FloatingNewsCards({
   useEffect(() => {
     if (scope.current) {
       if (isSavedNewsMode) {
-        animate(scope.current, { opacity: 0.5, filter: "blur(3px)" });
+        animate(scope.current, { opacity: 0, scale: 0.9, filter: "blur(10px)" }, { duration: 0.5, ease: "easeInOut" });
       } else {
-        animate(scope.current, { opacity: 1, filter: "blur(0px)" });
+        animate(scope.current, { opacity: 1, scale: 1, filter: "blur(0px)" }, { duration: 0.5, ease: "easeInOut" });
       }
     }
   }, [isSavedNewsMode, animate]);

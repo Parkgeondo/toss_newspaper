@@ -20,6 +20,8 @@ export default function SaveBox({ isSavedNewsMode, setIsSavedNewsMode, savedNews
   // progress 값 변경 감지
   useMotionValueEvent(progress, "change", (latest) => {
     boxProgress.set(latest);
+
+  // progress 값 다시 0으로 돌아가서 박스가 닫히도록
     if (boxProgress.get() === 550) {
       boxProgress.set(0);
     }
@@ -66,68 +68,6 @@ export default function SaveBox({ isSavedNewsMode, setIsSavedNewsMode, savedNews
     await widthAnimation;
   };
 
-  const viewSavedNewsAnimation =  async () => {
-    // folderRef 먼저 실행
-    animate(
-      folderRef.current,
-      { 
-        width: 375,
-        height: 100,
-        bottom: 0,
-        borderRadius: 0,
-        WebkitMaskPosition: "50% 0%",
-        maskPosition: "50% 0%",
-        backgroundColor: "#2D313C",
-        boxShadow: "inset 0 2px 24px #3f4453"
-      },
-    );
-    // folderBackRef 나중에 실행
-    await animate(
-      folderBackRef.current,
-      { width: 375, bottom: 0,
-        background: "linear-gradient(to bottom, #3A3E51, #000000)"
-       },
-    );
-    
-    await animate(
-      folderBackRef.current,
-      { height: 814, bottom: 0 },
-    );
-  };
-  
-  const closedSavedNewsAnimation = async () => {
-    // folderRef 애니메이션
-    animate(
-      folderRef.current,
-      {
-        width: [375, 375, 100],
-        height: [100, 100, 40],
-        bottom: [0, 0, 75],
-        borderRadius: [0, 0, 12],
-        WebkitMaskPosition: ["50% 0%", "50% 0%", "50% 50%"],
-        maskPosition: ["50% 0%", "50% 0%", "50% 50%"],
-      },
-      {
-        duration: 0.7,
-        times: [0, 0.5, 1],
-      }
-    );
-    
-    // folderBackRef 애니메이션
-    animate(
-      folderBackRef.current,
-      {
-        width: [375, 375, 100],
-        height: [814, 100, 40],
-        bottom: [0, 0, 75],
-        borderRadius: [0, 12, 12],
-      },
-      {
-        duration: 0.7,
-        times: [0, 0.5, 1],
-      }
-    );
-  };
 
   // boxProgress 값 변경에 따른 애니메이션 처리
   useMotionValueEvent(boxProgress, "change", (latest) => {
@@ -153,10 +93,10 @@ export default function SaveBox({ isSavedNewsMode, setIsSavedNewsMode, savedNews
   const changeMode = async () => {
     if (!isSavedNewsMode) {
       setIsSavedNewsMode(true);
-      viewSavedNewsAnimation();
+      openAnimation();
     } else {
       setIsSavedNewsMode(false);
-      closedSavedNewsAnimation();
+      closeAnimation();
     }
   }
 

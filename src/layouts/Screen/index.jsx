@@ -33,6 +33,7 @@ function Layout({ setOnExpand, onExpand, containerRef }) {
   const initialX = -card_gap_width + (offset - gap * 0.5);
   const maxScrollLeft = -(newsData.length + 1) * card_gap_width + (offset - gap * 0.5);
   
+  // 저장된 배경과 동기화
   const sharedX = useMotionValue(initialX);
 
   // 탭 진행율 상태
@@ -64,7 +65,6 @@ function Layout({ setOnExpand, onExpand, containerRef }) {
     const timer = setTimeout(() => {
       setCardsZIndex(isSavedNewsMode ? -3 : 100);
     }, 300);
-    
     return () => clearTimeout(timer);
   }, [isSavedNewsMode]);
 
