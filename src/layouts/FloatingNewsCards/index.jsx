@@ -41,6 +41,9 @@ function FloatingNewsCards({
 
   // 공유된 x 값 사용
   const x = sharedX;
+
+  // 전체 데이터 갯수
+  const total = newsData.length;
   
   // 공유된 yMinus 값 사용
   const yMinus = sharedYMinus;
@@ -121,9 +124,18 @@ function FloatingNewsCards({
     }
   };
 
+  // 스케일 애니메이션 하기 전에 scaleorigin 정하기
+  const getOrigin = (currentIndex, total) => {
+    const newTotal = total + 2;
+    const origin = (100 / newTotal) * (currentIndex + 0.5);
+    return `${origin}% center`;
+  };
+
   // isSavedNewsMode 변경 시 FloatingNewsCards_wrap 애니메이션
   useEffect(() => {
     if (scope.current) {
+      getOrigin(currentIndex, total);
+      scope.current.style.transformOrigin = getOrigin(currentIndex, total);
       if (isSavedNewsMode) {
         animate(scope.current, { opacity: 0, scale: 0.9, filter: "blur(10px)" }, { duration: 0.5, ease: "easeInOut" });
       } else {

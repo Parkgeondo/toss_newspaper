@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Canvas, useFrame, extend, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { MeshLineGeometry, MeshLineMaterial } from "meshline";
@@ -49,7 +49,7 @@ function AnimatedWave({ start, control1, control2, end, color }) {
   );
 }
 
-export default function WaveBezierScene() {
+export default function WaveBezierScene({ isSavedNewsMode }) {
 
   const start_1 = new THREE.Vector3(-5, 7, 0);
   const control1_1 = new THREE.Vector3(-1, 4, 0);
@@ -66,6 +66,16 @@ export default function WaveBezierScene() {
   const control2_3 = new THREE.Vector3(2, 9, 0);
   const end_3 = new THREE.Vector3(9, 9, 0);
 
+  const [color, setColor] = useState("#D7F6FF");
+
+  useEffect(() => {
+    if (isSavedNewsMode) {
+      setColor("linear-gradient(0deg, #000000 0%, #3A3E51 100%)");
+    } else {
+      setColor("#f5f7fa");
+    }
+  }, [isSavedNewsMode]);
+
   return (
     <Canvas
       orthographic
@@ -74,33 +84,33 @@ export default function WaveBezierScene() {
         zIndex:"-100",
         width: "900px",
         height: "900px",
-        background: "#f5f7fa",
+        background: color,
         filter: "blur(50px)",
         left: '-262.5px',
         top: '-43px'
       }}
     >  
-      <AnimatedWave
+      {!isSavedNewsMode && <AnimatedWave
         start={start_3}
         control1={control1_3}
         control2={control2_3}
         end={end_3}
         color={"#D7F6FF"}
-      />
-      <AnimatedWave
+      />}
+      {!isSavedNewsMode && <AnimatedWave
         start={start_2}
         control1={control1_2}
         control2={control2_2}
         end={end_2}
         color={"#E3D3FF"}
-      />
-      <AnimatedWave
+      />}
+      {!isSavedNewsMode && <AnimatedWave
         start={start_1}
         control1={control1_1}
         control2={control2_1}
         end={end_1}
         color={"#CEDEFF"}
-      />
+      />}
 
 
       <EffectComposer multisampling={1}>

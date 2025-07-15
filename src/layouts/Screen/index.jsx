@@ -118,7 +118,7 @@ function Layout({ setOnExpand, onExpand, containerRef }) {
         card_gap_width={card_gap_width}
         initialX={initialX}
         maxScrollLeft={maxScrollLeft}
-        isSavedNewsMode
+        isSavedNewsMode={isSavedNewsMode}
         zIndex={cardsZIndex}
       />
 
@@ -152,7 +152,7 @@ function Layout({ setOnExpand, onExpand, containerRef }) {
       
       <Header />
       <SaveBox isSavedNewsMode={isSavedNewsMode} setIsSavedNewsMode={setIsSavedNewsMode} savedNews={savedNews} temSavedNews={temSavedNews} progress={progress} />
-      <AnimatedWave />
+      <AnimatedWave isSavedNewsMode={isSavedNewsMode} />
     </>
   );
 }
