@@ -4,6 +4,7 @@ import { CardNews_drag } from "./styles";
 import card_effect from "../../img/card_effect.png";
 import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { add } from "framer-motion";
 
 function CardNews({
   dragDirection,
@@ -125,7 +126,14 @@ function CardNews({
   const width = useTransform(y, [0, -212], [265, 375]);
   const height = useTransform(y, [0, -212], [426, 814]);
   const opacity = useTransform(y, [0, -212], [1, 0]);
-  const temy = useTransform(yMinus, [0, -212], [0, -55]);
+  const temy = useTransform(yMinus, value => {
+    // value는 yMinus의 현재 값
+    // 0 ~ -212 → 0 ~ -55으로 매핑
+    const mapped = (value / -212) * -55;
+    return mapped + id * 0;
+  });
+
+
   const radius = useTransform(y, [0, -212], [24, 12]);
 
   const textBody_opacity = useTransform(y, [0, -212], [0, 480]);
@@ -147,8 +155,6 @@ function CardNews({
     );
   }
 
-  
-
   return (
     <CardNews_drag
       drag="y"
@@ -162,6 +168,7 @@ function CardNews({
         timeConstant: 100,
       }}
       style={{
+        transform: "translateX('200px)",
         scale: distance,
         width,
         x: temy,
