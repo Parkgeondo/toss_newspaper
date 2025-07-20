@@ -32,6 +32,25 @@ export const CardNews_drag = styled(motion.div)`
       }
     }
   }
+  & .backButton{
+    display: flex;
+    width: 169px;
+    padding: 6px 20px;
+    border-radius: 40px;
+    gap: 6px;
+    z-index: 2;
+    position: absolute;
+    background-color: #232529;
+    color: #BECCF2;
+    left: 50%;
+    top: 50%;
+    border: 2px solid transparent; /* 반드시 transparent */
+    background-image:
+      linear-gradient(#232529, #232529), /* 내부 배경 */
+      linear-gradient(0deg, #4A4D52 0%, #343537 55% ,#626A7B 100%); /* 테두리 그라데이션 */
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+  }
   & .card_effect{
     position: absolute;
     width: 100%;

@@ -1,7 +1,7 @@
 import CardNews from "../../Component/CardNews"
 import { FloatingNewsCards_wrap } from "./styles"
 import { newsData } from '../../data/newsData';
-import { animate, motion, useMotionValue, useMotionValueEvent, useTransform, useAnimate } from "framer-motion";
+import { animate, motion, useMotionValue, useMotionValueEvent, useTransform, useAnimate, easeOut } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import Refresh3D from "../../Component/Refresh";
 
@@ -127,6 +127,20 @@ function FloatingNewsCards_savedNews({
       ref={scope}
       drag={dragDisabled ? false : "x"}
       dragDirectionLock
+      initial={{y:600}}
+      animate={{y:0}}
+      exit={{
+        y: 600,
+        transition: {
+          delay: 0.8, // 사라질 때 1초 delay
+          duration: 0.8,
+          ease: [0.19, 1, 0.22, 1]
+        }
+      }}
+      transition={{
+        duration: 0.8,
+        ease: [0.19, 1, 0.22, 1]
+      }}
       style={{
         x,
         overflow: overHide ? 'hidden' : 'visible',

@@ -2,9 +2,8 @@ import { useAnimate, useMotionValue, useMotionValueEvent, useTransform } from "f
 import { CardNews_wrap } from "./styles";
 import { CardNews_drag } from "./styles";
 import card_effect from "../../img/card_effect.png";
-import { useCallback, useEffect, useState } from "react";
+import { use, useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { add } from "framer-motion";
 
 function CardNews({
   dragDirection,
@@ -88,6 +87,9 @@ function CardNews({
   // 드래그를 놓았을 때, 애니메이션 적용
   const [scope, animate] = useAnimate();
 
+  // 등장 애니메이션
+  
+
 
   const dragUp = () => {
     const dragY = y.get();
@@ -126,15 +128,12 @@ function CardNews({
   const width = useTransform(y, [0, -212], [265, 375]);
   const height = useTransform(y, [0, -212], [426, 814]);
   const opacity = useTransform(y, [0, -212], [1, 0]);
-  const temy = useTransform(yMinus, value => {
-    // value는 yMinus의 현재 값
-    // 0 ~ -212 → 0 ~ -55으로 매핑
-    const mapped = (value / -212) * -55;
-    return mapped + id * 0;
-  });
-
-
+  const temy = useTransform(y, [0, -212], [0, -55]);
   const radius = useTransform(y, [0, -212], [24, 12]);
+
+  // 카드 한쪽에 모일 수 있도록 보정값
+  const animeX = useMotionValue(0);
+
 
   const textBody_opacity = useTransform(y, [0, -212], [0, 480]);
   const [textMaskPercent, setTextMaskPercent] = useState(0);
@@ -158,6 +157,31 @@ function CardNews({
   return (
     <CardNews_drag
       drag="y"
+      initial={{
+        x: (() => {
+          const calculatedValue = (card_gap_width) * (currentIndex - cardIndex);
+          return calculatedValue;
+        })(),
+      }}
+      animate={{ 
+        x: isSavedNewsMode ? "0px" : "0px", 
+        transition: {
+          delay: isSavedNewsMode ? 1.0 : 0, // 초기 렌더링 시 1초 delay
+          duration: isSavedNewsMode ? 0.6 : 0,
+          ease: [0.25, 0.46, 0.45, 0.94]
+        }
+      }}
+      exit={{ 
+        x: (() => {
+          const calculatedValue = (card_gap_width) * (currentIndex - cardIndex);
+          return calculatedValue;
+        })(),
+        transition: {
+          delay: 0.5, // 사라질 때 0.5초 delay
+          duration: 0.6,
+          ease: [0.25, 0.46, 0.45, 0.94]
+        }
+      }}
       ref={scope}
       onDragEnd={dragUp}
       dragDirectionLock
@@ -172,7 +196,7 @@ function CardNews({
         scale: distance,
         width,
         x: temy,
-        y,
+        y:y,
         borderRadius: radius,
       }}
     >

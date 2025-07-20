@@ -11,5 +11,4 @@ export const FloatingNewsCards_wrap = styled(motion.div)`
   gap: 12px;
   /* padding: 6px; */
   padding: 110px 6px 0px 6px;
-  background-color: red;
 `

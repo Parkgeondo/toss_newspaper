@@ -24,6 +24,8 @@ function App() {
   const [onExpand, setOnExpand] = useState(false);
   const isMobile = useDeviceType();
   const containerRef = useRef(null);
+  // 저장된 뉴스 보기 모드
+  const [isSavedNewsMode, setIsSavedNewsMode] = useState(false);
 
   return (
     <div 
@@ -34,8 +36,10 @@ function App() {
       }}
     >
       <ThemeProvider theme={theme}>
-        <StatusBar onExpand={onExpand} />
-        <Screen 
+        <StatusBar isSavedNewsMode={isSavedNewsMode} onExpand={onExpand} />
+        <Screen
+          isSavedNewsMode={isSavedNewsMode}
+          setIsSavedNewsMode = {setIsSavedNewsMode}
           containerRef={containerRef} 
           setOnExpand={setOnExpand} 
           onExpand={onExpand} 

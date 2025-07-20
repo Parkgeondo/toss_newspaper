@@ -1,17 +1,17 @@
 import styled from '@emotion/styled';
 
 export const HeaderWraper = styled.div`
-justify-content: space-between;
 display:flex;
+padding: 0px 26px;
 align-items: center;
-padding: 0px 14px;
-height: 45px;
 width:100%;
+justify-content: space-between;
 position:absolute;
-top:60px;
+top:56px;
 z-index:99;
  & h1{
-    font-size: 24px;
+    font-size: 20px;
+    font-weight: 600;
     color: #293468;
  }
 `

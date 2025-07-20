@@ -4,6 +4,8 @@ import { CardNews_drag } from "./styles";
 import card_effect from "../../img/card_effect.png";
 import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import backButton_card from "../../img/backButton_card.svg";
+
 
 function CardNews_background({
   data,
@@ -59,21 +61,40 @@ function CardNews_background({
       />
     );
   }
-
   return (
     <CardNews_drag 
           style={{
-          filter: 'sepia(1) hue-rotate(180deg) saturate(0.6) contrast(0.9) brightness(0.7)',
           scale: distance,
           width,
           x: temy,
           borderRadius: radius,
         }}
     >
+      <motion.div
+        className="backButton"
+        initial={{
+        opacity: 1, scale: 1, x:"-50%",y:"-100%"
+      }}
+        animate={savedNews.includes(data.id)
+          ? {opacity: 1, scale: 1, x:"-50%",y:"-100%"}
+          : {opacity: 0, scale: 0.7, x:"-50%",y:"-100%" }
+        }
+        transition={{ type: "spring", stiffness: 100, damping: 7 }}
+      >
+          <img src={backButton_card}></img>
+          <p>저장 취소하기</p>
+      </motion.div>
       <CardNews_wrap
-      initial={{ filter: 'blur(2px)', opacity: 0, scale: 0.7 }}
-      animate={savedNews.includes(data.id) ? { filter: 'blur(0px)', opacity: 1, scale: 1 } : {}} 
-      transition={{type: "spring", stiffness: 100, damping: 7 }}
+        initial={{
+          filter: 'sepia(1) hue-rotate(180deg) saturate(0.6) contrast(0.9) brightness(0.7) blur(2px)',
+          opacity: 0,
+          scale: 0.7
+        }}
+        animate={savedNews.includes(data.id)
+          ? { filter: 'sepia(1) hue-rotate(180deg) saturate(0.6) contrast(0.9) brightness(0.7) blur(0px)', opacity: 1, scale: 1 }
+          : { filter: 'sepia(1) hue-rotate(180deg) saturate(0.6) contrast(0.9) brightness(0.7) blur(2px)', opacity: 0, scale: 0.7 }
+        }
+        transition={{ type: "spring", stiffness: 100, damping: 7 }}
         style={{
           borderRadius: radius,
           position: 'relative',

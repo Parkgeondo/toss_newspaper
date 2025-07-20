@@ -9,6 +9,7 @@ import {
   Vignette,
 } from "@react-three/postprocessing";
 import { KernelSize } from "postprocessing";
+import { motion } from "framer-motion";
 
 extend({ MeshLineGeometry, MeshLineMaterial });
 
@@ -66,30 +67,38 @@ export default function WaveBezierScene({ isSavedNewsMode }) {
   const control2_3 = new THREE.Vector3(2, 9, 0);
   const end_3 = new THREE.Vector3(9, 9, 0);
 
-  const [color, setColor] = useState("#D7F6FF");
-
-  useEffect(() => {
-    if (isSavedNewsMode) {
-      setColor("linear-gradient(0deg, #000000 0%, #3A3E51 100%)");
-    } else {
-      setColor("#f5f7fa");
-    }
-  }, [isSavedNewsMode]);
+  const [color, setColor] = useState("#f5f7fa");
 
   return (
-    <Canvas
-      orthographic
-      camera={{ position: [0, 0, 10], zoom: 100 }}
+    <motion.div
       style={{
         zIndex:"-100",
         width: "900px",
         height: "900px",
-        background: color,
         filter: "blur(50px)",
         left: '-262.5px',
-        top: '-43px'
+        top: '-43px',
+        position: 'absolute'
       }}
-    >  
+      animate={{
+        background: isSavedNewsMode 
+          ? "linear-gradient(0deg, #000000 0%, #3A3E51 100%)" 
+          : "linear-gradient(0deg, #f5f7fa 0%, #f5f7fa 100%)" 
+      }}
+      transition={{
+        duration: 0.4,
+        ease: "easeInOut"
+      }}
+    >
+      <Canvas
+        orthographic
+        camera={{ position: [0, 0, 10], zoom: 100 }}
+        style={{
+          width: "100%",
+          height: "100%",
+          background: "transparent"
+        }}
+      >  
       {!isSavedNewsMode && <AnimatedWave
         start={start_3}
         control1={control1_3}
@@ -128,5 +137,6 @@ export default function WaveBezierScene({ isSavedNewsMode }) {
         {/* <Vignette eskil={false} offset={0.1} darkness={0.7} /> */}
       </EffectComposer>
     </Canvas>
+    </motion.div>
   );
 }

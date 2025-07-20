@@ -3,7 +3,7 @@ import { useState, useEffect, use } from 'react';
 import { newsData } from '../../data/newsData';
 import AnimatedWave from '../../utile/wavyShader _background';
 import FloatingNewsCards from '../FloatingNewsCards';
-import { useMotionValue, useMotionValueEvent } from 'framer-motion';
+import { useMotionValue, useMotionValueEvent, AnimatePresence } from 'framer-motion';
 import CardDetail from '../../Component/CardDetail';
 import SaveBox from "../../Component/SaveBox";
 import Indicator from '../../Component/Indicator';
@@ -11,9 +11,9 @@ import { NextNewsNumber } from '../../Component/NextNews';
 import FloatingNewsCards_background from '../FloatingNewsCards_background';
 import FloatingNewsCards_savedNews from '../FloatingNewsCards_savedNews';
 
-function Layout({ setOnExpand, onExpand, containerRef }) {
+function Layout({ setOnExpand, onExpand, containerRef, isSavedNewsMode, setIsSavedNewsMode }) {
   // 뉴스 저장 관련 상태
-  const [savedNews, setSavedNews] = useState([1,2,3]);
+  const [savedNews, setSavedNews] = useState([]);
   const [temSavedNews, setTemSavedNews] = useState([]);
 
   // 애니메이션 관련 상태
@@ -55,9 +55,6 @@ function Layout({ setOnExpand, onExpand, containerRef }) {
   // 공통 yMinus 값 관리
   const sharedYMinus = useMotionValue(0);
 
-  // 저장된 뉴스 보기 모드
-  const [isSavedNewsMode, setIsSavedNewsMode] = useState(false);
-  
   // z-index 상태 관리
   const [cardsZIndex, setCardsZIndex] = useState(100);
   
@@ -94,7 +91,7 @@ function Layout({ setOnExpand, onExpand, containerRef }) {
           number_y={number_y}
         />
       )}
-{/*       
+      
       <FloatingNewsCards_background 
         dragDirection={dragDirection}
         setDragDirection={setDragDirection}
@@ -149,37 +146,42 @@ function Layout({ setOnExpand, onExpand, containerRef }) {
         maxScrollLeft={maxScrollLeft}
         isSavedNewsMode={isSavedNewsMode}
         zIndex={cardsZIndex}
-      /> */}
-
-      <FloatingNewsCards_savedNews
-        dragDirection={dragDirection}
-        setDragDirection={setDragDirection}
-        detailIsDragging={detailIsDragging}
-        setDetailIsDragging={(value) => detailIsDragging.set(value)}
-        isFadingOut={isFadingOut}
-        setIsFadingOut={setIsFadingOut}
-        isDragging={isDragging}
-        setIsDragging={setIsDragging}
-        setTemSavedNews={setTemSavedNews}
-        savedNews={savedNews}
-        setSavedNews={setSavedNews}
-        progress={progress}
-        setOnExpand={setOnExpand}
-        onExpand={onExpand}
-        currentIndex={currentIndex}
-        setCurrentIndex={setCurrentIndex}
-        sharedX={sharedX}
-        sharedYMinus={sharedYMinus}
-        card_width={card_width}
-        app_width={app_width}
-        card_gap_width={card_gap_width}
-        initialX={initialX}
-        maxScrollLeft={maxScrollLeft}
-        isSavedNewsMode={isSavedNewsMode}
-        zIndex={cardsZIndex}
       />
+
+      <AnimatePresence>
+        {isSavedNewsMode && (
+          <FloatingNewsCards_savedNews
+            key="saved-news"
+            dragDirection={dragDirection}
+            setDragDirection={setDragDirection}
+            detailIsDragging={detailIsDragging}
+            setDetailIsDragging={(value) => detailIsDragging.set(value)}
+            isFadingOut={isFadingOut}
+            setIsFadingOut={setIsFadingOut}
+            isDragging={isDragging}
+            setIsDragging={setIsDragging}
+            setTemSavedNews={setTemSavedNews}
+            savedNews={savedNews}
+            setSavedNews={setSavedNews}
+            progress={progress}
+            setOnExpand={setOnExpand}
+            onExpand={onExpand}
+            currentIndex={currentIndex}
+            setCurrentIndex={setCurrentIndex}
+            sharedX={sharedX}
+            sharedYMinus={sharedYMinus}
+            card_width={card_width}
+            app_width={app_width}
+            card_gap_width={card_gap_width}
+            initialX={initialX}
+            maxScrollLeft={maxScrollLeft}
+            isSavedNewsMode={isSavedNewsMode}
+            zIndex={cardsZIndex}
+          />
+        )}
+      </AnimatePresence>
       
-      <Header />
+      <Header isSavedNewsMode={isSavedNewsMode}/>
       <SaveBox isSavedNewsMode={isSavedNewsMode} setIsSavedNewsMode={setIsSavedNewsMode} savedNews={savedNews} temSavedNews={temSavedNews} progress={progress} />
       <AnimatedWave isSavedNewsMode={isSavedNewsMode} />
     </>

@@ -91,7 +91,7 @@ export default function SaveBox({ isSavedNewsMode, setIsSavedNewsMode, savedNews
 
 
   const changeMode = async () => {
-    if (!isSavedNewsMode) {
+    if (!isSavedNewsMode && savedNews.length !== 0) {
       setIsSavedNewsMode(true);
       openAnimation();
     } else {
