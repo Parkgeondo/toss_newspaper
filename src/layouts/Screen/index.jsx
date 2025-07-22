@@ -147,7 +147,7 @@ function Layout({ setOnExpand, onExpand, containerRef, isSavedNewsMode, setIsSav
         isSavedNewsMode={isSavedNewsMode}
         zIndex={cardsZIndex}
       />
-
+{/* 
       <AnimatePresence>
         {isSavedNewsMode && (
           <FloatingNewsCards_savedNews
@@ -180,7 +180,7 @@ function Layout({ setOnExpand, onExpand, containerRef, isSavedNewsMode, setIsSav
           />
         )}
       </AnimatePresence>
-      
+       */}
       <Header isSavedNewsMode={isSavedNewsMode}/>
       <SaveBox isSavedNewsMode={isSavedNewsMode} setIsSavedNewsMode={setIsSavedNewsMode} savedNews={savedNews} temSavedNews={temSavedNews} progress={progress} />
       <AnimatedWave isSavedNewsMode={isSavedNewsMode} />
