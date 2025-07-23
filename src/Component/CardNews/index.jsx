@@ -128,7 +128,7 @@ function CardNews({
   const width = useTransform(y, [0, -212], [265, 375]);
   const height = useTransform(y, [0, -212], [426, 814]);
   const opacity = useTransform(y, [0, -212], [1, 0]);
-  const temy = useTransform(y, [0, -212], [0, -55]);
+  const temy = useTransform(yMinus, [0, -212], [0, -55]);
   const radius = useTransform(y, [0, -212], [24, 12]);
 
   // 카드 한쪽에 모일 수 있도록 보정값
