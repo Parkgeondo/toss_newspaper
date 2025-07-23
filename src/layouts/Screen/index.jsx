@@ -91,34 +91,6 @@ function Layout({ setOnExpand, onExpand, containerRef, isSavedNewsMode, setIsSav
           number_y={number_y}
         />
       )}
-      
-      <FloatingNewsCards_background 
-        dragDirection={dragDirection}
-        setDragDirection={setDragDirection}
-        detailIsDragging={detailIsDragging}
-        setDetailIsDragging={(value) => detailIsDragging.set(value)}
-        isFadingOut={isFadingOut}
-        setIsFadingOut={setIsFadingOut}
-        isDragging={isDragging}
-        setIsDragging={setIsDragging}
-        setTemSavedNews={setTemSavedNews}
-        savedNews={savedNews}
-        setSavedNews={setSavedNews}
-        progress={progress}
-        setOnExpand={setOnExpand}
-        onExpand={onExpand}
-        currentIndex={currentIndex}
-        setCurrentIndex={setCurrentIndex}
-        sharedX={sharedX}
-        sharedYMinus={sharedYMinus}
-        card_width={card_width}
-        app_width={app_width}
-        card_gap_width={card_gap_width}
-        initialX={initialX}
-        maxScrollLeft={maxScrollLeft}
-        isSavedNewsMode={isSavedNewsMode}
-        zIndex={cardsZIndex}
-      />
 
       <FloatingNewsCards
         dragDirection={dragDirection}
@@ -147,40 +119,6 @@ function Layout({ setOnExpand, onExpand, containerRef, isSavedNewsMode, setIsSav
         isSavedNewsMode={isSavedNewsMode}
         zIndex={cardsZIndex}
       />
-{/* 
-      <AnimatePresence>
-        {isSavedNewsMode && (
-          <FloatingNewsCards_savedNews
-            key="saved-news"
-            dragDirection={dragDirection}
-            setDragDirection={setDragDirection}
-            detailIsDragging={detailIsDragging}
-            setDetailIsDragging={(value) => detailIsDragging.set(value)}
-            isFadingOut={isFadingOut}
-            setIsFadingOut={setIsFadingOut}
-            isDragging={isDragging}
-            setIsDragging={setIsDragging}
-            setTemSavedNews={setTemSavedNews}
-            savedNews={savedNews}
-            setSavedNews={setSavedNews}
-            progress={progress}
-            setOnExpand={setOnExpand}
-            onExpand={onExpand}
-            currentIndex={currentIndex}
-            setCurrentIndex={setCurrentIndex}
-            sharedX={sharedX}
-            sharedYMinus={sharedYMinus}
-            card_width={card_width}
-            app_width={app_width}
-            card_gap_width={card_gap_width}
-            initialX={initialX}
-            maxScrollLeft={maxScrollLeft}
-            isSavedNewsMode={isSavedNewsMode}
-            zIndex={cardsZIndex}
-          />
-        )}
-      </AnimatePresence>
-       */}
       <Header isSavedNewsMode={isSavedNewsMode}/>
       <SaveBox isSavedNewsMode={isSavedNewsMode} setIsSavedNewsMode={setIsSavedNewsMode} savedNews={savedNews} temSavedNews={temSavedNews} progress={progress} />
       <AnimatedWave isSavedNewsMode={isSavedNewsMode} />

@@ -157,51 +157,19 @@ function CardNews({
   return (
     <CardNews_drag
       drag="y"
-      initial={{
-        x: (() => {
-          const calculatedValue = (card_gap_width) * (currentIndex - cardIndex);
-          return calculatedValue;
-        })(),
-      }}
-      animate={{ 
-        x: isSavedNewsMode ? "0px" : "0px", 
-        transition: {
-          delay: isSavedNewsMode ? 1.0 : 0, // 초기 렌더링 시 1초 delay
-          duration: isSavedNewsMode ? 0.6 : 0,
-          ease: [0.25, 0.46, 0.45, 0.94]
-        }
-      }}
-      exit={{ 
-        x: (() => {
-          const calculatedValue = (card_gap_width) * (currentIndex - cardIndex);
-          return calculatedValue;
-        })(),
-        transition: {
-          delay: 0.5, // 사라질 때 0.5초 delay
-          duration: 0.6,
-          ease: [0.25, 0.46, 0.45, 0.94]
-        }
-      }}
       ref={scope}
       onDragEnd={dragUp}
       dragDirectionLock
       dragListener={true}
       onDragStart={() => setIsDragging(true)}
-      dragTransition={{
-        power: 0.1,
-        timeConstant: 100,
-      }}
       style={{
-        transform: "translateX('200px)",
         scale: distance,
         width,
         x: temy,
-        y:y,
+        y,
         borderRadius: radius,
       }}
     >
-
-      {/* 실제 카드 */}
       <CardNews_wrap
         style={{
           borderRadius: radius,
