@@ -4,12 +4,11 @@ import { newsData } from '../../data/newsData';
 import { animate, motion, useMotionValue, useMotionValueEvent, useTransform, useAnimate } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import Refresh3D from "../../Component/Refresh";
+import { useLayout } from '../../contexts/LayoutContext';
 
 function FloatingNewsCards({ 
   dragDirection, 
   setDragDirection, 
-  detailIsDragging, 
-  setDetailIsDragging, 
   isFadingOut, 
   setIsFadingOut, 
   setIsDragging, 
@@ -21,17 +20,13 @@ function FloatingNewsCards({
   setCurrentIndex, 
   setSavedNews, 
   savedNews, 
-  progress,
-  sharedX,
-  sharedYMinus,
-  card_width,
-  app_width,
-  card_gap_width,
-  initialX,
-  maxScrollLeft,
+  activeProgress,
   isSavedNewsMode,
-  zIndex
+  zIndex,
 }) {
+  const { cardLayoutValues } = useLayout();
+  const { cardWidth, appWidth, cardGapWidth, initialX, maxScrollLeft } = cardLayoutValues;
+
   // 가짜 카드 앞뒤로 넣어주기
   const blankAddedNews = [
     { id: "blank-start", isBlank: true },
@@ -39,14 +34,13 @@ function FloatingNewsCards({
     { id: "blank-end", isBlank: true }
   ];
 
-  // 공유된 x 값 사용
-  const x = sharedX;
+  const x = useMotionValue(initialX);
 
   // 전체 데이터 갯수
   const total = newsData.length;
   
   // 공유된 yMinus 값 사용
-  const yMinus = sharedYMinus;
+  const yMinus = useMotionValue(0);
 
   // FloatingNewsCards_wrap 애니메이션용
   const [scope, animate] = useAnimate();
@@ -63,23 +57,33 @@ function FloatingNewsCards({
 
   // 카드 가로 스크롤에 따라서 현재 어느 카드인지 확인
   useMotionValueEvent(x, "change", (latest) => {
-    const offset = (app_width - card_width) * 0.5;
-    setCurrentIndex(-Math.round((latest - offset) / (card_width + 12)));
+    const offset = (appWidth - cardWidth) * 0.5;
+    setCurrentIndex(-Math.round((latest - offset) / (cardWidth + 12)));
   });
 
   // 새로고침하는 동안 드래그 불가
   const [dragDisabled, setDragDisabled] = useState(false);
   
   // 새로고침 함수
-  const refresh = () => {
+  const refresh = (direction) => {
+    let firstValue, secondValue;
+    
+    if (direction === 'left') {
+      firstValue = initialX + 80;
+      secondValue = initialX;
+    } else if (direction === 'right') {
+      firstValue = maxScrollLeft - 80;
+      secondValue = maxScrollLeft;
+    }
+
     setDragDisabled(true);
-    animate(x, -135, {
+    animate(x, firstValue, {
       type: "spring",
       stiffness: 300,
       damping: 30,
     });
     setTimeout(() => {
-      animate(x, -228, {
+      animate(x, secondValue, {
         type: "spring",
         stiffness: 300,
         damping: 30,
@@ -95,36 +99,43 @@ function FloatingNewsCards({
     direction: null
   });
 
+  
   const onPointerDown = (e) => {
     dragDirectionRef.current.downPoint = e.clientX;
   };
 
   const onPointerUp = (e) => {
     dragDirectionRef.current.upPoint = e.clientX;
-    if (x.get() > -135) {
-      refresh();
+
+    //Floating의 넓이 구하기 왼쪽 오른쪽 구별
+    if (x.get() > initialX + 80) {
+      refresh('left');
+    } else if (x.get() < maxScrollLeft - 80) {
+      refresh('right');
     }
   };
 
+  //Floating의 스냅 정하는 부분
   const snapTargetX = (target) => {
-    const offset = (app_width - card_width) * 0.5;
-    const gap = card_gap_width - card_width;
-    const calculate = (target - offset) / card_gap_width;
+    const offset = (appWidth - cardWidth) * 0.5;
+    const gap = cardGapWidth - cardWidth;
+    const calculate = (target - offset) / cardGapWidth;
     const down = dragDirectionRef.current.downPoint;
     const up = dragDirectionRef.current.upPoint;
     const direction = down - up;
-
-    // 기존 snap 로직
+    // 
     if (direction <= -70) {
-      return Math.ceil(calculate) * card_gap_width + (offset - gap * 0.5);
+      //왼쪽으로 드래그 할때 조금이라도 넘어가면 왼쪽으로 스냅
+      return Math.ceil(calculate) * cardGapWidth + (offset - gap * 0.5);
     } else if (direction >= 70) {
-      return Math.floor(calculate) * card_gap_width + (offset - gap * 0.5);
+      //오른쪽으로 드래그 할때 조금이라도 넘어가면 오른쪽으로 스냅
+      return Math.floor(calculate) * cardGapWidth + (offset - gap * 0.5);
     } else {
-      return Math.round(calculate) * card_gap_width + (offset - gap * 0.5);
+      return Math.round(calculate) * cardGapWidth + (offset - gap * 0.5);
     }
   };
 
-  // 스케일 애니메이션 하기 전에 scaleorigin 정하기
+  // 저장모드로 전환할때 FloatingNewsCards_wrap 의 스케일 scaleorigin 정하기
   const getOrigin = (currentIndex, total) => {
     const newTotal = total + 2;
     const origin = (100 / newTotal) * (currentIndex + 0.5);
@@ -173,11 +184,9 @@ function FloatingNewsCards({
           setIsDragging={setIsDragging}
           dragDirection={dragDirection}
           setDragDirection={setDragDirection}
-          detailIsDragging={detailIsDragging}
-          setDetailIsDragging={setDetailIsDragging}
           savedNews={savedNews}
           setSavedNews={setSavedNews}
-          progress={progress}
+          activeProgress={activeProgress}
           setTemSavedNews={setTemSavedNews}
           id={data.id}
           setOnExpand={setOnExpand}
@@ -185,13 +194,9 @@ function FloatingNewsCards({
           data={data}
           cardIndex={cardIndex}
           currentIndex={currentIndex}
-          app_width={app_width}
-          card_gap_width={card_gap_width}
-          card_width={card_width}
           isFocused={cardIndex === currentIndex}
           x={x}
           yMinus={yMinus}
-          card_distance={card_gap_width * cardIndex}
           isSavedNewsMode={isSavedNewsMode}
         />
       ))}

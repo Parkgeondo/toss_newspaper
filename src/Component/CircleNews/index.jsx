@@ -29,14 +29,16 @@ const CircleNews = ({ id, isShrinking = false, offsetX, savedNews, temSavedNews,
           <circle cx={size / 2} cy={size / 2} r={radius} />
         </clipPath>
       </defs>
-      <image
-        href={savedData.smallImage}
-        x={0}
-        y={0}
-        width={size}
-        height={size}
-        clipPath={`url(#circleClip-${id})`}
-      />
+      {savedData?.smallImage && (
+        <image
+          href={savedData.smallImage}
+          x={0}
+          y={0}
+          width={size}
+          height={size}
+          clipPath={`url(#circleClip-${id})`}
+        />
+      )}
       <circle
         cx={size / 2}
         cy={size / 2}
@@ -101,14 +103,16 @@ const TemCircleNews = ({ progress, id }) => {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.3 }}
       >
-        <image
-          href={savedData.smallImage}
-          x={0}
-          y={0}
-          width={size}
-          height={size}
-          clipPath={`url(#circleClip-${id})`}
-        />
+        {savedData?.smallImage && (
+          <image
+            href={savedData.smallImage}
+            x={0}
+            y={0}
+            width={size}
+            height={size}
+            clipPath={`url(#circleClip-${id})`}
+          />
+        )}
       </motion.g>
       <motion.circle
         cx={size / 2}

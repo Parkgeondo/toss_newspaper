@@ -4,7 +4,6 @@ import LettersPullUp from "../../utile/LettersPullUp";
 
 export default function CardDetail_part({
   data, id, index, y,
-  containerRef
 }) {
   const ref = useRef(null);
   const titleRef = useRef(null);

@@ -2,11 +2,12 @@ import { newsData } from '../../data/newsData';
 import { NextNews_wrap } from './styles';
 import { NextNews_part_wrap } from './styles';
 import { NextNews_number } from './styles';
-import { useTransform, useMotionValueEvent, useSpring } from 'framer-motion';
+import { useTransform, useSpring } from 'framer-motion';
 import React, { useState } from 'react';
 
 const NextNews_part = ({ data }) => {
   return (
+    // 아랫쪽 다른 뉴스 보기 UI
     <NextNews_part_wrap>
       <img src={data.smallImage} alt="news"/>
       <div className="nextNews_part_text">
@@ -23,8 +24,6 @@ const NextNews_part = ({ data }) => {
 }
 
 const NextNews = ({ currentIndex }) => {
-
-
   // 3개씩 순환해서 데이터 추출
   const getDisplayData = () => {
     const result = [];

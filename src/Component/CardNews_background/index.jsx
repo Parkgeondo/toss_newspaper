@@ -5,32 +5,33 @@ import card_effect from "../../img/card_effect.png";
 import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import backButton_card from "../../img/backButton_card.svg";
+import { useLayout } from '../../contexts/LayoutContext';
 
 
 function CardNews_background({
   data,
   currentIndex,
-  card_gap_width,
-  card_width,
-  app_width,
   x,
   yMinus,
   card_distance,
-  progress,
+  activeProgress,
   id,
-  savedNews
+  savedNews,
+  setSavedNews,
 }) {
+  const { cardLayoutValues } = useLayout();
+  const { cardWidth, appWidth, cardGapWidth } = cardLayoutValues;
   // 각 카드들의 세로 드래그
   const y = useMotionValue(0);
 
   // x와 y에 따라 크기(scale)를 계산
   const distance = useTransform(x, (latestX) => {
-    const screenCenter = app_width * 0.5;
+    const screenCenter = appWidth * 0.5;
     const cardCenterX = card_distance + latestX;
 
     // x 방향: 중심에서 멀어질수록 작아짐
-    const rawX = Math.abs(cardCenterX - screenCenter + card_gap_width * 0.5);
-    const maxX = card_width * 2;
+    const rawX = Math.abs(cardCenterX - screenCenter + cardGapWidth * 0.5);
+    const maxX = cardWidth * 2;
     const clampedX = Math.min(rawX, maxX);
     const normX = clampedX / maxX; // 0 ~ 1
 
@@ -38,8 +39,8 @@ function CardNews_background({
     return scale;
   });
 
-  // progress 변경 감지
-  useMotionValueEvent(progress, "change", (latest) => {
+  // 전역 activeProgress 변경 감지 (확장카드에서 업데이트된 경우)
+  useMotionValueEvent(activeProgress, "change", (latest) => {
     if (id === currentIndex) {
       y.set(latest);
     }
@@ -73,13 +74,18 @@ function CardNews_background({
       <motion.div
         className="backButton"
         initial={{
-        opacity: 1, scale: 1, x:"-50%",y:"-100%"
+        opacity: 0, scale: 0, x:"-50%",y:"-100%"
       }}
         animate={savedNews.includes(data.id)
           ? {opacity: 1, scale: 1, x:"-50%",y:"-100%"}
           : {opacity: 0, scale: 0.7, x:"-50%",y:"-100%" }
         }
         transition={{ type: "spring", stiffness: 100, damping: 7 }}
+        onClick={() => {
+          // 저장된 뉴스에서 제거
+          setSavedNews(prev => prev.filter(id => id !== data.id));
+          // SaveBox 애니메이션 트리거
+        }}
       >
           <img src={backButton_card}></img>
           <p>저장 취소하기</p>

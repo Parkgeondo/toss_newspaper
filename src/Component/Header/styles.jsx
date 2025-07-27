@@ -8,7 +8,7 @@ width:100%;
 justify-content: space-between;
 position:absolute;
 top:56px;
-z-index:99;
+z-index:999;
  & h1{
     font-size: 20px;
     font-weight: 600;
