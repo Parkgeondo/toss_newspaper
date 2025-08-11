@@ -22,4 +22,3 @@ const StatusBar = ({ onExpand, isSavedNewsMode }) => {
 };
 
 export default StatusBar;
-    

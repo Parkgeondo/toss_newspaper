@@ -11,7 +11,6 @@ export default function CardDetail_part({
 
   // title 컨테이너의 width를 감지
 
-
   return (
       <motion.div className="drag" key={data.id} ref={ref}>
         <img src={data.bigImage} className="thumnail" alt="" />

@@ -69,6 +69,10 @@ export default function WaveBezierScene({ isSavedNewsMode }) {
 
   const [color, setColor] = useState("#f5f7fa");
 
+  useEffect(() => {
+    console.log('isSavedNewsMode', isSavedNewsMode);
+  }, [isSavedNewsMode]);
+
   return (
     <motion.div
       style={{
@@ -82,7 +86,7 @@ export default function WaveBezierScene({ isSavedNewsMode }) {
       }}
       animate={{
         background: isSavedNewsMode 
-          ? "linear-gradient(0deg, #000000 0%, #3A3E51 100%)" 
+          ? "linear-gradient(0deg, #20262A 0%, #20262A 100%)" 
           : "linear-gradient(0deg, #f5f7fa 0%, #f5f7fa 100%)" 
       }}
       transition={{

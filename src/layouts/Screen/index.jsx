@@ -2,11 +2,15 @@ import Header from '../../Component/Header';
 import { useEffect, useState } from 'react';
 import AnimatedWave from '../../utile/wavyShader _background';
 import FloatingNewsCards from '../FloatingNewsCards';
-import { useMotionValue } from 'framer-motion';
+import { useMotionValue, AnimatePresence } from 'framer-motion';
 import CardDetail from '../../Component/CardDetail';
 import SaveBox from "../../Component/SaveBox";
 import Indicator from '../../Component/Indicator';
 import { NextNewsNumber } from '../../Component/NextNews';
+import SaveModeBackground from '../SaveModeBackground';
+import MaskedContainer from '../../Component/MaskedContainer';
+import Indicator_array from '../Indicator_array';
+import { newsData } from '../../data/newsData';
 
 function Layout({ setOnExpand, onExpand, isSavedNewsMode, setIsSavedNewsMode }) {
   
@@ -34,11 +38,19 @@ function Layout({ setOnExpand, onExpand, isSavedNewsMode, setIsSavedNewsMode }) 
 
   // 드래그 하는 방향. 카드 넗이 애니메이션을 적용하는 dragUp에 사용됨
   const [dragDirection, setDragDirection] = useState(null);
+
+  //진행율 그래프 바
+  const [progressGraph, setProgressGraph] = useState(new Map());
+
+  // useEffect(()=>{
+  //   console.log(progressGraph);
+  // },[progressGraph]);
   
   return (
     <>
       <Indicator progress={activeProgress} currentIndex={currentIndex} />
       <NextNewsNumber number_y={number_y}/>
+      <Header isSavedNewsMode={isSavedNewsMode} setIsSavedNewsMode={setIsSavedNewsMode}/>
       
       {onExpand && (
         <CardDetail
@@ -76,9 +88,7 @@ function Layout({ setOnExpand, onExpand, isSavedNewsMode, setIsSavedNewsMode }) 
         setCurrentIndex={setCurrentIndex}
         isSavedNewsMode={isSavedNewsMode}
       />
-      
-      <Header isSavedNewsMode={isSavedNewsMode} setIsSavedNewsMode={setIsSavedNewsMode}/>
-      {!isSavedNewsMode && <SaveBox 
+      <SaveBox 
         isSavedNewsMode={isSavedNewsMode} 
         setIsSavedNewsMode={setIsSavedNewsMode} 
         savedNews={savedNews} 
@@ -86,8 +96,13 @@ function Layout({ setOnExpand, onExpand, isSavedNewsMode, setIsSavedNewsMode }) 
         progress={activeProgress}
         currentIndex={currentIndex}
       />
-      }
       <AnimatedWave isSavedNewsMode={isSavedNewsMode} />
+      <AnimatePresence>
+        {isSavedNewsMode && (
+          <MaskedContainer progressGraph={progressGraph} setProgressGraph={setProgressGraph} isSavedNewsMode={isSavedNewsMode} savedNews={savedNews}>
+          </MaskedContainer>
+        )}
+      </AnimatePresence>
     </>
   );
 }

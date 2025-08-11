@@ -3,7 +3,8 @@ import { CardDetail_wrap, Indicator_wrap } from "./styles";
 import { motion, useSpring, useTransform } from "framer-motion";
 import { newsData } from '../../data/newsData';
 import { CircleNews } from '../../Component/CircleNews';
-import { useLayout } from '../../contexts/LayoutContext';
+import { useLayout } from '../../contexts/LayoutContext'; 
+import { Indicator_position } from "./styles";
 
 export default function Indicator({ progress, currentIndex }) {
   const { System_CONFIG } = useLayout();
@@ -22,13 +23,15 @@ export default function Indicator({ progress, currentIndex }) {
   });
 
   return (
-    <Indicator_wrap style={{ y: smoothY, x: `-50%` }}>
-      <CircleNews marginRight={0} id={currentIndex} />
-      {newsData[currentIndex-1] && (
-        <div>
-          {newsData[currentIndex-1].title}
-        </div>
-      )}
-    </Indicator_wrap>
+    <Indicator_position style={{ y: smoothY, x: `-50%` }}>
+      <Indicator_wrap>
+        <CircleNews marginRight={0} id={currentIndex} />
+        {newsData[currentIndex-1] && (
+          <div>
+            {newsData[currentIndex-1].title}
+          </div>
+        )}
+      </Indicator_wrap>
+    </Indicator_position>
   );
 }

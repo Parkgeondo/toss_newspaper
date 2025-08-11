@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { SaveBox_front, CircleNews_wrap, Folder, Folder_back } from "./styles";
 import CircleNewsRow from "../CircleNews";
 import { animate, useMotionValue, useMotionValueEvent, useTransform } from "framer-motion";
+import SaveModeBackground from "../../layouts/SaveModeBackground";
 
 export default function SaveBox({ 
   isSavedNewsMode, 
@@ -122,10 +123,8 @@ export default function SaveBox({
   const changeMode = async () => {
     if (!isSavedNewsMode && savedNews.length !== 0) {
       setIsSavedNewsMode(true);
-      openAnimation();
     } else {
       setIsSavedNewsMode(false);
-      closeAnimation();
     }
   }
 
