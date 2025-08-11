@@ -7,8 +7,8 @@ align-items: center;
 width:100%;
 justify-content: space-between;
 position:absolute;
-top:56px;
-z-index:99;
+top:34px;
+z-index:${props => props.isSavedNewsMode ? 1000 : 99};
  & h1{
     font-size: 20px;
     font-weight: 600;

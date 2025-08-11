@@ -4,14 +4,12 @@ import LettersPullUp from "../../utile/LettersPullUp";
 
 export default function CardDetail_part({
   data, id, index, y,
-  containerRef
 }) {
   const ref = useRef(null);
   const titleRef = useRef(null);
   const [isMultiline, setIsMultiline] = useState(false);
 
   // title 컨테이너의 width를 감지
-
 
   return (
       <motion.div className="drag" key={data.id} ref={ref}>

@@ -1,47 +1,54 @@
 import { useAnimate, useMotionValue, useMotionValueEvent, useTransform } from "framer-motion";
-import { CardNews_wrap } from "./styles";
+import { CardNews_wrap, GrayscaleTextBody } from "./styles";
 import { CardNews_drag } from "./styles";
 import card_effect from "../../img/card_effect.png";
 import { use, useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useLayout } from '../../contexts/LayoutContext';
+import CardNews_background from "../CardNews_background";
 
 function CardNews({
   dragDirection,
   setDragDirection,
   setIsFadingOut,
-  isFadingOut,
-  setIsDragging,
   isDragging,
+  setIsDragging,
   setOnExpand,
   onExpand,
   data,
   currentIndex,
-  cardIndex,
-  card_gap_width,
-  card_width,
-  app_width,
-  isFocused,
   x,
   yMinus,
-  card_distance,
   setSavedNews,
   savedNews,
-  progress,
+  activeProgress,
   id,
   setTemSavedNews,
-  isSavedNewsMode
+  cardIndex,
 }) {
+  const { cardLayoutValues } = useLayout();
+  const { cardWidth, appWidth, cardGapWidth } = cardLayoutValues;
+  
+  // 각 카드별 개별 progress
+  const cardProgress = useMotionValue(0);
+
+  // 각 카드들의 초기 x 값
+  const card_distance = cardGapWidth * cardIndex;
   // 각 카드들의 세로 드래그
   const y = useMotionValue(0);
 
-  // x와 y에 따라 크기(scale)를 계산
+  // x에 따라 크기(scale)를 계산
   const distance = useTransform(x, (latestX) => {
-    const screenCenter = app_width * 0.5;
+
+    //화면의 중심점을 계산
+    const screenCenter = appWidth * 0.5;
+
+    //카드가 지금 왼쪽 모서리 화면에서 얼마나 떨어져있는지 계산
     const cardCenterX = card_distance + latestX;
 
-    // x 방향: 중심에서 멀어질수록 작아짐
-    const rawX = Math.abs(cardCenterX - screenCenter + card_gap_width * 0.5);
-    const maxX = card_width * 2;
+    // cardCenterX - screenCenter에 카드 반값을 더해 카드가 중심에서 얼마나 벗어나 있는지 확인
+    const rawX = Math.abs(cardCenterX - screenCenter + cardGapWidth * 0.5);
+    const maxX = cardWidth * 2;
     const clampedX = Math.min(rawX, maxX);
     const normX = clampedX / maxX; // 0 ~ 1
 
@@ -51,19 +58,21 @@ function CardNews({
 
   // 카드 투명도 조절 isFadingOut이 false면 안보임
   const [cardFadingOut, setCardFadingOut] = useState(true);
-
   // 카드 세로 드래그
   useMotionValueEvent(y, "change", (latest) => {
-
     // overflow용 전달
     yMinus.set(latest);
-    // 일반카드의 세로 값을 progress에 적용시킴
-    progress.set(latest);
+    // 각 카드별 개별 progress 업데이트
+    cardProgress.set(latest);
+    
+    // 현재 활성 카드인 경우에만 전역 progress 업데이트
+    if (id === currentIndex) {
+      activeProgress.set(latest);
+    }
     
     // 일반카드가 위로 움직여서 상단으로 닿았을 때
-    if (progress.get() < -210) {
+    if (cardProgress.get() < -210) {
       // 확장카드가 생성됨
-      
       setOnExpand(true);
       setIsFadingOut(true);
     }
@@ -77,19 +86,16 @@ function CardNews({
     }
   });
 
-  // progress 변경 감지
-  useMotionValueEvent(progress, "change", (latest) => {
+  // 전역 activeProgress 변경 감지 (확장카드에서 업데이트된 경우)
+  useMotionValueEvent(activeProgress, "change", (latest) => {
     if (id === currentIndex) {
       y.set(latest);
+      cardProgress.set(latest);
     }
   });
 
   // 드래그를 놓았을 때, 애니메이션 적용
   const [scope, animate] = useAnimate();
-
-  // 등장 애니메이션
-  
-
 
   const dragUp = () => {
     const dragY = y.get();
@@ -111,12 +117,19 @@ function CardNews({
     setDragDirection(null);
   };
 
-  // 확장카드가 사라졌을 때, 일반 카드를 원래 위치로 옮기기
+  // 확장카드가 사라졌을 때, 일반 카드를 원래 위치로 옮기기, isDragging이 있는 이유는 일반카드를 잡고 드래그할때 애니메이션이 강제로 작동하기 때문
   useEffect(() => {
-    if (!onExpand && scope.current) {
+    if (!onExpand && scope.current && !isDragging) {
       dragUp();
     }
   }, [onExpand]);
+
+  //저장 취소하기 버튼 눌렀을때 저장된 카드가 위로 잘 올라갈 수 있도록 애니메이션
+  useEffect(() => {
+    if(!savedNews.includes(currentIndex) && scope.current && id===currentIndex) {
+      animate(scope.current, { y: 0 }, { duration: 0.4, ease: "circOut", delay: 0.3 });
+    }
+  }, [savedNews]);
 
   // 뉴스 저장하기
   const handleSaveNews = useCallback(() => {
@@ -130,9 +143,6 @@ function CardNews({
   const opacity = useTransform(y, [0, -212], [1, 0]);
   const temy = useTransform(yMinus, [0, -212], [0, -55]);
   const radius = useTransform(y, [0, -212], [24, 12]);
-
-  // 카드 한쪽에 모일 수 있도록 보정값
-  const animeX = useMotionValue(0);
 
 
   const textBody_opacity = useTransform(y, [0, -212], [0, 480]);
@@ -154,108 +164,93 @@ function CardNews({
     );
   }
 
+
   return (
-    <CardNews_drag
-      drag="y"
-      initial={{
-        x: (() => {
-          const calculatedValue = (card_gap_width) * (currentIndex - cardIndex);
-          return calculatedValue;
-        })(),
-      }}
-      animate={{ 
-        x: isSavedNewsMode ? "0px" : "0px", 
-        transition: {
-          delay: isSavedNewsMode ? 1.0 : 0, // 초기 렌더링 시 1초 delay
-          duration: isSavedNewsMode ? 0.6 : 0,
-          ease: [0.25, 0.46, 0.45, 0.94]
-        }
-      }}
-      exit={{ 
-        x: (() => {
-          const calculatedValue = (card_gap_width) * (currentIndex - cardIndex);
-          return calculatedValue;
-        })(),
-        transition: {
-          delay: 0.5, // 사라질 때 0.5초 delay
-          duration: 0.6,
-          ease: [0.25, 0.46, 0.45, 0.94]
-        }
-      }}
-      ref={scope}
-      onDragEnd={dragUp}
-      dragDirectionLock
-      dragListener={true}
-      onDragStart={() => setIsDragging(true)}
-      dragTransition={{
-        power: 0.1,
-        timeConstant: 100,
-      }}
-      style={{
-        transform: "translateX('200px)",
-        scale: distance,
-        width,
-        x: temy,
-        y:y,
-        borderRadius: radius,
-      }}
-    >
-
-      {/* 실제 카드 */}
-      <CardNews_wrap
+    <div>
+      <CardNews_drag
+        drag="y"
+        ref={scope}
+        onDragEnd={dragUp}
+        dragDirectionLock
+        dragListener={true}
+        onDragStart={() => setIsDragging(true)}
         style={{
+          scale: distance,
+          width,
+          x: temy,
+          y,
           borderRadius: radius,
-          position: 'relative',
-          zIndex: 1,
           opacity: cardFadingOut ? 1 : 0,
-          // 기존 스타일
         }}
       >
-        <div className="gradient"></div>
-        <img src={data.bigImage} className="thumnail" alt="" />
-        <motion.div className="text">
-          <div className="publisher">
-            <img src={data.publisherImg} alt="" />
-            {data.publisher}
-          </div>
-          <div className="title">{data.title}</div>
-          <div className="badge">{data.category}</div>
-          <div className="badge">{data.date}</div>
+        {/* 카드 썸네일이랑 제목 나오는 부분 */}
+        <CardNews_wrap
+          style={{
+            borderRadius: radius,
+            position: 'relative',
+            zIndex: 1,
+            // 기존 스타일
+          }}
+        >
+          <div className="gradient"></div>
+          <img src={data.bigImage} className="thumnail" alt="" />
+          <motion.div className="text">
+            <div className="publisher">
+              <img src={data.publisherImg} alt="" />
+              {data.publisher}
+            </div>
+            <div className="title">{data.title}</div>
+            <div className="badge">{data.category}</div>
+            <div className="badge">{data.date}</div>
+          </motion.div>
+        </CardNews_wrap>
+        
+        {/* 가라로 본문 내용 보이게 만드는 부분 */}
+        <motion.div
+          className="textBody"
+          style={{
+            scale: textBody_scale,
+            x: '-50%',
+            WebkitMaskSize: `100% ${textMaskPercent}px`,
+            maskSize: `100% ${textMaskPercent}px`,
+          }}
+        >
+          {data.subTitle1 && <div className="subtitle">{data.subTitle1}</div>}
+          {data.content1 && <div className="content">{data.content1}</div>}
+
+          {data.subTitle2 && <div className="subtitle">{data.subTitle2}</div>}
+          {data.content2 && <div className="content">{data.content2}</div>}
+
+          {data.subTitle3 && <div className="subtitle">{data.subTitle3}</div>}
+          {data.content3 && <div className="content">{data.content3}</div>}
+
+          {data.content4 && <div className="content">{data.content4}</div>}
+          {data.content5 && <div className="content">{data.content5}</div>}
         </motion.div>
-      </CardNews_wrap>
-      
-      <motion.div
-        className="textBody"
-        style={{
-          scale: textBody_scale,
-          x: '-50%',
-          WebkitMaskSize: `100% ${textMaskPercent}px`,
-          maskSize: `100% ${textMaskPercent}px`,
-        }}
-      >
-        {data.subTitle1 && <div className="subtitle">{data.subTitle1}</div>}
-        {data.content1 && <div className="content">{data.content1}</div>}
-
-        {data.subTitle2 && <div className="subtitle">{data.subTitle2}</div>}
-        {data.content2 && <div className="content">{data.content2}</div>}
-
-        {data.subTitle3 && <div className="subtitle">{data.subTitle3}</div>}
-        {data.content3 && <div className="content">{data.content3}</div>}
-
-        {data.content4 && <div className="content">{data.content4}</div>}
-        {data.content5 && <div className="content">{data.content5}</div>}
-      </motion.div>
-      
-      <motion.div
-        className="plus"
-        style={{
-          height,
-          borderRadius: radius,
-        }}
-      />
-    </CardNews_drag>
-
-    
+        {/* 가라로 카드 커지게 보이는 하단 추가 부분 */}
+        <motion.div
+          className="plus"
+          style={{
+            height,
+            borderRadius: radius,
+          }}
+        />
+      </CardNews_drag>
+             <div style={{zIndex: -2, position: 'absolute', top: 0, left: 0, width: '265px', height: '426px'}}>
+         <CardNews_background 
+           data={data} 
+           currentIndex={currentIndex} 
+           x={x} 
+           yMinus={yMinus} 
+           card_distance={card_distance} 
+           activeProgress={activeProgress} 
+           id={id} 
+           savedNews={savedNews}
+           setSavedNews={setSavedNews}
+           setTemSavedNews={setTemSavedNews}
+         />
+       </div>
+    </div>
   );
 }
 
